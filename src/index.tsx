@@ -5,12 +5,13 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
+import theme from './theme';
 
 const queryClient = new QueryClient();
 ReactDOM.render(
 	<React.StrictMode>
 		<QueryClientProvider client={queryClient}>
-			<ChakraProvider>
+			<ChakraProvider theme={theme}>
 				<BrowserRouter>
 					<App />
 				</BrowserRouter>
