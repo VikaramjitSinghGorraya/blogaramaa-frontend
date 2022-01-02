@@ -94,7 +94,12 @@ const Navbar = () => {
 	const navbarDrawer = () => {
 		return (
 			<>
-				<Button ref={btnRef} onClick={onOpen}>
+				<Button
+					ref={btnRef}
+					onClick={onOpen}
+					bg='transparent'
+					_hover={{ bg: 'transparent' }}
+				>
 					<Image src={menu} />
 				</Button>
 				<Drawer
