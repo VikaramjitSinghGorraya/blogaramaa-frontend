@@ -1,13 +1,18 @@
 const buttonTheme = {
 	baseStyle: {
-		_hover: {
-			bg: 'none',
-		},
 		_focus: {
 			boxShadow: 'none',
 			outline: 'none',
 		},
-		bg: 'none',
+	},
+	variants: {
+		round: {
+			h: '55px',
+			w: '55px',
+			bg: 'brand.primaryBlue',
+			color: 'brand.textOnPrimaryBg',
+			borderRadius: '50%',
+		},
 	},
 
 	defaultProps: {

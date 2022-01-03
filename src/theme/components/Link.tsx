@@ -8,6 +8,12 @@ const linkTheme = {
 			outline: 'none',
 		},
 	},
+	variants: {
+		blueLink: {
+			color: 'brand.primaryBlue',
+			fontWeight: '500',
+		},
+	},
 };
 
 export default linkTheme;

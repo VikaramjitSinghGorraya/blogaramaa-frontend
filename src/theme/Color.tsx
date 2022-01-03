@@ -5,7 +5,7 @@ const colorTheme = {
 		textOnPrimaryBg: 'rgba(255, 255, 255, 0.9)',
 		tagBg: 'rgb(231, 231, 231)',
 		tagText: 'rgb(88, 88, 88)',
-		mutedText: 'rgba(0, 0, 0, 0.6)',
+		mutedText: '#6c757d',
 	},
 };
 
