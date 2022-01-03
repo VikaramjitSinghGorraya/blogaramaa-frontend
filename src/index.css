@@ -8,3 +8,10 @@ span {
 .logo {
 	font-size: 1.5rem;
 }
+* {
+	-webkit-tap-highlight-color: transparent;
+}
+.iconColor {
+	filter: invert(36%) sepia(97%) saturate(2783%) hue-rotate(213deg)
+		brightness(103%) contrast(106%);
+}
