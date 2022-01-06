@@ -6,6 +6,7 @@ const colorTheme = {
 		tagBg: 'rgb(231, 231, 231)',
 		tagText: 'rgb(88, 88, 88)',
 		mutedText: '#6c757d',
+		mutedTextLight: 'rgba(0, 0, 0, 0.4)',
 	},
 };
 

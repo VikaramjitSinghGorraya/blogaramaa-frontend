@@ -13,6 +13,12 @@ const buttonTheme = {
 			color: 'brand.textOnPrimaryBg',
 			borderRadius: '50%',
 		},
+		long: {
+			p: '5',
+			borderRadius: '50',
+			bg: 'brand.primaryBlueLight',
+			color: 'brand.primaryBlue',
+		},
 	},
 
 	defaultProps: {

@@ -1,8 +1,8 @@
 export const globalTheme = {
 	global: {
 		h1: {
-			fontSize: ['3rem !important', '4.5rem !important'],
-			fontWeight: '700',
+			fontSize: ['2.5rem !important', '5.5rem !important'],
+			fontWeight: '300 !important',
 		},
 		h2: {
 			fontSize: ['1.5rem !important', '2.25rem !important'],
