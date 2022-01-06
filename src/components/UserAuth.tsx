@@ -12,7 +12,12 @@ import {
 import go from '../icons/go.svg';
 import { UserInfo } from '../types/UserAuth';
 
-const UserAuth = ({ signup }: UserInfo) => {
+const UserAuth = ({
+	signup,
+	signin,
+	forgotPassword,
+	resetPassword,
+}: UserInfo) => {
 	return (
 		<VStack w={['100%', '50%']} spacing={25} m='auto'>
 			<Heading as='h2' color='brand.primaryBlue'>
@@ -21,9 +26,13 @@ const UserAuth = ({ signup }: UserInfo) => {
 			{signup ? (
 				<Input type='text' placeholder='Full Name' size='lg' required />
 			) : null}
-			<Input type='email' placeholder='Email' size='lg' required />
+			{signin || signup || forgotPassword ? (
+				<Input type='email' placeholder='Email' size='lg' required />
+			) : (
+				''
+			)}
 			<Input type='password' placeholder='Password' size='lg' required />
-			{signup ? (
+			{signup || resetPassword ? (
 				<Input
 					type='password'
 					placeholder='Confirm Password'
