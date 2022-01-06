@@ -6,6 +6,7 @@ import Signup from './pages/Signup';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/RestePassword';
 import Blog from './pages/Blog';
+import Search from './pages/Search';
 
 function App() {
 	return (
@@ -18,6 +19,7 @@ function App() {
 					<Route path='/ForgotPassword' element={<ForgotPassword />} />
 					<Route path='/ResetPassword' element={<ResetPassword />} />
 					<Route path='/WriteBlog' element={<Blog />} />
+					<Route path='/Search' element={<Search />} />
 				</Routes>
 			</VStack>
 		</>
