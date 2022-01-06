@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
 	Drawer,
 	DrawerBody,
@@ -29,6 +29,7 @@ import Logo from './Logo';
 
 const Navbar = () => {
 	const location = useLocation();
+	const navigate = useNavigate();
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const btnRef = React.useRef<HTMLButtonElement>(null);
 
@@ -203,7 +204,7 @@ const Navbar = () => {
 			>
 				{navbarDrawer()}
 				{Logo()}
-				<Button>
+				<Button onClick={() => navigate('/search')}>
 					<Image src={search} />
 				</Button>
 			</HStack>
