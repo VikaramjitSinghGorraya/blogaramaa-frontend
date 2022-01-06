@@ -29,7 +29,6 @@ import Logo from './Logo';
 
 const Navbar = () => {
 	const location = useLocation();
-	console.log(location.pathname);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const btnRef = React.useRef<HTMLButtonElement>(null);
 
@@ -73,8 +72,10 @@ const Navbar = () => {
 					<Link href='/'>Home</Link>
 				</HStack>
 				<HStack
-					bg={location.pathname === '/write' ? 'brand.primaryBlueLight' : ''}
-					color={location.pathname === '/write' ? 'brand.primaryBlue' : ''}
+					bg={
+						location.pathname === '/writeblog' ? 'brand.primaryBlueLight' : ''
+					}
+					color={location.pathname === '/writeblog' ? 'brand.primaryBlue' : ''}
 					h='3rem'
 					w='80%'
 					borderRadius='10'
@@ -82,9 +83,9 @@ const Navbar = () => {
 				>
 					<Image
 						src={edit}
-						className={location.pathname === '/write' ? 'iconColor' : ''}
+						className={location.pathname === '/writeblog' ? 'iconColor' : ''}
 					/>
-					<Link>Write Blog</Link>
+					<Link href='writeblog'>Write Blog</Link>
 				</HStack>
 				<HStack
 					bg={location.pathname === '/signin' ? 'brand.primaryBlueLight' : ''}
@@ -196,13 +197,15 @@ const Navbar = () => {
 				p='2'
 				bg='rgb(243, 244, 244)'
 				position='fixed'
+				zIndex='100'
 				w='100%'
+				h='56px'
 			>
 				{navbarDrawer()}
 				{Logo()}
-				<Link>
+				<Button>
 					<Image src={search} />
-				</Link>
+				</Button>
 			</HStack>
 		);
 	};
