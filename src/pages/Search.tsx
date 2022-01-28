@@ -13,6 +13,7 @@ const Search = () => {
 					borderRadius='50'
 					bg='rgb(243, 244, 244)'
 					placeholder='Search here...'
+					maxW={['75%', '100%']}
 				/>
 				<Button variant='round'>
 					<Image className='whiteIconColor' src={search} />
