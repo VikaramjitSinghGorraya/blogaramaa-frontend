@@ -104,73 +104,72 @@ const Blog = () => {
 	};
 	const textEditor = () => {
 		return (
-			<>
-				<SunEditor
-					setOptions={{
-						minHeight: '50vh',
-						plugins: [
-							align,
-							font,
-							fontColor,
-							fontSize,
-							formatBlock,
-							hiliteColor,
-							horizontalRule,
-							lineHeight,
-							list,
-							paragraphStyle,
-							table,
-							template,
-							textStyle,
-							image,
-							link,
+			<SunEditor
+				setOptions={{
+					minHeight: '50vh',
+					minWidth: '100%',
+					plugins: [
+						align,
+						font,
+						fontColor,
+						fontSize,
+						formatBlock,
+						hiliteColor,
+						horizontalRule,
+						lineHeight,
+						list,
+						paragraphStyle,
+						table,
+						template,
+						textStyle,
+						image,
+						link,
+					],
+					buttonList: [
+						[
+							'undo',
+							'redo',
+							'font',
+							'fontSize',
+							'formatBlock',
+							'preview',
+							'bold',
+							'underline',
+							'italic',
+							'strike',
+							'fontColor',
+							'hiliteColor',
+							'removeFormat',
+							'outdent',
+							'indent',
+							'align',
+							'horizontalRule',
+							'list',
+							'lineHeight',
+							'table',
+							'link',
+							'image',
 						],
-						buttonList: [
-							[
-								'undo',
-								'redo',
-								'font',
-								'fontSize',
-								'formatBlock',
-								'preview',
-								'bold',
-								'underline',
-								'italic',
-								'strike',
-								'fontColor',
-								'hiliteColor',
-								'removeFormat',
-								'outdent',
-								'indent',
-								'align',
-								'horizontalRule',
-								'list',
-								'lineHeight',
-								'table',
-								'link',
-								'image',
-							],
-						],
-						formats: ['p', 'h3', 'h4', 'h5', 'h6'],
-						font: [
-							'Arial',
-							'Calibri',
-							'Comic Sans',
-							'Courier',
-							'Garamond',
-							'Georgia',
-							'Impact',
-							'Times New Roman',
-						],
-					}}
-				/>
-			</>
+					],
+					formats: ['p', 'h3', 'h4', 'h5', 'h6'],
+					font: [
+						'Arial',
+						'Calibri',
+						'Comic Sans',
+						'Courier',
+						'Garamond',
+						'Georgia',
+						'Impact',
+						'Times New Roman',
+					],
+				}}
+			/>
 		);
 	};
 
 	const blogPageContent = () => {
 		return (
-			<VStack alignItems='flex-end' w='100%' h='100%'>
+			<VStack w='100%' h='100%' alignItems='flex-end' overflow='hidden'>
 				<Banner heading='Write blog' icon={writeBlog} />
 				{BannerImg()}
 				{titleAndCategory()}
