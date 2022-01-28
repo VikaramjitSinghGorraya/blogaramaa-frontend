@@ -141,7 +141,7 @@ const Navbar = () => {
 						src={contact}
 						className={location.pathname === '/contact' ? 'iconColor' : ''}
 					/>
-					<Link>Contact</Link>
+					<Link href='/contact'>Contact</Link>
 				</HStack>
 				<HStack
 					bg={location.pathname === '/about' ? 'brand.primaryBlueLight' : ''}
