@@ -8,6 +8,9 @@ span {
 * {
 	-webkit-tap-highlight-color: transparent;
 }
+*:focus {
+	box-shadow: none !important;
+}
 .iconColor {
 	filter: invert(36%) sepia(97%) saturate(2783%) hue-rotate(213deg)
 		brightness(103%) contrast(106%);
@@ -16,4 +19,32 @@ span {
 .whiteIconColor {
 	filter: invert(99%) sepia(55%) saturate(2%) hue-rotate(241deg)
 		brightness(112%) contrast(100%);
+}
+
+.mutedIconColor {
+	filter: invert(50%) sepia(5%) saturate(722%) hue-rotate(167deg)
+		brightness(90%) contrast(91%);
+}
+
+.leftMargin {
+	margin-right: 5px;
+}
+/* width */
+::-webkit-scrollbar {
+	width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: rgb(52, 116, 253);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
 }
