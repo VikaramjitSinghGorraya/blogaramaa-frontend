@@ -1,11 +1,18 @@
 const buttonTheme = {
 	baseStyle: {
+		bg: 'none !important',
 		_focus: {
 			boxShadow: 'none',
 			outline: 'none',
 		},
 	},
 	variants: {
+		base: {
+			bg: 'none',
+			_hover: {
+				bg: 'gray.100',
+			},
+		},
 		round: {
 			h: '55px',
 			w: '55px',
@@ -22,7 +29,7 @@ const buttonTheme = {
 	},
 
 	defaultProps: {
-		variants: null,
+		variants: 'base',
 	},
 };
 export default buttonTheme;

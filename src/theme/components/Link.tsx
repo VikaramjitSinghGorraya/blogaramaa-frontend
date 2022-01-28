@@ -13,6 +13,10 @@ const linkTheme = {
 			color: 'brand.primaryBlue',
 			fontWeight: '500',
 		},
+		grayLink: {
+			color: 'brand.mutedText',
+			fontWeight: '500',
+		},
 	},
 };
 

@@ -5,11 +5,11 @@ export const globalTheme = {
 			fontWeight: '300 !important',
 		},
 		h2: {
-			fontSize: ['1.5rem !important', '2.25rem !important'],
+			fontSize: ['1.5rem !important', '3.25rem !important'],
 			fontWeight: '600 !important',
 		},
 		h3: {
-			fontSize: ['0.75rem !important', '1.125rem !important'],
+			fontSize: ['1.5rem !important', '1.7rem !important'],
 			fontWeight: '500 !important',
 		},
 	},
