@@ -12,6 +12,7 @@ import EditProfile from './pages/EditProfile';
 import Profile from './pages/Profile';
 import Post from './pages/Post';
 import Contact from './pages/Contact';
+import AccountActivation from './pages/AccountActivation';
 
 function App() {
 	return (
@@ -30,6 +31,10 @@ function App() {
 					<Route path='/Profile' element={<Profile />} />
 					<Route path='/Post' element={<Post />} />
 					<Route path='/Contact' element={<Contact />} />
+					<Route
+						path='/Auth/AccountActivation/:token'
+						element={<AccountActivation />}
+					/>
 				</Routes>
 			</VStack>
 		</>
