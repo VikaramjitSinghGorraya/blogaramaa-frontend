@@ -15,6 +15,7 @@ const InputField = ({
 				name={name}
 				value={value}
 				placeholder={placeholder}
+				onChange={onChange}
 				size='lg'
 				required
 			/>
