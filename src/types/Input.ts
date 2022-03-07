@@ -5,5 +5,5 @@ export type InputInfo = {
 	name: string;
 	value?: string;
 	placeholder: string;
-	onChange?: (value: string) => void;
+	onChange?: (e) => void;
 };
