@@ -1,5 +1,5 @@
 export type UserInfo = {
-	name: String;
+	name?: String;
 	email: String;
 	password: String;
 	confirmPassowrd?: String;
