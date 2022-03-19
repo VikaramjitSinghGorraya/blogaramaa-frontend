@@ -3,25 +3,25 @@ import { userInfo } from 'os';
 import { useQuery, useMutation } from 'react-query';
 import { UserInfo } from '../types/User';
 import { SignupInfo } from '../types/Signup';
-//POSTS
 
+//------------------------POST RELATED QUERIES------------------------------------
 export const getAllPosts = async () => {
 	const postsRetrieved = await axios.get('http://localhost:4000/api/posts');
 	return postsRetrieved;
 };
 
-export const useGetAllProducts = () => {
-	return useQuery(`allProducts`, () => getAllPosts(), {
-		refetchOnMount: false,
-	});
+export const useGetPosts = () => {
+	return useQuery(['allPosts'], () => getAllPosts());
 };
 
+//--------------------------AUTH QUERIES------------------------------------
 export const preSignup = async (userData) => {
-	const userPreRegistered = await axios.post(
+	const preRegisterUser = await axios.post(
 		`http://localhost:4000/auth/verification`,
 		userData
 	);
-	return userPreRegistered.data;
+
+	return preRegisterUser;
 };
 
 export const signup = async (tokenInfo) => {
@@ -32,6 +32,16 @@ export const signup = async (tokenInfo) => {
 	return userRegistered.data;
 };
 
+export const signin = async (userData) => {
+	console.log(userData);
+	const userSignedInd = await axios.post(
+		`http://localhost:4000/auth/signin`,
+		userData,
+		{ withCredentials: true }
+	);
+	return userSignedInd;
+};
+
 export const usePreSignup = () => {
 	return useMutation(['preSignup'], (userData: UserInfo) =>
 		preSignup(userData)
@@ -40,4 +50,8 @@ export const usePreSignup = () => {
 
 export const useSignup = () => {
 	return useMutation(['signup'], (tokenInfo: SignupInfo) => signup(tokenInfo));
+};
+
+export const useSignin = () => {
+	return useMutation(['signin'], (userData: UserInfo) => signin(userData));
 };
