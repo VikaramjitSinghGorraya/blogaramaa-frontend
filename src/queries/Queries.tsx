@@ -5,13 +5,36 @@ import { UserInfo } from '../types/User';
 import { SignupInfo } from '../types/Signup';
 
 //------------------------POST RELATED QUERIES------------------------------------
+
+export const getPhotoOfPost = async (postId) => {
+	const photo = await axios.get(
+		`http://localhost:4000/post/getPhoto/${postId}`
+	);
+	return photo.config.url;
+};
+
 export const getAllPosts = async () => {
-	const postsRetrieved = await axios.get('http://localhost:4000/api/posts');
+	const postsRetrieved = await axios.get('http://localhost:4000/post/allPosts');
 	return postsRetrieved;
+};
+
+export const getPostBySlug = async (slug) => {
+	const postRetrieved = await axios.get(
+		`http://localhost:4000/post/read/${slug}`
+	);
+	return postRetrieved;
 };
 
 export const useGetPosts = () => {
 	return useQuery(['allPosts'], () => getAllPosts());
+};
+
+export const useGetPostBySlug = (slug) => {
+	return useQuery([`post-${slug}`], () => getPostBySlug(slug));
+};
+
+export const useGetPostPhoto = (postId) => {
+	return useQuery([`postPhoto-${postId}`], () => getPhotoOfPost(postId));
 };
 
 //--------------------------AUTH QUERIES------------------------------------
