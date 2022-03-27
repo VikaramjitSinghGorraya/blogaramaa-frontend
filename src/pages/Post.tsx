@@ -10,9 +10,16 @@ import {
 	Stack,
 	Heading,
 	Button,
+	Spinner,
+	Center,
 } from '@chakra-ui/react';
+import { useParams } from 'react-router-dom';
+import parser from 'html-react-parser';
+import Moment from 'moment';
+import Loader from '../components/Loader';
 import PopoverItem from '../components/PopoverItem';
 import Share from '../components/Share';
+import { useGetPostBySlug } from '../queries/Queries';
 import bannerImage from '../icons/bannerImage.png';
 import box from '../icons/box.svg';
 import placeholderCircle from '../images/placeholderCircle.png';
@@ -20,8 +27,9 @@ import edit from '../icons/edit.svg';
 import remove from '../icons/remove.svg';
 import calendar from '../icons/calendar.svg';
 const Post = () => {
+	let { slug } = useParams();
 	const [isLargerThan768] = useMediaQuery('(min-width: 769px)');
-
+	const { isLoading, isError, isSuccess, data } = useGetPostBySlug(slug);
 	const authorInfoAndOptions = () => {
 		return (
 			<Stack
@@ -69,11 +77,11 @@ const Post = () => {
 						top='-30px'
 					>
 						<Heading as='h2' color='brand.mutedText'>
-							Title
+							{data?.data.title}
 						</Heading>
 						<HStack w='100%'>
 							<Image h='2rem' w='2rem' src={placeholderCircle} />
-							<Link variant='grayLink'>Vikaramjit Singh</Link>
+							<Link variant='grayLink'>{data?.data.postedBy.name}</Link>
 						</HStack>
 						<Stack
 							direction={['column', 'column', 'column', 'row']}
@@ -83,13 +91,13 @@ const Post = () => {
 							<HStack w='100%'>
 								<Image h='1.2rem' w='1.2rem' src={box} />
 								<Text as='p' color='brand.mutedText'>
-									technology
+									{data?.data.postCategory.title}
 								</Text>
 							</HStack>
 							<HStack w='100%'>
 								<Image h='1.2rem' w='1.2rem' src={calendar} />
 								<Text as='p' color='brand.mutedText'>
-									a month ago
+									{Moment(data?.data.createdAt).from(Date.now())}
 								</Text>
 							</HStack>
 						</Stack>
@@ -112,11 +120,7 @@ const Post = () => {
 	const postBody = () => {
 		return (
 			<HStack w='100%'>
-				<Text as='p'>
-					This is the body of the content. Can you see this text completely or
-					just a part of it? If you can see it completely, then there is a
-					problem with the view.
-				</Text>
+				<Text as='p'>{parser(data?.data.body)}</Text>
 			</HStack>
 		);
 	};
@@ -129,7 +133,13 @@ const Post = () => {
 			</VStack>
 		);
 	};
-	return <VStack w='100%'>{postContent()}</VStack>;
+	return isLoading ? (
+		<Center minH='100%' w='100%'>
+			<Loader />
+		</Center>
+	) : (
+		<VStack w='100%'>{postContent()}</VStack>
+	);
 };
 
 export default Post;
