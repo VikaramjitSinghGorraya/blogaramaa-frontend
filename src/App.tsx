@@ -29,7 +29,7 @@ function App() {
 					<Route path='/Search' element={<Search />} />
 					<Route path='/Edit' element={<EditProfile />} />
 					<Route path='/Profile' element={<Profile />} />
-					<Route path='/Post' element={<Post />} />
+					<Route path='/Post/:slug' element={<Post />} />
 					<Route path='/Contact' element={<Contact />} />
 					<Route
 						path='/Auth/AccountActivation/:token'
