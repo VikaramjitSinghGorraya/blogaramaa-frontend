@@ -8,12 +8,15 @@ import {
 	Image,
 	Heading,
 } from '@chakra-ui/react';
+import { Navigate } from 'react-router-dom';
 import InputField from '../components/InputField';
-import { usePreSignup } from '../queries/Queries';
+import { usePreSignup, useIsLoggedIn } from '../queries/Queries';
 import MessageBox from '../components/MessageBox';
 import go from '../icons/go.svg';
 
 const Signup = () => {
+	const { status: loggedInStatus } = useIsLoggedIn();
+
 	const [userData, setUserData] = useState({
 		name: '',
 		email: '',
@@ -65,56 +68,63 @@ const Signup = () => {
 		);
 	};
 
-	return (
+	return loggedInStatus === 'success' ? (
+		<Navigate to='/' />
+	) : (
 		<VStack w={['100%', '50%']} spacing={25} m='auto'>
 			<Heading as='h2' color='brand.primaryBlue'>
 				Welcome Aboard!
 			</Heading>
-			<InputField
-				name='name'
-				type='text'
-				placeholder='Full name'
-				value={userData.name}
-				onChange={inputChangeHandler}
-			/>
-			<InputField
-				name='email'
-				type='email'
-				placeholder='Email'
-				value={userData.email}
-				onChange={inputChangeHandler}
-			/>
-			<InputField
-				name='password'
-				type='password'
-				placeholder='Password'
-				value={userData.password}
-				onChange={inputChangeHandler}
-			/>
-			<InputField
-				name='confirmPassword'
-				type='password'
-				placeholder='Confirm Password'
-				value={userData.confirmPassword}
-				onChange={inputChangeHandler}
-			/>
-			<HStack w='100%' justifyContent='space-between'>
-				<VStack alignItems='flex-start'>
-					<Text as='small' color='brand.mutedText'>
-						Already joined?
-					</Text>
-					<Link href='/signin' variant='blueLink'>
-						SIGN IN
-					</Link>
+			<form style={{ width: '100%' }} onSubmit={submitHandler}>
+				<VStack w='100%' h='100%' justifyContent='space-around'>
+					<InputField
+						name='name'
+						type='text'
+						placeholder='Full name'
+						value={userData.name}
+						onChange={inputChangeHandler}
+					/>
+					<InputField
+						name='email'
+						type='email'
+						placeholder='Email'
+						value={userData.email}
+						onChange={inputChangeHandler}
+					/>
+					<InputField
+						name='password'
+						type='password'
+						placeholder='Password'
+						value={userData.password}
+						onChange={inputChangeHandler}
+					/>
+					<InputField
+						name='confirmPassword'
+						type='password'
+						placeholder='Confirm Password'
+						value={userData.confirmPassword}
+						onChange={inputChangeHandler}
+					/>
 				</VStack>
-				<Button
-					variant='round'
-					onClick={submitHandler}
-					isLoading={preSignupProcess.isLoading ? true : false}
-				>
-					<Image src={go} />
-				</Button>
-			</HStack>
+				<HStack w='100%' justifyContent='space-between'>
+					<VStack alignItems='flex-start'>
+						<Text as='small' color='brand.mutedText'>
+							Already joined?
+						</Text>
+						<Link href='/signin' variant='blueLink'>
+							SIGN IN
+						</Link>
+					</VStack>
+					<Button
+						variant='round'
+						type='submit'
+						isLoading={preSignupProcess.isLoading ? true : false}
+					>
+						<Image src={go} />
+					</Button>
+				</HStack>
+			</form>
+
 			{preSignupProcess.isSuccess &&
 				!preSignupProcess.isLoading &&
 				displaySuccessMessage()}
