@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
 	VStack,
 	Image,
@@ -19,7 +19,6 @@ import Loader from '../components/Loader';
 import PopoverItem from '../components/PopoverItem';
 import Share from '../components/Share';
 import {
-	isLoggedIn,
 	useGetPostBySlug,
 	useGetPostPhoto,
 	useIsLoggedIn,
@@ -36,9 +35,7 @@ const Post = () => {
 	const { isLoading, data } = useGetPostBySlug(slug);
 	const { data: photoData } = useGetPostPhoto(data?.data._id);
 	const { status: loggedInStatus, data: loggedInData } = useIsLoggedIn();
-	useEffect(() => {
-		console.log(loggedInData);
-	}, [loggedInData]);
+
 	const authorInfoAndOptions = () => {
 		return (
 			<Stack
