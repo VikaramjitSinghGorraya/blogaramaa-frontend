@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
 	VStack,
 	Image,
@@ -10,7 +10,6 @@ import {
 	Stack,
 	Heading,
 	Button,
-	Spinner,
 	Center,
 } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
@@ -19,17 +18,27 @@ import Moment from 'moment';
 import Loader from '../components/Loader';
 import PopoverItem from '../components/PopoverItem';
 import Share from '../components/Share';
-import { useGetPostBySlug } from '../queries/Queries';
+import {
+	isLoggedIn,
+	useGetPostBySlug,
+	useGetPostPhoto,
+	useIsLoggedIn,
+} from '../queries/Queries';
 import bannerImage from '../icons/bannerImage.png';
 import box from '../icons/box.svg';
 import placeholderCircle from '../images/placeholderCircle.png';
 import edit from '../icons/edit.svg';
-import remove from '../icons/remove.svg';
+import deletePost from '../icons/deletePost.svg';
 import calendar from '../icons/calendar.svg';
 const Post = () => {
 	let { slug } = useParams();
 	const [isLargerThan768] = useMediaQuery('(min-width: 769px)');
-	const { isLoading, isError, isSuccess, data } = useGetPostBySlug(slug);
+	const { isLoading, data } = useGetPostBySlug(slug);
+	const { data: photoData } = useGetPostPhoto(data?.data._id);
+	const { status: loggedInStatus, data: loggedInData } = useIsLoggedIn();
+	useEffect(() => {
+		console.log(loggedInData);
+	}, [loggedInData]);
 	const authorInfoAndOptions = () => {
 		return (
 			<Stack
@@ -44,7 +53,7 @@ const Post = () => {
 					Edit
 				</Button>
 				<Button variant='base' color='brand.mutedText'>
-					<Image src={remove} className='mutedIconColor' />
+					<Image src={deletePost} className='mutedIconColor' />
 					Delete
 				</Button>
 			</Stack>
@@ -59,9 +68,14 @@ const Post = () => {
 				position='relative'
 				spacing={2}
 			>
-				<Image h='200px' w='100%' src={bannerImage} objectFit='cover' />
+				<Image
+					h='200px'
+					w='100%'
+					src={photoData !== undefined ? photoData : bannerImage}
+					objectFit='cover'
+				/>
 				<Box
-					bg='linear-gradient(0deg, #fafafa 0%, rgba(250, 250, 250, 0.96) 25%, rgba(250, 250, 250, 0.92) 37%, rgba(250, 250, 250, 0.86) 54%, rgba(250, 250, 250, 0.53) 100%);'
+					bg='linear-gradient(0deg, #fafafa 0%, rgba(250, 250, 250, 0.802959) 39%, rgba(250, 250, 250, 0.450018) 75%, rgba(250, 250, 250, 0) 100%)'
 					h='150px'
 					top='50px'
 					position='absolute'
@@ -86,15 +100,15 @@ const Post = () => {
 						<Stack
 							direction={['column', 'column', 'column', 'row']}
 							justifyContent='flex-start'
-							w={['100%', '50%']}
+							w={['100%', '40%']}
 						>
-							<HStack w='100%'>
+							<HStack w='fit-content'>
 								<Image h='1.2rem' w='1.2rem' src={box} />
 								<Text as='p' color='brand.mutedText'>
 									{data?.data.postCategory.title}
 								</Text>
 							</HStack>
-							<HStack w='100%'>
+							<HStack w='fit-content'>
 								<Image h='1.2rem' w='1.2rem' src={calendar} />
 								<Text as='p' color='brand.mutedText'>
 									{Moment(data?.data.createdAt).from(Date.now())}
@@ -102,16 +116,17 @@ const Post = () => {
 							</HStack>
 						</Stack>
 					</VStack>
-					{isLargerThan768 ? (
+					{isLargerThan768 && loggedInStatus ? (
 						authorInfoAndOptions()
-					) : (
+					) : loggedInStatus === 'success' &&
+					  loggedInData?.data.userId === data?.data.postedBy._id ? (
 						<PopoverItem
 							passedInput={authorInfoAndOptions()}
 							left='-5.3rem'
 							top='-7rem'
 							width='7rem'
 						/>
-					)}
+					) : null}
 				</HStack>
 			</VStack>
 		);
@@ -119,9 +134,9 @@ const Post = () => {
 
 	const postBody = () => {
 		return (
-			<HStack w='100%'>
+			<Box w='100%'>
 				<Text as='p'>{parser(data?.data.body)}</Text>
-			</HStack>
+			</Box>
 		);
 	};
 
@@ -138,7 +153,9 @@ const Post = () => {
 			<Loader />
 		</Center>
 	) : (
-		<VStack w='100%'>{postContent()}</VStack>
+		<VStack w='100%' py='4.5'>
+			{postContent()}
+		</VStack>
 	);
 };
 
