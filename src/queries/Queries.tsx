@@ -6,7 +6,7 @@ import { SignupInfo } from '../types/Signup';
 
 //------------------------POST RELATED QUERIES------------------------------------
 
-export const getPhotoOfPost = async (postId) => {
+export const getPhotoOfPost = async (postId: string) => {
 	const photo = await axios.get(
 		`http://localhost:4000/post/getPhoto/${postId}`
 	);
@@ -18,9 +18,33 @@ export const getAllPosts = async () => {
 	return postsRetrieved;
 };
 
-export const getPostBySlug = async (slug) => {
+export const getPostBySlug = async (slug: string) => {
 	const postRetrieved = await axios.get(
 		`http://localhost:4000/post/read/${slug}`
+	);
+	return postRetrieved;
+};
+
+export const getPostBySearchTerm = async (term) => {
+	const postRetrieved = await axios.get(
+		`http://localhost:4000/post/find/${term}`
+	);
+	return postRetrieved;
+};
+
+export const getPostsByUserId = async () => {
+	const postRetrieved = await axios.get(
+		`http://localhost:4000/post/postsByUser`,
+		{ withCredentials: true }
+	);
+	return postRetrieved;
+};
+
+export const createNewPost = async (postBody) => {
+	const postRetrieved = await axios.post(
+		`http://localhost:4000/post/createPost`,
+		postBody,
+		{ withCredentials: true }
 	);
 	return postRetrieved;
 };
@@ -33,8 +57,39 @@ export const useGetPostBySlug = (slug) => {
 	return useQuery([`post-${slug}`], () => getPostBySlug(slug));
 };
 
+export const useGetPostsByUserId = () => {
+	return useQuery([`postByUser`], () => getPostsByUserId());
+};
+
+export const useGetPostBySearchTerm = (term) => {
+	return useMutation([`search-${term}`], (term: string) =>
+		getPostBySearchTerm(term)
+	);
+};
+
 export const useGetPostPhoto = (postId) => {
-	return useQuery([`postPhoto-${postId}`], () => getPhotoOfPost(postId));
+	return useQuery([`postPhoto-${postId}`], () => getPhotoOfPost(postId), {
+		enabled: !!postId,
+	});
+};
+
+export const useCreatePost = () => {
+	return useMutation(['createPost'], (postBody: FormData) =>
+		createNewPost(postBody)
+	);
+};
+
+//--------------------------CATEGORY QUERIES--------------------------------
+
+export const getCategories = async () => {
+	const categoriesRetrieved = await axios.get(
+		`http://localhost:4000/category/getCategories`
+	);
+	return categoriesRetrieved;
+};
+
+export const useGetCategories = () => {
+	return useQuery([`categories`], () => getCategories());
 };
 
 //--------------------------AUTH QUERIES------------------------------------
@@ -56,10 +111,17 @@ export const signup = async (tokenInfo) => {
 };
 
 export const signin = async (userData) => {
-	console.log(userData);
 	const userSignedInd = await axios.post(
 		`http://localhost:4000/auth/signin`,
 		userData,
+		{ withCredentials: true }
+	);
+	return userSignedInd;
+};
+
+export const isLoggedIn = async () => {
+	const userSignedInd = await axios.get(
+		`http://localhost:4000/auth/isLoggedIn`,
 		{ withCredentials: true }
 	);
 	return userSignedInd;
@@ -77,4 +139,25 @@ export const useSignup = () => {
 
 export const useSignin = () => {
 	return useMutation(['signin'], (userData: UserInfo) => signin(userData));
+};
+
+export const useIsLoggedIn = () => {
+	return useQuery(['isLoggedIn'], () => isLoggedIn(), {
+		retry: 0,
+		refetchOnMount: true,
+		cacheTime: 0,
+	});
+};
+//----------------------------------USER QUERIES-------------------------------
+
+export const getUserById = async () => {
+	const userRegistered = await axios.get(
+		`http://localhost:4000/user/getUserById`,
+		{ withCredentials: true }
+	);
+	return userRegistered.data;
+};
+
+export const useGetUserById = () => {
+	return useQuery([`user`], () => getUserById());
 };
