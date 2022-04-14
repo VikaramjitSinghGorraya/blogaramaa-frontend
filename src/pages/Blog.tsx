@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
 	Box,
 	Text,
@@ -10,6 +10,7 @@ import {
 	Image,
 	Button,
 } from '@chakra-ui/react';
+import { useNavigate, Navigate } from 'react-router-dom';
 import {
 	align,
 	font,
@@ -29,13 +30,92 @@ import {
 } from 'suneditor/src/plugins';
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
+import {
+	useGetCategories,
+	useIsLoggedIn,
+	useCreatePost,
+} from '../queries/Queries';
 import Banner from '../components/Banner';
+import MessageBox from '../components/MessageBox';
+import Overlay from '../components/Overlay';
 import send from '../icons/send.svg';
+import check from '../icons/check.svg';
 import addImage from '../icons/addImage.svg';
+import removeImage from '../icons/remove.svg';
 import writeBlog from '../icons/writeBlog.svg';
 import bannerImage from '../icons/bannerImage.png';
 
 const Blog = () => {
+	const { status: loggedInStatus } = useIsLoggedIn();
+	const postCreation = useCreatePost();
+	const navigate = useNavigate();
+	const { data } = useGetCategories();
+
+	const blogTextFromLocalStorage = () => {
+		if (localStorage.getItem('blog')) {
+			return localStorage.getItem('blog');
+		}
+		return '';
+	};
+	const [blogPost, setBlogPost] = useState({
+		photo: null,
+		title: '',
+		category: '',
+	});
+
+	const [bannerBackground, setBannerBackground] = useState('');
+	const [savedBlog, setSavedBlog] = useState(blogTextFromLocalStorage() || '');
+
+	const titleChangeHandler = (e) => {
+		setBlogPost({ ...blogPost, title: e.target.value });
+	};
+	const categoryChangeHandler = (e) => {
+		setBlogPost({ ...blogPost, category: e.target.value });
+	};
+	const photoChangeHandler = (e) => {
+		setBlogPost({ ...blogPost, photo: e.target.files[0] });
+		setBannerBackground(URL.createObjectURL(e.target.files[0]));
+	};
+
+	const bodyChangeHandler = (e) => {
+		setSavedBlog(e);
+		localStorage.setItem('blog', e);
+	};
+
+	const removeSelectedBannerImage = (e) => {
+		setBannerBackground('');
+		return;
+	};
+
+	const submitHandler = (e) => {
+		e.preventDefault();
+		let formData = new FormData();
+		formData.set('photo', blogPost.photo || '');
+		formData.set('title', blogPost.title);
+		formData.set('category', blogPost.category);
+		formData.set('body', savedBlog || '');
+		console.log(blogPost.title);
+		postCreation.mutate(formData);
+	};
+
+	const displayErrorMessage = () => {
+		return (
+			<MessageBox
+				toastId='error-id'
+				title='The following error occured.'
+				description={postCreation.error}
+				successStatus={false}
+			/>
+		);
+	};
+
+	const blogPostedSuccessfully = () => {
+		setTimeout(() => {
+			localStorage.removeItem('blog');
+			navigate(`/post/${postCreation.data?.data.slug}`);
+		}, 2000);
+	};
+
 	const BannerImg = () => {
 		return (
 			<VStack
@@ -54,7 +134,7 @@ const Blog = () => {
 					w='100%'
 					color='white'
 					bg='brand.primaryBlueLight'
-					bgImage={bannerImage}
+					bgImage={bannerBackground ? `url(${bannerBackground})` : bannerImage}
 					bgPos='center center !important'
 					bgSize='cover'
 					justifyContent='center'
@@ -69,8 +149,25 @@ const Blog = () => {
 						p='5'
 					>
 						<FormLabel mx='auto' cursor='pointer'>
-							<Image className='whiteIconColor' src={addImage} />
-							<Input type='file' accept='image/*' hidden />
+							<Image
+								className='whiteIconColor'
+								src={bannerBackground ? removeImage : addImage}
+							/>
+							{bannerBackground !== '' ? (
+								<>
+									<Input onClick={removeSelectedBannerImage} hidden />
+								</>
+							) : (
+								<>
+									<Input
+										name='photo'
+										type='file'
+										onChange={photoChangeHandler}
+										accept='image/*'
+										hidden
+									/>
+								</>
+							)}
 						</FormLabel>
 					</Box>
 				</HStack>
@@ -84,16 +181,31 @@ const Blog = () => {
 		return (
 			<VStack w='100%' spacing={5}>
 				<VStack w='100%' alignItems='flex-start' spacing={0}>
-					<Input type='text' name='title' placeholder='Blog Title*' p='5' />
+					<Input
+						type='text'
+						name='title'
+						value={blogPost.title}
+						onChange={titleChangeHandler}
+						placeholder='Blog Title*'
+						p='5'
+					/>
 					<Text as='small' color='brand.mutedTextLight'>
 						blog will be identified with this title
 					</Text>
 				</VStack>
 				<VStack w='100%' alignItems='flex-start' spacing={0}>
-					<Select placeholder='Category*' color='brand.mutedTextLight'>
-						<option value='option1'>Option 1</option>
-						<option value='option2'>Option 2</option>
-						<option value='option3'>Option 3</option>
+					<Select
+						name='category'
+						vlaue={blogPost.category}
+						placeholder='Category*'
+						onChange={categoryChangeHandler}
+						color='brand.mutedTextLight'
+					>
+						{data?.data?.categories.map((category, index) => (
+							<option key={index} value={category._id}>
+								{category.title}
+							</option>
+						))}
 					</Select>
 					<Text as='small' color='brand.mutedTextLight'>
 						please select a category
@@ -104,66 +216,72 @@ const Blog = () => {
 	};
 	const textEditor = () => {
 		return (
-			<SunEditor
-				setOptions={{
-					minHeight: '50vh',
-					minWidth: '100%',
-					plugins: [
-						align,
-						font,
-						fontColor,
-						fontSize,
-						formatBlock,
-						hiliteColor,
-						horizontalRule,
-						lineHeight,
-						list,
-						paragraphStyle,
-						table,
-						template,
-						textStyle,
-						image,
-						link,
-					],
-					buttonList: [
-						[
-							'undo',
-							'redo',
-							'font',
-							'fontSize',
-							'formatBlock',
-							'preview',
-							'bold',
-							'underline',
-							'italic',
-							'strike',
-							'fontColor',
-							'hiliteColor',
-							'removeFormat',
-							'outdent',
-							'indent',
-							'align',
-							'horizontalRule',
-							'list',
-							'lineHeight',
-							'table',
-							'link',
-							'image',
+			<>
+				<SunEditor
+					name='body'
+					setContents={savedBlog ? savedBlog : undefined}
+					onChange={bodyChangeHandler}
+					setOptions={{
+						minHeight: '50vh',
+						minWidth: '100%',
+						plugins: [
+							align,
+							font,
+							fontColor,
+							fontSize,
+							formatBlock,
+							hiliteColor,
+							horizontalRule,
+							lineHeight,
+							list,
+							paragraphStyle,
+							table,
+							template,
+							textStyle,
+							image,
+							link,
 						],
-					],
-					formats: ['p', 'h3', 'h4', 'h5', 'h6'],
-					font: [
-						'Arial',
-						'Calibri',
-						'Comic Sans',
-						'Courier',
-						'Garamond',
-						'Georgia',
-						'Impact',
-						'Times New Roman',
-					],
-				}}
-			/>
+						buttonList: [
+							[
+								'undo',
+								'redo',
+								'font',
+								'fontSize',
+								'formatBlock',
+								'preview',
+								'bold',
+								'underline',
+								'italic',
+								'strike',
+								'fontColor',
+								'hiliteColor',
+								'removeFormat',
+								'outdent',
+								'indent',
+								'align',
+								'horizontalRule',
+								'list',
+								'lineHeight',
+								'table',
+								'link',
+								'image',
+							],
+						],
+						formats: ['p', 'h3', 'h4', 'h5', 'h6'],
+						font: [
+							'Arial',
+							'Calibri',
+							'Comic Sans',
+							'Courier',
+							'Garamond',
+							'Georgia',
+							'Impact',
+							'Times New Roman',
+						],
+					}}
+				/>
+				{postCreation.isSuccess && !postCreation.isLoading && <Overlay />}
+			</>
 		);
 	};
 
@@ -174,16 +292,34 @@ const Blog = () => {
 				{BannerImg()}
 				{titleAndCategory()}
 				{textEditor()}
-				<Button variant='long'>
-					<Image className='iconColor' src={send} />
-					PUBLISH
-				</Button>
+				{!postCreation.isSuccess && (
+					<Button
+						variant='long'
+						onClick={submitHandler}
+						isLoading={postCreation.isLoading ? true : false}
+					>
+						<Image className='iconColor' src={send} />
+						PUBLISH
+					</Button>
+				)}
+				{postCreation.isSuccess && (
+					<HStack>
+						<Image src={check} />
+						<Text color='green.500'>Blog created successfully</Text>
+					</HStack>
+				)}
 			</VStack>
 		);
 	};
-	return (
+	return loggedInStatus === 'error' ? (
+		<Navigate to='/' />
+	) : (
 		<HStack w='100%' my='56px' py='5'>
 			{blogPageContent()}
+			{postCreation.error &&
+				!postCreation.isLoading && <Overlay /> &&
+				displayErrorMessage()}
+			{postCreation.isSuccess && blogPostedSuccessfully()}
 		</HStack>
 	);
 };
