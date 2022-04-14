@@ -93,7 +93,7 @@ const Signin = () => {
 					</Button>
 				</HStack>
 			</form>
-			{signinProcess.isSuccess && <Navigate to='/' />}
+			{signinProcess.isSuccess && window.location.reload()}
 			{signinProcess.isError &&
 				!signinProcess.isLoading &&
 				displayErrorMessage()}
