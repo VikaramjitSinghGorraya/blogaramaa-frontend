@@ -1,27 +1,58 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
 	Accordion,
 	AccordionItem,
 	AccordionButton,
 	AccordionPanel,
+	Box,
 	AccordionIcon,
 	Text,
+	Center,
 	VStack,
 	Image,
 	Button,
 	Grid,
 	HStack,
+	Link,
 } from '@chakra-ui/react';
+import Moment from 'moment';
+import Loader from '../components/Loader';
 import Banner from '../components/Banner';
 import Share from '../components/Share';
 import BlogCard from '../components/BlogCard';
+import {
+	useGetUserById,
+	useGetPostsByUserId,
+	useIsLoggedIn,
+	isLoggedIn,
+} from '../queries/Queries';
 import placeholderCircle from '../images/placeholderCircle.png';
 import user from '../icons/user.svg';
 import signout from '../icons/signout.svg';
 import calendar from '../icons/calendar.svg';
 import contact from '../icons/contact.svg';
+import setting from '../icons/settings.svg';
 import PopoverItem from '../components/PopoverItem';
+import { Navigate } from 'react-router-dom';
 const Profile = () => {
+	const {
+		isLoading: userLoading,
+		isError: userError,
+		isSuccess: userSuccess,
+		data: userData,
+	} = useGetUserById();
+	const {
+		isLoading: postsLoading,
+		isError: postsError,
+		isSuccess: potsSuccess,
+		data: postData,
+	} = useGetPostsByUserId();
+	const { status: loggedInStatus, isLoading: checkingIfUserIsLoggedIn } =
+		useIsLoggedIn();
+	useEffect(() => {
+		console.log(userData);
+		console.log(postData);
+	}, [userData]);
 	const aboutSection = () => {
 		return (
 			<Accordion allowToggle w='100%' color='brand.mutedText'>
@@ -37,12 +68,27 @@ const Profile = () => {
 							<AccordionIcon />
 						</AccordionButton>
 					</h2>
-					<AccordionPanel pb={4} color='brand.mutedText'>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-						eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-						ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-						aliquip ex ea commodo consequat.
+					<AccordionPanel pb={4} color='brand.mutedText' p='0'>
+						{userData.user.about}
+						<Link
+							href={`/editProfile`}
+							variant='blueLink'
+							alignSelf='flex-start'
+							w='100%'
+						>
+							<HStack w='100%' my='2'>
+								<Image src={setting} className='iconColor' />
+								<Text>EDIT PROFILE</Text>
+							</HStack>
+						</Link>
 					</AccordionPanel>
+					{/* <Link
+						href='/forgotPassword'
+						variant='blueLink'
+						alignSelf='flex-start'
+					>
+						<Image src={setting} /> EDIT PROFILE
+					</Link> */}
 				</AccordionItem>
 			</Accordion>
 		);
@@ -67,13 +113,13 @@ const Profile = () => {
 					<HStack w='100%'>
 						<Image src={contact} className='mutedIconColor' />
 						<Text as='p' color='brand.mutedTextLight'>
-							f1freak96@gmail.com
+							{userData.user.email}
 						</Text>
 					</HStack>
 					<HStack w='100%'>
 						<Image src={calendar} className='mutedIconColor' />
 						<Text as='p' color='brand.mutedTextLight'>
-							joined a year ago
+							joined {Moment(userData.user.createdAt).from(Date.now())}
 						</Text>
 					</HStack>
 				</VStack>
@@ -93,29 +139,41 @@ const Profile = () => {
 
 	const profilePageContent = () => {
 		return (
-			<VStack w='100%'>
+			<VStack w='100%' h='fit-content'>
 				<Banner heading='Vikaramjit Singh' icon={placeholderCircle} />
 				{aboutSection()}
 				{displayUserInfoShareAndSignout()}
 				<Grid
-					templateColumns={['auto', 'repeat(2, auto)']}
-					justifyContent='center'
+					templateColumns={[
+						'repeat(auto-fit, minmax(300px, 1fr))',
+						'repeat(auto-fit, minmax(600px, 500xp))',
+						'repeat(2, minmax(600px, 1fr))',
+					]}
 				>
-					<BlogCard cardWidth='90%' />
-					<BlogCard cardWidth='90%' />
-					<BlogCard cardWidth='90%' />
-					<BlogCard cardWidth='90%' />
-					<BlogCard cardWidth='90%' />
-					<BlogCard cardWidth='90%' />
-					<BlogCard cardWidth='90%' />
-					<BlogCard cardWidth='90%' />
-					<BlogCard cardWidth='90%' />
-					<BlogCard cardWidth='90%' />
+					{postData?.data.postsFound.map((post, index) => (
+						<BlogCard
+							key={index}
+							cardWidth='90%'
+							title={post.title}
+							author={post.postedBy.name}
+							category={post.postCategory.title}
+							body={post.body}
+							postId={post._id}
+							posted={post.createdAt}
+							slug={post.slug}
+						/>
+					))}
 				</Grid>
 			</VStack>
 		);
 	};
-	return (
+	return userLoading || checkingIfUserIsLoggedIn || postsLoading ? (
+		<Center minH='100%' w='100%'>
+			<Loader />
+		</Center>
+	) : loggedInStatus === 'error' ? (
+		<Navigate to='/signin' />
+	) : (
 		<VStack w='100%' my='56px' py='5'>
 			{profilePageContent()}
 		</VStack>
