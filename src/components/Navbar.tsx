@@ -16,6 +16,7 @@ import {
 	Text,
 	Link,
 } from '@chakra-ui/react';
+import { useIsLoggedIn } from '../queries/Queries';
 import placeholderCircle from '../images/placeholderCircle.png';
 import home from '../icons/home.svg';
 import edit from '../icons/edit.svg';
@@ -25,10 +26,12 @@ import contact from '../icons/contact.svg';
 import about from '../icons/about.svg';
 import menu from '../icons/menu.svg';
 import search from '../icons/search.svg';
+import dashboard from '../icons/dashboard.svg';
 import Logo from './Logo';
 
 const Navbar = () => {
 	const location = useLocation();
+	const { status: isLoggedinStatus } = useIsLoggedIn();
 	const navigate = useNavigate();
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const btnRef = React.useRef<HTMLButtonElement>(null);
@@ -53,7 +56,7 @@ const Navbar = () => {
 	const drawerBody = () => {
 		return (
 			<VStack
-				justifyContent='space-between'
+				justifyContent='space-around'
 				alignItems='flex-start'
 				w='100%'
 				h='250px'
@@ -86,37 +89,59 @@ const Navbar = () => {
 						src={edit}
 						className={location.pathname === '/writeblog' ? 'iconColor' : ''}
 					/>
-					<Link href='writeblog'>Write Blog</Link>
+					<Link href='/writeblog'>Write Blog</Link>
 				</HStack>
-				<HStack
-					bg={location.pathname === '/signin' ? 'brand.primaryBlueLight' : ''}
-					color={location.pathname === '/signin' ? 'brand.primaryBlue' : ''}
-					h='3rem'
-					w='80%'
-					borderRadius='10'
-					px='5'
-				>
-					<Image
-						src={signin}
-						color='red'
-						className={location.pathname === '/signin' ? 'iconColor' : ''}
-					/>
-					<Link href='/signin'>Signin</Link>
-				</HStack>
-				<HStack
-					bg={location.pathname === '/signup' ? 'brand.primaryBlueLight' : ''}
-					color={location.pathname === '/signup' ? 'brand.primaryBlue' : ''}
-					h='3rem'
-					w='80%'
-					borderRadius='10'
-					px='5'
-				>
-					<Image
-						src={addUser}
-						className={location.pathname === '/signup' ? 'iconColor' : ''}
-					/>
-					<Link href='/signup'>Signup</Link>
-				</HStack>
+				{isLoggedinStatus === 'error' ? (
+					<HStack
+						bg={location.pathname === '/signin' ? 'brand.primaryBlueLight' : ''}
+						color={location.pathname === '/signin' ? 'brand.primaryBlue' : ''}
+						h='3rem'
+						w='80%'
+						borderRadius='10'
+						px='5'
+					>
+						<Image
+							src={signin}
+							color='red'
+							className={location.pathname === '/signin' ? 'iconColor' : ''}
+						/>
+						<Link href='/signin'>Signin</Link>
+					</HStack>
+				) : null}
+				{isLoggedinStatus === 'error' ? (
+					<HStack
+						bg={location.pathname === '/signup' ? 'brand.primaryBlueLight' : ''}
+						color={location.pathname === '/signup' ? 'brand.primaryBlue' : ''}
+						h='3rem'
+						w='80%'
+						borderRadius='10'
+						px='5'
+					>
+						<Image
+							src={addUser}
+							className={location.pathname === '/signup' ? 'iconColor' : ''}
+						/>
+						<Link href='/signup'>Signup</Link>
+					</HStack>
+				) : null}
+				{isLoggedinStatus === 'error' ? null : (
+					<HStack
+						bg={
+							location.pathname === '/profile' ? 'brand.primaryBlueLight' : ''
+						}
+						color={location.pathname === '/profile' ? 'brand.primaryBlue' : ''}
+						h='3rem'
+						w='80%'
+						borderRadius='10'
+						px='5'
+					>
+						<Image
+							src={dashboard}
+							className={location.pathname === '/profile' ? 'iconColor' : ''}
+						/>
+						<Link href='/profile'>Dashboard</Link>
+					</HStack>
+				)}
 			</VStack>
 		);
 	};
