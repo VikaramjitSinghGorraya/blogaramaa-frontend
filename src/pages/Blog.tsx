@@ -12,25 +12,6 @@ import {
 } from '@chakra-ui/react';
 import { useNavigate, Navigate } from 'react-router-dom';
 import {
-	align,
-	font,
-	fontColor,
-	fontSize,
-	formatBlock,
-	hiliteColor,
-	horizontalRule,
-	lineHeight,
-	list,
-	paragraphStyle,
-	table,
-	template,
-	textStyle,
-	image,
-	link,
-} from 'suneditor/src/plugins';
-import SunEditor from 'suneditor-react';
-import 'suneditor/dist/css/suneditor.min.css';
-import {
 	useGetCategories,
 	useIsLoggedIn,
 	useCreatePost,
