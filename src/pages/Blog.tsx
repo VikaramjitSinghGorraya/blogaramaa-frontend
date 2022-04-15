@@ -94,7 +94,6 @@ const Blog = () => {
 		formData.set('title', blogPost.title);
 		formData.set('category', blogPost.category);
 		formData.set('body', savedBlog || '');
-		console.log(blogPost.title);
 		postCreation.mutate(formData);
 	};
 
@@ -153,12 +152,13 @@ const Blog = () => {
 								className='whiteIconColor'
 								src={bannerBackground ? removeImage : addImage}
 							/>
-							{bannerBackground !== '' ? (
+							{bannerBackground ? (
 								<>
 									<Input onClick={removeSelectedBannerImage} hidden />
 								</>
 							) : (
 								<>
+									{''}
 									<Input
 										name='photo'
 										type='file'
@@ -316,9 +316,7 @@ const Blog = () => {
 	) : (
 		<HStack w='100%' my='56px' py='5'>
 			{blogPageContent()}
-			{postCreation.error &&
-				!postCreation.isLoading && <Overlay /> &&
-				displayErrorMessage()}
+			{postCreation.error && displayErrorMessage()}
 			{postCreation.isSuccess && blogPostedSuccessfully()}
 		</HStack>
 	);
