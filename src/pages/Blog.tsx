@@ -38,6 +38,7 @@ import {
 import Banner from '../components/Banner';
 import MessageBox from '../components/MessageBox';
 import Overlay from '../components/Overlay';
+import BlogEditor from '../components/BlogEditor';
 import send from '../icons/send.svg';
 import check from '../icons/check.svg';
 import addImage from '../icons/addImage.svg';
@@ -217,68 +218,9 @@ const Blog = () => {
 	const textEditor = () => {
 		return (
 			<>
-				<SunEditor
-					name='body'
-					setContents={savedBlog ? savedBlog : undefined}
+				<BlogEditor
+					contents={savedBlog ? savedBlog : ''}
 					onChange={bodyChangeHandler}
-					setOptions={{
-						minHeight: '50vh',
-						minWidth: '100%',
-						plugins: [
-							align,
-							font,
-							fontColor,
-							fontSize,
-							formatBlock,
-							hiliteColor,
-							horizontalRule,
-							lineHeight,
-							list,
-							paragraphStyle,
-							table,
-							template,
-							textStyle,
-							image,
-							link,
-						],
-						buttonList: [
-							[
-								'undo',
-								'redo',
-								'font',
-								'fontSize',
-								'formatBlock',
-								'preview',
-								'bold',
-								'underline',
-								'italic',
-								'strike',
-								'fontColor',
-								'hiliteColor',
-								'removeFormat',
-								'outdent',
-								'indent',
-								'align',
-								'horizontalRule',
-								'list',
-								'lineHeight',
-								'table',
-								'link',
-								'image',
-							],
-						],
-						formats: ['p', 'h3', 'h4', 'h5', 'h6'],
-						font: [
-							'Arial',
-							'Calibri',
-							'Comic Sans',
-							'Courier',
-							'Garamond',
-							'Georgia',
-							'Impact',
-							'Times New Roman',
-						],
-					}}
 				/>
 				{postCreation.isSuccess && !postCreation.isLoading && <Overlay />}
 			</>
