@@ -13,6 +13,7 @@ import Profile from './pages/Profile';
 import Post from './pages/Post';
 import Contact from './pages/Contact';
 import AccountActivation from './pages/AccountActivation';
+import EditBlog from './pages/EditBlog';
 
 function App() {
 	return (
@@ -26,13 +27,14 @@ function App() {
 					<Route path='/ForgotPassword' element={<ForgotPassword />} />
 					<Route path='/ResetPassword' element={<ResetPassword />} />
 					<Route path='/WriteBlog' element={<Blog />} />
+					<Route path='/EditBlog/:slug' element={<EditBlog />} />
 					<Route path='/Search' element={<Search />} />
-					<Route path='/Edit' element={<EditProfile />} />
+					<Route path='/EditProfile' element={<EditProfile />} />
 					<Route path='/Profile' element={<Profile />} />
 					<Route path='/Post/:slug' element={<Post />} />
 					<Route path='/Contact' element={<Contact />} />
 					<Route
-						path='/Auth/AccountActivation/:token'
+						path='/AccountActivation/:token'
 						element={<AccountActivation />}
 					/>
 				</Routes>
