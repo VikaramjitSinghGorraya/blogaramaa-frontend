@@ -49,12 +49,23 @@ export const createNewPost = async (postBody) => {
 	return postRetrieved;
 };
 
+export const updatePost = async (postBody, slug) => {
+	const postRetrieved = await axios.post(
+		`http://localhost:4000/post/updatePost/${slug}`,
+		postBody,
+		{ withCredentials: true }
+	);
+	return postRetrieved;
+};
+
 export const useGetPosts = () => {
 	return useQuery(['allPosts'], () => getAllPosts());
 };
 
 export const useGetPostBySlug = (slug) => {
-	return useQuery([`post-${slug}`], () => getPostBySlug(slug));
+	return useQuery([`post-${slug}`], () => getPostBySlug(slug), {
+		enabled: !!slug,
+	});
 };
 
 export const useGetPostsByUserId = () => {
@@ -70,12 +81,20 @@ export const useGetPostBySearchTerm = (term) => {
 export const useGetPostPhoto = (postId) => {
 	return useQuery([`postPhoto-${postId}`], () => getPhotoOfPost(postId), {
 		enabled: !!postId,
+		retry: false,
+		refetchOnWindowFocus: false,
 	});
 };
 
 export const useCreatePost = () => {
 	return useMutation(['createPost'], (postBody: FormData) =>
 		createNewPost(postBody)
+	);
+};
+
+export const useUpdatePost = (slug) => {
+	return useMutation(['updatePost'], (postBody: FormData) =>
+		updatePost(postBody, slug)
 	);
 };
 
