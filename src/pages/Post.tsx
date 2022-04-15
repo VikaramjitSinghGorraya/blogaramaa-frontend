@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
 	VStack,
 	Image,
@@ -12,7 +12,7 @@ import {
 	Button,
 	Center,
 } from '@chakra-ui/react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import parser from 'html-react-parser';
 import Moment from 'moment';
 import Loader from '../components/Loader';
@@ -32,9 +32,12 @@ import calendar from '../icons/calendar.svg';
 const Post = () => {
 	let { slug } = useParams();
 	const [isLargerThan768] = useMediaQuery('(min-width: 769px)');
-	const { isLoading, data } = useGetPostBySlug(slug);
-	const { data: photoData } = useGetPostPhoto(data?.data._id);
+	const { isLoading: postLoading, data: postData } = useGetPostBySlug(slug);
+	const { isLoading: photoLoading, data: photoData } = useGetPostPhoto(
+		postData?.data._id
+	);
 	const { status: loggedInStatus, data: loggedInData } = useIsLoggedIn();
+	const navigate = useNavigate();
 
 	const authorInfoAndOptions = () => {
 		return (
@@ -45,7 +48,11 @@ const Post = () => {
 				justifyContent='flex-end'
 			>
 				<Share showText={true} />
-				<Button variant='base' color='brand.mutedText'>
+				<Button
+					variant='base'
+					color='brand.mutedText'
+					onClick={() => navigate(`/EditBlog/${slug}`)}
+				>
 					<Image src={edit} className='mutedIconColor' />
 					Edit
 				</Button>
@@ -68,7 +75,7 @@ const Post = () => {
 				<Image
 					h='200px'
 					w='100%'
-					src={photoData !== undefined ? photoData : bannerImage}
+					src={photoData ? photoData : bannerImage}
 					objectFit='cover'
 				/>
 				<Box
@@ -88,11 +95,11 @@ const Post = () => {
 						top='-30px'
 					>
 						<Heading as='h2' color='brand.mutedText'>
-							{data?.data.title}
+							{postData?.data.title}
 						</Heading>
 						<HStack w='100%'>
 							<Image h='2rem' w='2rem' src={placeholderCircle} />
-							<Link variant='grayLink'>{data?.data.postedBy.name}</Link>
+							<Link variant='grayLink'>{postData?.data.postedBy.name}</Link>
 						</HStack>
 						<Stack
 							direction={['column', 'column', 'column', 'row']}
@@ -102,13 +109,13 @@ const Post = () => {
 							<HStack w='fit-content'>
 								<Image h='1.2rem' w='1.2rem' src={box} />
 								<Text as='p' color='brand.mutedText'>
-									{data?.data.postCategory.title}
+									{postData?.data.postCategory.title}
 								</Text>
 							</HStack>
 							<HStack w='fit-content'>
 								<Image h='1.2rem' w='1.2rem' src={calendar} />
 								<Text as='p' color='brand.mutedText'>
-									{Moment(data?.data.createdAt).from(Date.now())}
+									{Moment(postData?.data.createdAt).from(Date.now())}
 								</Text>
 							</HStack>
 						</Stack>
@@ -116,7 +123,7 @@ const Post = () => {
 					{isLargerThan768 && loggedInStatus ? (
 						authorInfoAndOptions()
 					) : loggedInStatus === 'success' &&
-					  loggedInData?.data.userId === data?.data.postedBy._id ? (
+					  loggedInData?.data.userId === postData?.data.postedBy._id ? (
 						<PopoverItem
 							passedInput={authorInfoAndOptions()}
 							left='-5.3rem'
@@ -132,7 +139,7 @@ const Post = () => {
 	const postBody = () => {
 		return (
 			<Box w='100%'>
-				<Text as='p'>{parser(data?.data.body)}</Text>
+				<Text as='p'>{parser(postData?.data.body)}</Text>
 			</Box>
 		);
 	};
@@ -145,7 +152,7 @@ const Post = () => {
 			</VStack>
 		);
 	};
-	return isLoading ? (
+	return postLoading || photoLoading ? (
 		<Center minH='100%' w='100%'>
 			<Loader />
 		</Center>
