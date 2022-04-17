@@ -58,6 +58,14 @@ export const updatePost = async (postBody, slug) => {
 	return postRetrieved;
 };
 
+export const deletePost = async (postId) => {
+	const postDeleted = await axios.delete(
+		`http://localhost:4000/post/deletePost/${postId}`,
+		{ withCredentials: true }
+	);
+	return postDeleted;
+};
+
 export const useGetPosts = () => {
 	return useQuery(['allPosts'], () => getAllPosts());
 };
@@ -96,6 +104,10 @@ export const useUpdatePost = (slug) => {
 	return useMutation(['updatePost'], (postBody: FormData) =>
 		updatePost(postBody, slug)
 	);
+};
+
+export const useDeletePost = () => {
+	return useMutation(['deletePost'], (postId) => deletePost(postId));
 };
 
 //--------------------------CATEGORY QUERIES--------------------------------
@@ -169,14 +181,43 @@ export const useIsLoggedIn = () => {
 };
 //----------------------------------USER QUERIES-------------------------------
 
-export const getUserById = async () => {
+export const getUserProfile = async () => {
 	const userRegistered = await axios.get(
-		`http://localhost:4000/user/getUserById`,
+		`http://localhost:4000/user/getUserProfile`,
 		{ withCredentials: true }
 	);
 	return userRegistered.data;
 };
 
-export const useGetUserById = () => {
-	return useQuery([`user`], () => getUserById());
+export const getUserPhoto = async (userId) => {
+	const photo = await axios.get(
+		`http://localhost:4000/user/getPhoto/${userId}`,
+		{ withCredentials: true }
+	);
+	return photo.config.url;
+};
+
+export const updateUser = async (userData) => {
+	const userUpdated = await axios.post(
+		`http://localhost:4000/user/updateUser`,
+		userData,
+		{ withCredentials: true }
+	);
+	return userUpdated.data;
+};
+
+export const useGetUserProfile = () => {
+	return useQuery([`user`], () => getUserProfile());
+};
+
+export const useGetUserPhoto = (userId) => {
+	return useQuery([`user-${userId}`], () => getUserPhoto(userId), {
+		enabled: !!userId,
+		retry: false,
+		refetchOnWindowFocus: false,
+	});
+};
+
+export const useUpdateUser = () => {
+	return useMutation([`user`], (userData: FormData) => updateUser(userData));
 };
