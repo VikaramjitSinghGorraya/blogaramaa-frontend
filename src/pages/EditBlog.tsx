@@ -11,7 +11,6 @@ import {
 	Button,
 } from '@chakra-ui/react';
 import { Navigate, useParams } from 'react-router-dom';
-import 'suneditor/dist/css/suneditor.min.css';
 import {
 	useGetCategories,
 	useIsLoggedIn,
