@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
 	Accordion,
 	AccordionItem,
@@ -21,10 +21,10 @@ import Banner from '../components/Banner';
 import Share from '../components/Share';
 import BlogCard from '../components/BlogCard';
 import {
-	useGetUserById,
+	useGetUserProfile,
 	useGetPostsByUserId,
 	useIsLoggedIn,
-	isLoggedIn,
+	useGetUserPhoto,
 } from '../queries/Queries';
 import placeholderCircle from '../images/placeholderCircle.png';
 import user from '../icons/user.svg';
@@ -35,24 +35,24 @@ import setting from '../icons/settings.svg';
 import PopoverItem from '../components/PopoverItem';
 import { Navigate } from 'react-router-dom';
 const Profile = () => {
+	const { status: loggedInStatus, isLoading: checkingIfUserIsLoggedIn } =
+		useIsLoggedIn();
 	const {
 		isLoading: userLoading,
 		isError: userError,
 		isSuccess: userSuccess,
 		data: userData,
-	} = useGetUserById();
+	} = useGetUserProfile();
+	const { isLoading: photoLoading, data: photoData } = useGetUserPhoto(
+		userData?.user._id
+	);
 	const {
 		isLoading: postsLoading,
 		isError: postsError,
 		isSuccess: potsSuccess,
 		data: postData,
 	} = useGetPostsByUserId();
-	const { status: loggedInStatus, isLoading: checkingIfUserIsLoggedIn } =
-		useIsLoggedIn();
-	useEffect(() => {
-		console.log(userData);
-		console.log(postData);
-	}, [userData]);
+
 	const aboutSection = () => {
 		return (
 			<Accordion allowToggle w='100%' color='brand.mutedText'>
@@ -82,13 +82,6 @@ const Profile = () => {
 							</HStack>
 						</Link>
 					</AccordionPanel>
-					{/* <Link
-						href='/forgotPassword'
-						variant='blueLink'
-						alignSelf='flex-start'
-					>
-						<Image src={setting} /> EDIT PROFILE
-					</Link> */}
 				</AccordionItem>
 			</Accordion>
 		);
@@ -140,7 +133,10 @@ const Profile = () => {
 	const profilePageContent = () => {
 		return (
 			<VStack w='100%' h='fit-content'>
-				<Banner heading='Vikaramjit Singh' icon={placeholderCircle} />
+				<Banner
+					heading='Vikaramjit Singh'
+					icon={photoData ? photoData : placeholderCircle}
+				/>
 				{aboutSection()}
 				{displayUserInfoShareAndSignout()}
 				<Grid
@@ -167,7 +163,10 @@ const Profile = () => {
 			</VStack>
 		);
 	};
-	return userLoading || checkingIfUserIsLoggedIn || postsLoading ? (
+	return userLoading ||
+		checkingIfUserIsLoggedIn ||
+		postsLoading ||
+		photoLoading ? (
 		<Center minH='100%' w='100%'>
 			<Loader />
 		</Center>

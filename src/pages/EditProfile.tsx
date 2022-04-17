@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	HStack,
 	Link,
@@ -12,15 +12,110 @@ import {
 	Button,
 	Box,
 } from '@chakra-ui/react';
+import { useParams, Navigate } from 'react-router-dom';
+import Moment from 'moment';
+import {
+	useIsLoggedIn,
+	useGetUserProfile,
+	useGetUserPhoto,
+	useUpdatePost,
+	useUpdateUser,
+} from '../queries/Queries';
+import Banner from '../components/Banner';
 import InputField from '../components/InputField';
+import Loader from '../components/Loader';
+import MessageBox from '../components/MessageBox';
 import contact from '../icons/contact.svg';
 import addImage from '../icons/addImage.svg';
 import editProfile from '../icons/editProfile.svg';
 import send from '../icons/send.svg';
 import key from '../icons/key.svg';
 import placeholderCircle from '../images/placeholderCircle.png';
-import Banner from '../components/Banner';
+import removeImage from '../icons/remove.svg';
+import Overlay from '../components/Overlay';
+
 const EditProfile = () => {
+	const { status: loggedInStatus, isLoading: checkingIfUserIsLoggedIn } =
+		useIsLoggedIn();
+
+	const {
+		isLoading: userLoading,
+		isError: userError,
+		isSuccess: userSuccess,
+		data: userData,
+	} = useGetUserProfile();
+
+	const { isLoading: photoLoading, data: photoData } = useGetUserPhoto(
+		userData?.user._id
+	);
+
+	const updateUser = useUpdateUser();
+
+	const [bannerBackground, setBannerBackground] = useState('');
+
+	const [userInfo, setUserData] = useState({
+		fullName: userData?.user.name || '',
+		about: userData?.user.about || '',
+		photo: '',
+	});
+
+	useEffect(() => {
+		setUserData({
+			...userInfo,
+			fullName: userData?.user.name || '',
+			about: userData?.user.about || '',
+			photo: photoData ? photoData : '',
+		});
+		setBannerBackground(photoData ? photoData : '');
+	}, [userData, photoData]);
+
+	const inputChangeHandler = (e) => {
+		if (e.target.name === 'photo') {
+			setUserData({ ...userInfo, [e.target.name]: e.target.files[0] });
+			setBannerBackground(URL.createObjectURL(e.target.files[0]));
+			console.log(userInfo);
+			return;
+		}
+		setUserData({ ...userInfo, [e.target.name]: e.target.value });
+		console.log(userInfo);
+	};
+
+	const removeSelectedBannerImage = (e) => {
+		if (userInfo.photo) {
+			setUserData({ ...userInfo, photo: '' });
+		}
+		setBannerBackground('');
+		return;
+	};
+
+	const submitHandler = (e) => {
+		e.preventDefault();
+		console.log('Submitting form');
+		console.log(userInfo);
+		let formData = new FormData();
+		formData.set('fullName', userInfo.fullName);
+		formData.set('about', userInfo.about);
+		formData.set('photo', userInfo.photo);
+		updateUser.mutate(formData);
+	};
+
+	const displayErrorMessage = () => {
+		return (
+			<MessageBox
+				toastId='error-id'
+				title='The following error occured.'
+				description={updateUser.error}
+				successStatus={false}
+			/>
+		);
+	};
+
+	const profileUpdatedSuccessfully = () => {
+		setTimeout(() => {
+			window.location.href = `/profile`;
+		}, 2000);
+	};
+
 	const resetPassword = () => {
 		return (
 			<HStack
@@ -42,13 +137,13 @@ const EditProfile = () => {
 				<HStack w='100%' border='1px solid lightGray' p='14px'>
 					<Image src={contact} />
 					<Text as='p' color='brand.mutedTextLight'>
-						f1freak96@gmail.com
+						{userData?.user.email}
 					</Text>
 				</HStack>
 				<HStack w='100%' border='1px solid lightGray' p='14px'>
 					<Image src={contact} />
 					<Text as='p' color='brand.mutedTextLight'>
-						joined a year ago
+						joined {Moment(userData?.user.createdAt).from(Date.now())}
 					</Text>
 				</HStack>
 			</VStack>
@@ -69,11 +164,14 @@ const EditProfile = () => {
 					mb={['5', '0']}
 					w='200px'
 					color='white'
-					bgImage={placeholderCircle}
+					bgImage={
+						bannerBackground ? `url(${bannerBackground})` : placeholderCircle
+					}
 					bgPos='center center !important'
 					bgSize='cover'
 					justifyContent='center'
 					position='relative'
+					borderRadius='50%'
 				>
 					<Box
 						h='128px'
@@ -84,13 +182,37 @@ const EditProfile = () => {
 						p='5'
 					>
 						<FormLabel mx='auto' cursor='pointer'>
-							<Image className='whiteIconColor' src={addImage} />
-							<Input type='file' accept='image/*' hidden />
+							<Image
+								className='whiteIconColor'
+								src={bannerBackground ? removeImage : addImage}
+							/>
+							{bannerBackground ? (
+								<>
+									<Input onClick={removeSelectedBannerImage} hidden />
+								</>
+							) : (
+								<>
+									{''}
+									<Input
+										name='photo'
+										type='file'
+										onChange={inputChangeHandler}
+										accept='image/*'
+										hidden
+									/>
+								</>
+							)}
 						</FormLabel>
 					</Box>
 				</HStack>
 				<VStack w={['100%', '70%']}>
-					<InputField type='text' name='fullName' placeholder='FullName' />
+					<InputField
+						type='text'
+						name='fullName'
+						placeholder='FullName'
+						value={userInfo.fullName}
+						onChange={inputChangeHandler}
+					/>
 				</VStack>
 			</Flex>
 		);
@@ -102,7 +224,12 @@ const EditProfile = () => {
 				<Text as='small' color='brand.mutedTextLight'>
 					About
 				</Text>
-				<Textarea h='150px' />
+				<Textarea
+					name='about'
+					h='150px'
+					value={userInfo.about}
+					onChange={inputChangeHandler}
+				/>
 			</VStack>
 		);
 	};
@@ -114,16 +241,27 @@ const EditProfile = () => {
 				{emailAndDateJoinedInfo()}
 				{photoAndUserInfo()}
 				{aboutSection()}
-				<Button variant='long'>
+				<Button
+					variant='long'
+					onClick={submitHandler}
+					isLoading={updateUser.isLoading ? true : false}
+				>
 					<Image className='iconColor' src={send} />
 					UPDATE
 				</Button>
+				{updateUser.isSuccess && <Overlay />}
 			</VStack>
 		);
 	};
-	return (
+	return loggedInStatus === 'error' ? (
+		<Navigate to='/signin' />
+	) : userLoading || photoLoading ? (
+		<Loader />
+	) : (
 		<VStack w='100%' my='56px' py='5'>
 			{editProfilePageContent()}
+			{updateUser.isError && displayErrorMessage()}
+			{updateUser.isSuccess && profileUpdatedSuccessfully()}
 		</VStack>
 	);
 };
