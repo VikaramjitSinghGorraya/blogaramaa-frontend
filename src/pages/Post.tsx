@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 	VStack,
 	Image,
@@ -22,13 +22,17 @@ import {
 	useGetPostBySlug,
 	useGetPostPhoto,
 	useIsLoggedIn,
+	useDeletePost,
 } from '../queries/Queries';
+import DeletePostPopover from '../components/DeletePostPopover';
+import MessageBox from '../components/MessageBox';
 import bannerImage from '../icons/bannerImage.png';
 import box from '../icons/box.svg';
 import placeholderCircle from '../images/placeholderCircle.png';
 import edit from '../icons/edit.svg';
 import deletePost from '../icons/deletePost.svg';
 import calendar from '../icons/calendar.svg';
+import Overlay from '../components/Overlay';
 const Post = () => {
 	let { slug } = useParams();
 	const [isLargerThan768] = useMediaQuery('(min-width: 769px)');
@@ -36,8 +40,34 @@ const Post = () => {
 	const { isLoading: photoLoading, data: photoData } = useGetPostPhoto(
 		postData?.data._id
 	);
+	const postDeletionProcess = useDeletePost();
 	const { status: loggedInStatus, data: loggedInData } = useIsLoggedIn();
 	const navigate = useNavigate();
+	const [showDelete, setShowDelete] = useState(false);
+	useEffect(() => {
+		console.log(photoData);
+	}, [photoData]);
+	const displayErrorMessage = () => {
+		return (
+			<MessageBox
+				toastId='error-id'
+				title='The following error occured.'
+				description={postDeletionProcess.error}
+				successStatus={false}
+			/>
+		);
+	};
+
+	const deleteHandler = (postId) => {
+		console.log('Post deleted');
+		postDeletionProcess.mutate(postId);
+	};
+
+	const blogDeletedSuccessfully = () => {
+		setTimeout(() => {
+			window.location.href = `/`;
+		}, 2000);
+	};
 
 	const authorInfoAndOptions = () => {
 		return (
@@ -51,12 +81,16 @@ const Post = () => {
 				<Button
 					variant='base'
 					color='brand.mutedText'
-					onClick={() => navigate(`/EditBlog/${slug}`)}
+					onClick={() => (window.location.href = `/EditBlog/${slug}`)}
 				>
 					<Image src={edit} className='mutedIconColor' />
 					Edit
 				</Button>
-				<Button variant='base' color='brand.mutedText'>
+				<Button
+					variant='base'
+					color='brand.mutedText'
+					onClick={() => setShowDelete(true)}
+				>
 					<Image src={deletePost} className='mutedIconColor' />
 					Delete
 				</Button>
@@ -120,7 +154,7 @@ const Post = () => {
 							</HStack>
 						</Stack>
 					</VStack>
-					{isLargerThan768 && loggedInStatus ? (
+					{isLargerThan768 && loggedInStatus === 'success' ? (
 						authorInfoAndOptions()
 					) : loggedInStatus === 'success' &&
 					  loggedInData?.data.userId === postData?.data.postedBy._id ? (
@@ -144,11 +178,33 @@ const Post = () => {
 		);
 	};
 
+	const showDeleteOption = () => {
+		return (
+			<Box zIndex={99}>
+				<DeletePostPopover
+					toOpen={showDelete}
+					toClose={setShowDelete}
+					deleteHandler={deleteHandler}
+					postId={postData?.data._id}
+				/>
+			</Box>
+		);
+	};
+
+	const showOverlay = () => {
+		return (
+			<Box zIndex={1000}>
+				<Overlay />
+			</Box>
+		);
+	};
 	const postContent = () => {
 		return (
 			<VStack alignItems='flex-end' w='100%' h='100%' spacing={0}>
 				{postInfo()}
 				{postBody()}
+				{showDeleteOption()}
+				{postDeletionProcess.isSuccess && showOverlay()}
 			</VStack>
 		);
 	};
@@ -159,6 +215,8 @@ const Post = () => {
 	) : (
 		<VStack w='100%' py='4.5'>
 			{postContent()}
+			{postDeletionProcess.isError && displayErrorMessage()}
+			{postDeletionProcess.isSuccess && blogDeletedSuccessfully()}
 		</VStack>
 	);
 };
