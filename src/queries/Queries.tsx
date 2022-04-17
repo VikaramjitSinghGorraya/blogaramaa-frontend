@@ -29,7 +29,7 @@ export const getPostBySearchTerm = async (term) => {
 	const postRetrieved = await axios.get(
 		`http://localhost:4000/post/find/${term}`
 	);
-	return postRetrieved;
+	return postRetrieved.data;
 };
 
 export const getPostsByUserId = async () => {
