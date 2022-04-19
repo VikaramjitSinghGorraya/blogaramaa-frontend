@@ -206,6 +206,15 @@ export const updateUser = async (userData) => {
 	return userUpdated.data;
 };
 
+export const contactUser = async (message) => {
+	const contactUser = await axios.post(
+		`http://localhost:4000/user/userContact`,
+		message,
+		{ withCredentials: true }
+	);
+	return contactUser;
+};
+
 export const useGetUserProfile = () => {
 	return useQuery([`user`], () => getUserProfile());
 };
@@ -220,4 +229,11 @@ export const useGetUserPhoto = (userId) => {
 
 export const useUpdateUser = () => {
 	return useMutation([`user`], (userData: FormData) => updateUser(userData));
+};
+
+export const useContactUser = () => {
+	return useMutation(
+		[`contactUser`],
+		(message: { text: string; userEmail: string }) => contactUser(message)
+	);
 };
