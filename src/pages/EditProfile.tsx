@@ -126,7 +126,9 @@ const EditProfile = () => {
 				p='14px'
 			>
 				<Image className='iconColor' src={key} />
-				<Link variant='blueLink'>RESET PASSWORD</Link>
+				<Link variant='blueLink' href='/forgotPassword'>
+					RESET PASSWORD
+				</Link>
 			</HStack>
 		);
 	};

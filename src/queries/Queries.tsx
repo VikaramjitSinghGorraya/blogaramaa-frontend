@@ -158,6 +158,24 @@ export const isLoggedIn = async () => {
 	return userSignedInd;
 };
 
+export const forgotPassword = async (email) => {
+	console.log(email);
+	const userSignedInd = await axios.post(
+		`http://localhost:4000/auth/forgotPassword/${email}`,
+		email,
+		{ withCredentials: true }
+	);
+	return userSignedInd;
+};
+
+export const resetPassword = async (tokenInfo) => {
+	const passwordRested = await axios.post(
+		`http://localhost:4000/auth/signup`,
+		tokenInfo
+	);
+	return passwordRested.data;
+};
+
 export const usePreSignup = () => {
 	return useMutation(['preSignup'], (userData: UserInfo) =>
 		preSignup(userData)
@@ -179,6 +197,17 @@ export const useIsLoggedIn = () => {
 		cacheTime: 0,
 	});
 };
+
+export const useForgotPassword = () => {
+	return useMutation(['isLoggedIn'], (email: string) => forgotPassword(email));
+};
+
+export const useResetPassword = () => {
+	return useMutation(['resetPassword'], (tokenInfo: SignupInfo) =>
+		resetPassword(tokenInfo)
+	);
+};
+
 //----------------------------------USER QUERIES-------------------------------
 
 export const getUserProfile = async () => {
