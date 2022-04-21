@@ -3,6 +3,7 @@ import { userInfo } from 'os';
 import { useQuery, useMutation } from 'react-query';
 import { UserInfo } from '../types/User';
 import { SignupInfo } from '../types/Signup';
+import { ResetPasswordInfo } from '../types/ResetPassword';
 
 //------------------------POST RELATED QUERIES------------------------------------
 
@@ -168,10 +169,10 @@ export const forgotPassword = async (email) => {
 	return userSignedInd;
 };
 
-export const resetPassword = async (tokenInfo) => {
+export const resetPassword = async (resetPasswordInfo) => {
 	const passwordRested = await axios.post(
-		`http://localhost:4000/auth/signup`,
-		tokenInfo
+		`http://localhost:4000/auth/resetPassword`,
+		resetPasswordInfo
 	);
 	return passwordRested.data;
 };
@@ -203,8 +204,9 @@ export const useForgotPassword = () => {
 };
 
 export const useResetPassword = () => {
-	return useMutation(['resetPassword'], (tokenInfo: SignupInfo) =>
-		resetPassword(tokenInfo)
+	return useMutation(
+		['resetPassword'],
+		(resetPasswordInfo: ResetPasswordInfo) => resetPassword(resetPasswordInfo)
 	);
 };
 
