@@ -180,7 +180,7 @@ const Navbar = () => {
 						src={about}
 						className={location.pathname === '/about' ? 'iconColor' : ''}
 					/>
-					<Link>About</Link>
+					<Link href='/Post/about-blogaramaa'>About</Link>
 				</HStack>
 			</VStack>
 		);
