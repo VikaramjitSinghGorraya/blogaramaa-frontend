@@ -103,15 +103,15 @@ const Profile = () => {
 		return (
 			<HStack w='100%' alignItems='flex-end' justifyContent='space-between'>
 				<VStack w='55%' h='100%'>
-					<HStack w='100%'>
+					<HStack w='100%' spacing={1}>
 						<Image src={contact} className='mutedIconColor' />
 						<Text as='p' color='brand.mutedTextLight'>
 							{userData.user.email}
 						</Text>
 					</HStack>
-					<HStack w='100%'>
+					<HStack w='100%' spacing={1}>
 						<Image src={calendar} className='mutedIconColor' />
-						<Text as='p' color='brand.mutedTextLight'>
+						<Text as='p' color='brand.mutedTextLight' w='100%'>
 							joined {Moment(userData.user.createdAt).from(Date.now())}
 						</Text>
 					</HStack>
@@ -134,7 +134,7 @@ const Profile = () => {
 		return (
 			<VStack w='100%' h='fit-content'>
 				<Banner
-					heading='Vikaramjit Singh'
+					heading={userData.user.name}
 					icon={photoData ? photoData : placeholderCircle}
 				/>
 				{aboutSection()}
