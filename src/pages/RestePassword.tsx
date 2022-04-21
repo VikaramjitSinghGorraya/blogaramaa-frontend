@@ -1,5 +1,5 @@
-import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate, Navigate } from 'react-router-dom';
 import { HStack, VStack, Button, Image } from '@chakra-ui/react';
 import Banner from '../components/Banner';
 import { useResetPassword, useIsLoggedIn } from '../queries/Queries';
@@ -7,16 +7,23 @@ import AccountActivationCard from '../components/AccountActivationCard';
 import InputField from '../components/InputField';
 import resetPassword from '../icons/resetPassword.svg';
 import go from '../icons/go.svg';
-import CheckIcon from '../icons/check.svg';
 import AlertIcon from '../icons/alert.svg';
 import Thumbsup from '../icons/thumbs-up.svg';
 
 const ForgotPassword = () => {
 	const { token } = useParams();
-	const navigate = useNavigate();
 	const resetPasswordProcess = useResetPassword();
 	const { status: loggedInStatus, isLoading: checkingIfUserIsLoggedIn } =
 		useIsLoggedIn();
+	const [resetPasswordData, setPasswordData] = useState({
+		newPassword: '',
+		confirmPassword: '',
+		token: token,
+	});
+
+	const inputChangeHandler = (e) => {
+		setPasswordData({ ...resetPasswordData, [e.target.name]: e.target.value });
+	};
 
 	const handlePasswordReset = () => {
 		if (resetPasswordProcess.isSuccess) {
@@ -33,17 +40,14 @@ const ForgotPassword = () => {
 			window.location.href = '/signup';
 		}
 
-		const tokenInfo = {
-			token: token || '',
-		};
-		resetPasswordProcess.mutate(tokenInfo);
+		resetPasswordProcess.mutate(resetPasswordData);
 	};
 
 	const SuccessMessage = () => {
 		return (
 			<AccountActivationCard
 				heading=''
-				body='You have done it. Please go ahead and signin.'
+				body={resetPasswordProcess.data}
 				imageSrc={Thumbsup}
 				buttonText='PROFILE'
 				error={true}
@@ -56,7 +60,7 @@ const ForgotPassword = () => {
 		return (
 			<AccountActivationCard
 				heading=''
-				body='Activation link expired. Please signup again.'
+				body={resetPasswordProcess.error}
 				imageSrc={AlertIcon}
 				buttonText='OKAY'
 				error={true}
@@ -71,11 +75,13 @@ const ForgotPassword = () => {
 				<InputField
 					type='password'
 					name='newPassword'
+					onChange={inputChangeHandler}
 					placeholder='New Password'
 				/>
 				<InputField
 					type='password'
 					name='confirmPassword'
+					onChange={inputChangeHandler}
 					placeholder='Confrim Password'
 				/>
 				<HStack w='100%' justifyContent='flex-end'>
@@ -90,7 +96,7 @@ const ForgotPassword = () => {
 			</VStack>
 		);
 	};
-	return (
+	return loggedInStatus === 'success' ? (
 		<VStack
 			w='100%'
 			h='100%'
@@ -101,9 +107,11 @@ const ForgotPassword = () => {
 			{!resetPasswordProcess.isError &&
 				!resetPasswordProcess.isSuccess &&
 				welcomeScreen()}
-			{resetPasswordProcess.isError && ErrorMessage()}
+			{resetPasswordProcess.error && ErrorMessage()}
 			{resetPasswordProcess.isSuccess && SuccessMessage()}
 		</VStack>
+	) : (
+		<>{(window.location.href = '/signin')}</>
 	);
 };
 
