@@ -25,7 +25,13 @@ const AccountActivationCard = ({
 				color='brand.mutedTextLight'
 			>
 				{error ? <Image src={imageSrc} /> : <Text>{heading}</Text>}
-				<Text>{body}</Text>
+				<Text>
+					{body?.response
+						? body.response.data.error
+						: body.message
+						? body?.message
+						: body}
+				</Text>
 				<Button variant='long' isLoading={isLoading} onClick={onClick}>
 					{error ? '' : <Image className='iconColor' src={imageSrc} />}
 					{buttonText}
