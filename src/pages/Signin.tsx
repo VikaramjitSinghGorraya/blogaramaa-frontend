@@ -7,6 +7,8 @@ import {
 	Button,
 	Image,
 	Heading,
+	Checkbox,
+	Tooltip,
 } from '@chakra-ui/react';
 import { Navigate } from 'react-router-dom';
 import MessageBox from '../components/MessageBox';
@@ -20,13 +22,22 @@ const Signin = () => {
 		password: '',
 		inputCleared: false,
 	});
+
+	const [agreedToTerms, setAgreedToTerms] = useState(false);
+
 	const signinProcess = useSignin();
 	const { status: loggedInStatus } = useIsLoggedIn();
 
 	const inputChangeHandler = (e) => {
 		setUserData({ ...userData, [e.target.name]: e.target.value });
 	};
-
+	const termsAndConditionHandler = (e) => {
+		if (!agreedToTerms) {
+			setAgreedToTerms(true);
+			return;
+		}
+		setAgreedToTerms(false);
+	};
 	const submitHandler = (e) => {
 		e.preventDefault();
 		setUserData({ ...userData, inputCleared: false });
@@ -47,56 +58,85 @@ const Signin = () => {
 	return loggedInStatus === 'success' ? (
 		<Navigate to='/' />
 	) : (
-		<VStack w={['100%', '50%']} spacing={25} m='auto'>
-			<Heading as='h2' color='brand.primaryBlue'>
-				Welcome Back!
-			</Heading>
-			<form style={{ width: '100%' }} onSubmit={submitHandler}>
-				<VStack w='100%' h='100%' justifyContent='space-around'>
-					<InputField
-						name='email'
-						type='email'
-						placeholder='Email'
-						value={userData.email}
-						onChange={inputChangeHandler}
-					/>
-					<InputField
-						name='password'
-						type='password'
-						placeholder='Password'
-						value={userData.password}
-						onChange={inputChangeHandler}
-					/>
-					<Link
-						href='/forgotPassword'
-						variant='blueLink'
-						alignSelf='flex-start'
-					>
-						FORGOT PASSWORD
-					</Link>
-				</VStack>
-				<HStack w='100%' justifyContent='space-between'>
-					<VStack alignItems='flex-start'>
-						<Text as='small' color='brand.mutedText'>
-							Yet to join?
-						</Text>
-						<Link href='/signup' variant='blueLink'>
-							SIGN UP
+		<VStack my='auto' w='100%' justifyContent='center'>
+			<VStack w={['100%', '50%']} h='fit-content'>
+				<Heading as='h2' color='brand.primaryBlue'>
+					Welcome Back!
+				</Heading>
+				<form style={{ width: '100%' }} onSubmit={submitHandler}>
+					<VStack w='100%' h='100%' justifyContent='space-around'>
+						<Tooltip
+							label='Please read and agree with terms and conditions.'
+							shouldWrapChildren
+							hasArrow
+							isDisabled={agreedToTerms}
+							bg='red.500'
+						>
+							<InputField
+								name='email'
+								type='email'
+								placeholder='Email'
+								value={userData.email}
+								onChange={inputChangeHandler}
+								disabled={agreedToTerms ? false : true}
+							/>
+						</Tooltip>
+						<Tooltip
+							label='Please read and agree with terms and conditions.'
+							shouldWrapChildren
+							hasArrow
+							isDisabled={agreedToTerms}
+							bg='red.500'
+						>
+							<InputField
+								name='password'
+								type='password'
+								placeholder='Password'
+								value={userData.password}
+								onChange={inputChangeHandler}
+								disabled={agreedToTerms ? false : true}
+							/>
+						</Tooltip>
+						<HStack w='100%' justifyContent='center'>
+							<Checkbox onChange={termsAndConditionHandler} />
+							<Text as='p'>
+								I have read & agree with the{' '}
+								<Link color='brand.primaryBlue'>TERMS & CONDITIONS</Link>
+							</Text>
+						</HStack>
+						<Link
+							href='/forgotPassword'
+							variant='blueLink'
+							alignSelf='flex-start'
+						>
+							FORGOT PASSWORD
 						</Link>
 					</VStack>
-					<Button
-						variant='round'
-						type='submit'
-						isLoading={signinProcess.isLoading ? true : false}
-					>
-						<Image src={go} />
-					</Button>
-				</HStack>
-			</form>
-			{signinProcess.isSuccess && window.location.reload()}
-			{signinProcess.isError &&
-				!signinProcess.isLoading &&
-				displayErrorMessage()}
+
+					<HStack w='100%' justifyContent='space-between'>
+						<VStack alignItems='flex-start'>
+							<Text as='small' color='brand.mutedText'>
+								Yet to join?
+							</Text>
+							<Link href='/signup' variant='blueLink'>
+								SIGN UP
+							</Link>
+						</VStack>
+						<Button
+							variant='round'
+							type='submit'
+							isLoading={signinProcess.isLoading ? true : false}
+							isDisabled={!agreedToTerms}
+						>
+							<Image src={go} />
+						</Button>
+					</HStack>
+				</form>
+				{signinProcess.isSuccess && window.location.reload()}
+				{signinProcess.isError &&
+					!signinProcess.isLoading &&
+					displayErrorMessage()}
+			</VStack>
 		</VStack>
 	);
 };
