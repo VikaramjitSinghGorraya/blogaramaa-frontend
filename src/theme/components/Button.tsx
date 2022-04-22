@@ -5,6 +5,14 @@ const buttonTheme = {
 			boxShadow: 'none',
 			outline: 'none',
 		},
+		_hover: {
+			_disabled: {
+				bg: 'secondary.600',
+			},
+			_loading: {
+				bg: 'secondary.600',
+			},
+		},
 	},
 	variants: {
 		base: {
