@@ -6,10 +6,12 @@ const InputField = ({
 	name,
 	value,
 	placeholder,
+	disabled,
 	onChange,
+	onClick,
 }: InputInfo) => {
 	return (
-		<FormControl>
+		<FormControl minW='100%'>
 			<Input
 				type={type}
 				name={name}
@@ -18,6 +20,9 @@ const InputField = ({
 				onChange={onChange}
 				size='lg'
 				required
+				isDisabled={disabled}
+				onClick={onClick}
+				minW='100%'
 			/>
 			<FormErrorMessage></FormErrorMessage>
 		</FormControl>
