@@ -14,6 +14,7 @@ import Post from './pages/Post';
 import Contact from './pages/Contact';
 import AccountActivation from './pages/AccountActivation';
 import EditBlog from './pages/EditBlog';
+import OtherUserProfile from './pages/OtherUserProfile';
 
 function App() {
 	return (
@@ -31,6 +32,7 @@ function App() {
 					<Route path='/Search' element={<Search />} />
 					<Route path='/EditProfile' element={<EditProfile />} />
 					<Route path='/Profile' element={<Profile />} />
+					<Route path='/Profile/:authorId' element={<OtherUserProfile />} />
 					<Route path='/Post/:slug' element={<Post />} />
 					<Route path='/Contact' element={<Contact />} />
 					<Route
