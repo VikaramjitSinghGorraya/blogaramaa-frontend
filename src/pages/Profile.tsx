@@ -134,7 +134,7 @@ const Profile = () => {
 		return (
 			<VStack w='100%' h='fit-content'>
 				<Banner
-					heading={userData.user.name}
+					heading={userData?.user.name}
 					icon={photoData ? photoData : placeholderCircle}
 				/>
 				{aboutSection()}
