@@ -139,7 +139,17 @@ const Post = () => {
 						</Heading>
 						<HStack w='100%'>
 							<Image h='2rem' w='2rem' src={placeholderCircle} />
-							<Link variant='grayLink'>{postData?.data.postedBy.name}</Link>
+							<Link
+								href={
+									loggedInStatus === 'success' &&
+									loggedInData?.data.userId === postData?.data.postedBy._id
+										? '/profile'
+										: `/profile/${postData?.data.postedBy._id}`
+								}
+								variant='grayLink'
+							>
+								{postData?.data.postedBy.name}
+							</Link>
 						</HStack>
 						<Stack
 							direction={['column', 'column', 'column', 'row']}
@@ -162,7 +172,7 @@ const Post = () => {
 					</VStack>
 					{isLargerThan768 ? (
 						authorInfoAndOptions()
-					) : loggedInStatus === 'success' ? (
+					) : (
 						<PopoverItem
 							passedInput={authorInfoAndOptions()}
 							left='-5.3rem'
@@ -173,7 +183,7 @@ const Post = () => {
 							}
 							width='7rem'
 						/>
-					) : null}
+					)}
 				</HStack>
 			</VStack>
 		);
@@ -195,6 +205,7 @@ const Post = () => {
 					toClose={setShowDelete}
 					deleteHandler={deleteHandler}
 					postId={postData?.data._id}
+					header={'Are you sure you want to delete this blog ?'}
 				/>
 			</Box>
 		);
