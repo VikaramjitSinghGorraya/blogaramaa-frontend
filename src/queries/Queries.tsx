@@ -41,6 +41,14 @@ export const getPostsByUserId = async () => {
 	return postRetrieved;
 };
 
+export const getPostsByOtherUserId = async (authorId) => {
+	const postRetrieved = await axios.get(
+		`http://localhost:4000/post/postsByOtherUser/${authorId}`,
+		{ withCredentials: true }
+	);
+	return postRetrieved;
+};
+
 export const createNewPost = async (postBody) => {
 	const postRetrieved = await axios.post(
 		`http://localhost:4000/post/createPost`,
@@ -79,6 +87,14 @@ export const useGetPostBySlug = (slug) => {
 
 export const useGetPostsByUserId = () => {
 	return useQuery([`postByUser`], () => getPostsByUserId());
+};
+
+export const useGetPostsByOtherUserId = (authorId) => {
+	return useQuery(
+		[`postByUser-${authorId}`],
+		() => getPostsByOtherUserId(authorId),
+		{ enabled: !!authorId }
+	);
 };
 
 export const useGetPostBySearchTerm = (term) => {
@@ -151,6 +167,13 @@ export const signin = async (userData) => {
 	return userSignedInd;
 };
 
+export const signout = async () => {
+	const userSignedOut = await axios.get(`http://localhost:4000/auth/signout`, {
+		withCredentials: true,
+	});
+	return userSignedOut;
+};
+
 export const isLoggedIn = async () => {
 	const userSignedInd = await axios.get(
 		`http://localhost:4000/auth/isLoggedIn`,
@@ -191,6 +214,10 @@ export const useSignin = () => {
 	return useMutation(['signin'], (userData: UserInfo) => signin(userData));
 };
 
+export const useSigninout = () => {
+	return useMutation(['signinout'], () => signout());
+};
+
 export const useIsLoggedIn = () => {
 	return useQuery(['isLoggedIn'], () => isLoggedIn(), {
 		retry: 0,
@@ -220,7 +247,16 @@ export const getUserProfile = async () => {
 	return userRegistered.data;
 };
 
+export const getOtherUserProfile = async (authorId) => {
+	const userRegistered = await axios.get(
+		`http://localhost:4000/user/getOthersProfile/${authorId}`,
+		{ withCredentials: true }
+	);
+	return userRegistered.data;
+};
+
 export const getUserPhoto = async (userId) => {
+	console.log('Getting photo', userId);
 	const photo = await axios.get(
 		`http://localhost:4000/user/getPhoto/${userId}`,
 		{ withCredentials: true }
@@ -250,8 +286,14 @@ export const useGetUserProfile = () => {
 	return useQuery([`user`], () => getUserProfile());
 };
 
+export const useGetOtherUserProfile = (authorId) => {
+	return useQuery([`user-${authorId}`], () => getOtherUserProfile(authorId), {
+		enabled: !!authorId,
+	});
+};
+
 export const useGetUserPhoto = (userId) => {
-	return useQuery([`user-${userId}`], () => getUserPhoto(userId), {
+	return useQuery([`userPhoto-${userId}`], () => getUserPhoto(userId), {
 		enabled: !!userId,
 		retry: false,
 		refetchOnWindowFocus: false,
