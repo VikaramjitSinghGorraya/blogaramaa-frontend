@@ -88,7 +88,11 @@ const ForgotPassword = () => {
 									SIGN IN
 								</Link>
 							</VStack>
-							<Button variant='round' type='submit'>
+							<Button
+								variant='round'
+								type='submit'
+								isLoading={forgotPasswordProcess.isLoading ? true : false}
+							>
 								<Image src={go} />
 							</Button>
 						</HStack>
