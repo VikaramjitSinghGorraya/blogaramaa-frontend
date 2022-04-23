@@ -78,6 +78,7 @@ const Search = () => {
 						cardWidth='90%'
 						title={post.title}
 						author={post.postedBy.name}
+						authorId={post.postedBy._id}
 						category={post.postCategory.title}
 						body={post.body}
 						postId={post._id}
