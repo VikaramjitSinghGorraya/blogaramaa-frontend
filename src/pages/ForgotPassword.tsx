@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { HStack, VStack, Text, Link, Button, Image } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 import { Navigate } from 'react-router-dom';
 import {
 	useGetUserProfile,
 	useIsLoggedIn,
 	useForgotPassword,
 } from '../queries/Queries';
+import { pageDisplayAnimation } from '../components/Animations';
 import Loader from '../components/Loader';
 import Banner from '../components/Banner';
 import InputField from '../components/InputField';
@@ -13,6 +15,7 @@ import MessageBox from '../components/MessageBox';
 import forgotPassword from '../icons/forgotPassword.svg';
 import go from '../icons/go.svg';
 
+const MotionVStack = motion(VStack);
 const ForgotPassword = () => {
 	const { isLoading: checkingIfUserIsLoggedIn, status: loggedInStatus } =
 		useIsLoggedIn();
@@ -104,7 +107,8 @@ const ForgotPassword = () => {
 	return checkingIfUserIsLoggedIn ? (
 		<Loader />
 	) : (
-		<VStack
+		<MotionVStack
+			{...pageDisplayAnimation}
 			w='100%'
 			h='100%'
 			justifyContent={['flex-start', 'center']}
@@ -113,7 +117,7 @@ const ForgotPassword = () => {
 			{forgotPasswordPageContent()}
 			{forgotPasswordProcess.isError && displayErrorMessage()}
 			{forgotPasswordProcess.isSuccess && displaySuccessMessage()}
-		</VStack>
+		</MotionVStack>
 	);
 };
 

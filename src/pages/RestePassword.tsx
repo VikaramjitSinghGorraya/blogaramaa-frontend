@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Navigate } from 'react-router-dom';
 import { HStack, VStack, Button, Image } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 import Banner from '../components/Banner';
 import { useResetPassword, useIsLoggedIn } from '../queries/Queries';
 import AccountActivationCard from '../components/AccountActivationCard';
@@ -9,7 +10,9 @@ import resetPassword from '../icons/resetPassword.svg';
 import go from '../icons/go.svg';
 import AlertIcon from '../icons/alert.svg';
 import Thumbsup from '../icons/thumbs-up.svg';
+import { pageDisplayAnimation } from '../components/Animations';
 
+const MotionVStack = motion(VStack);
 const ForgotPassword = () => {
 	const { token } = useParams();
 	const resetPasswordProcess = useResetPassword();
@@ -97,7 +100,8 @@ const ForgotPassword = () => {
 		);
 	};
 	return (
-		<VStack
+		<MotionVStack
+			{...pageDisplayAnimation}
 			w='100%'
 			h='100%'
 			justifyContent={['flex-start', 'center']}
@@ -109,7 +113,7 @@ const ForgotPassword = () => {
 				welcomeScreen()}
 			{resetPasswordProcess.error && ErrorMessage()}
 			{resetPasswordProcess.isSuccess && SuccessMessage()}
-		</VStack>
+		</MotionVStack>
 	);
 };
 
