@@ -1,7 +1,7 @@
 export type AccountActivationInfo = {
 	error?: Boolean;
 	heading: string;
-	body?: string;
+	body?: unknown | any;
 	buttonText: string;
 	imageSrc: string;
 	isLoading?: boolean;
