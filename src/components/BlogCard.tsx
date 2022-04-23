@@ -46,7 +46,7 @@ const BlogCard = ({
 			<Image
 				h='110px'
 				w='100%'
-				src={getPhotoProcess.isLoading ? bannerImage : getPhotoProcess.data}
+				src={getPhotoProcess.data ? getPhotoProcess.data : bannerImage}
 				objectFit='cover'
 			/>
 			<Box
@@ -67,7 +67,7 @@ const BlogCard = ({
 				<Heading as='h3' color='brand.mutedText'>
 					{title}
 				</Heading>
-				<HStack w='100%'>
+				<HStack w='100%' flexWrap='wrap'>
 					<Image h='2rem' w='2rem' src={placeholderCircle} />
 					<Link variant='grayLink'>{author}</Link>
 					<Text as='p' color='brand.mutedTextLight'>
@@ -86,8 +86,8 @@ const BlogCard = ({
 				</Box>
 				<Box
 					bg='linear-gradient(0deg, #fafafa 0%, rgba(250, 250, 250, 0.96) 25%, rgba(250, 250, 250, 0.92) 37%, rgba(250, 250, 250, 0.86) 54%, rgba(250, 250, 250, 0.53) 100%);'
-					h='90px'
-					bottom='40px'
+					h={['120px', '120px', '120px', '120px']}
+					bottom='30px'
 					position='absolute'
 					left='0'
 					right='0'
