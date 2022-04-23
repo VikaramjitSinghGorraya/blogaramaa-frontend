@@ -23,6 +23,7 @@ const BlogCard = ({
 	cardWidth,
 	title,
 	author,
+	authorId,
 	posted,
 	category,
 	body,
@@ -69,7 +70,9 @@ const BlogCard = ({
 				</Heading>
 				<HStack w='100%' flexWrap='wrap'>
 					<Image h='2rem' w='2rem' src={placeholderCircle} />
-					<Link variant='grayLink'>{author}</Link>
+					<Link href={`/profile/${authorId}`} variant='grayLink'>
+						{author}
+					</Link>
 					<Text as='p' color='brand.mutedTextLight'>
 						{Moment(posted).from(Date.now())}
 					</Text>
