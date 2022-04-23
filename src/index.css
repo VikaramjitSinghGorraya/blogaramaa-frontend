@@ -1,5 +1,15 @@
 span {
 	color: rgb(52, 116, 253);
+	width: 100%;
+}
+
+blockquote {
+	margin: 0;
+	border-left: 4px solid #ccc;
+	padding: 2px 2px 2px 16px;
+	font-weight: 600;
+	color: rgba(0, 0, 0, 0.6);
+	background-color: rgba(0, 0, 0, 0.02);
 }
 
 .logo {
