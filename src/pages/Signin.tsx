@@ -66,11 +66,13 @@ const Signin = () => {
 				<form style={{ width: '100%' }} onSubmit={submitHandler}>
 					<VStack w='100%' h='100%' justifyContent='space-around'>
 						<Tooltip
-							label='Please read and agree with terms and conditions.'
+							label='Please read and agree with terms / conditions.'
 							shouldWrapChildren
 							hasArrow
 							isDisabled={agreedToTerms}
 							bg='red.500'
+							p='2'
+							borderRadius={5}
 						>
 							<InputField
 								name='email'
@@ -82,11 +84,14 @@ const Signin = () => {
 							/>
 						</Tooltip>
 						<Tooltip
-							label='Please read and agree with terms and conditions.'
+							label='Please read and agree with terms / conditions.'
 							shouldWrapChildren
 							hasArrow
 							isDisabled={agreedToTerms}
 							bg='red.500'
+							arrowPadding={20}
+							p='2'
+							borderRadius={5}
 						>
 							<InputField
 								name='password'
@@ -101,7 +106,13 @@ const Signin = () => {
 							<Checkbox onChange={termsAndConditionHandler} />
 							<Text as='p'>
 								I have read & agree with the{' '}
-								<Link color='brand.primaryBlue'>TERMS & CONDITIONS</Link>
+								<Link
+									href='/post/terms-and-conditions'
+									isExternal
+									color='brand.primaryBlue'
+								>
+									TERMS & CONDITIONS
+								</Link>
 							</Text>
 						</HStack>
 						<Link
