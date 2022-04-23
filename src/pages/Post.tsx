@@ -78,22 +78,28 @@ const Post = () => {
 				justifyContent='flex-end'
 			>
 				<Share showText={true} />
-				<Button
-					variant='base'
-					color='brand.mutedText'
-					onClick={() => (window.location.href = `/EditBlog/${slug}`)}
-				>
-					<Image src={edit} className='mutedIconColor' />
-					Edit
-				</Button>
-				<Button
-					variant='base'
-					color='brand.mutedText'
-					onClick={() => setShowDelete(true)}
-				>
-					<Image src={deletePost} className='mutedIconColor' />
-					Delete
-				</Button>
+
+				{loggedInStatus === 'success' &&
+					loggedInData?.data.userId === postData?.data.postedBy._id && (
+						<>
+							<Button
+								variant='base'
+								color='brand.mutedText'
+								onClick={() => (window.location.href = `/EditBlog/${slug}`)}
+							>
+								<Image src={edit} className='mutedIconColor' />
+								Edit
+							</Button>
+							<Button
+								variant='base'
+								color='brand.mutedText'
+								onClick={() => setShowDelete(true)}
+							>
+								<Image src={deletePost} className='mutedIconColor' />
+								Delete
+							</Button>
+						</>
+					)}
 			</Stack>
 		);
 	};
@@ -138,7 +144,7 @@ const Post = () => {
 						<Stack
 							direction={['column', 'column', 'column', 'row']}
 							justifyContent='flex-start'
-							w={['100%', '40%']}
+							w={['100%', '50%']}
 						>
 							<HStack w='fit-content'>
 								<Image h='1.2rem' w='1.2rem' src={box} />
@@ -154,14 +160,17 @@ const Post = () => {
 							</HStack>
 						</Stack>
 					</VStack>
-					{isLargerThan768 && loggedInStatus === 'success' ? (
+					{isLargerThan768 ? (
 						authorInfoAndOptions()
-					) : loggedInStatus === 'success' &&
-					  loggedInData?.data.userId === postData?.data.postedBy._id ? (
+					) : loggedInStatus === 'success' ? (
 						<PopoverItem
 							passedInput={authorInfoAndOptions()}
 							left='-5.3rem'
-							top='-7rem'
+							top={
+								loggedInData?.data.userId !== postData?.data.postedBy._id
+									? '-3rem'
+									: '-7rem'
+							}
 							width='7rem'
 						/>
 					) : null}
@@ -172,8 +181,8 @@ const Post = () => {
 
 	const postBody = () => {
 		return (
-			<Box w='100%'>
-				<Text as='p'>{parser(postData?.data.body)}</Text>
+			<Box w='100%' pb='150px' textAlign='justify'>
+				{parser(postData?.data.body)}
 			</Box>
 		);
 	};
