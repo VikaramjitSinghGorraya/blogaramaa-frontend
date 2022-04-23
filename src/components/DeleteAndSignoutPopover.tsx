@@ -12,8 +12,14 @@ import {
 	Image,
 	Box,
 } from '@chakra-ui/react';
-import DeletePopover from '../icons/deletePostModal.svg';
-const DeletePostPopover = ({ toOpen, toClose, deleteHandler, postId }) => {
+import PopoverImage from '../icons/deletePostModal.svg';
+const DeleteAndSignoutPopover = ({
+	toOpen,
+	toClose,
+	deleteHandler,
+	postId,
+	header,
+}) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	return (
@@ -21,10 +27,10 @@ const DeletePostPopover = ({ toOpen, toClose, deleteHandler, postId }) => {
 			<Modal isOpen={toOpen} onClose={onClose}>
 				<ModalOverlay />
 				<ModalContent>
-					<ModalHeader>Are you sure you want to delete this blog ?</ModalHeader>
+					<ModalHeader>{header}</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody>
-						<Image src={DeletePopover} />
+						<Image src={PopoverImage} />
 					</ModalBody>
 
 					<ModalFooter>
@@ -41,4 +47,4 @@ const DeletePostPopover = ({ toOpen, toClose, deleteHandler, postId }) => {
 	);
 };
 
-export default DeletePostPopover;
+export default DeleteAndSignoutPopover;

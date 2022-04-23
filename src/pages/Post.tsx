@@ -24,7 +24,7 @@ import {
 	useIsLoggedIn,
 	useDeletePost,
 } from '../queries/Queries';
-import DeletePostPopover from '../components/DeletePostPopover';
+import DeleteAndSignoutPopover from '../components/DeleteAndSignoutPopover';
 import MessageBox from '../components/MessageBox';
 import bannerImage from '../icons/bannerImage.png';
 import box from '../icons/box.svg';
@@ -200,7 +200,7 @@ const Post = () => {
 	const showDeleteOption = () => {
 		return (
 			<Box zIndex={99}>
-				<DeletePostPopover
+				<DeleteAndSignoutPopover
 					toOpen={showDelete}
 					toClose={setShowDelete}
 					deleteHandler={deleteHandler}

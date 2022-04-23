@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
 	Accordion,
 	AccordionItem,
@@ -25,16 +25,21 @@ import {
 	useGetPostsByUserId,
 	useIsLoggedIn,
 	useGetUserPhoto,
+	useSigninout,
 } from '../queries/Queries';
+import { Navigate } from 'react-router-dom';
+import PopoverItem from '../components/PopoverItem';
+import Overlay from '../components/Overlay';
+import DeleteAndSignoutPopover from '../components/DeleteAndSignoutPopover';
 import placeholderCircle from '../images/placeholderCircle.png';
 import user from '../icons/user.svg';
 import signout from '../icons/signout.svg';
 import calendar from '../icons/calendar.svg';
 import contact from '../icons/contact.svg';
 import setting from '../icons/settings.svg';
-import PopoverItem from '../components/PopoverItem';
-import { Navigate } from 'react-router-dom';
+
 const Profile = () => {
+	const [showSignout, setShowSignout] = useState(false);
 	const { status: loggedInStatus, isLoading: checkingIfUserIsLoggedIn } =
 		useIsLoggedIn();
 	const {
@@ -52,6 +57,12 @@ const Profile = () => {
 		isSuccess: potsSuccess,
 		data: postData,
 	} = useGetPostsByUserId();
+	const signoutProcess = useSigninout();
+
+	const SignoutHandler = () => {
+		setShowSignout(false);
+		signoutProcess.mutate();
+	};
 
 	const aboutSection = () => {
 		return (
@@ -89,7 +100,7 @@ const Profile = () => {
 
 	const signoutPopover = () => {
 		return (
-			<Button w='7rem' variant='base'>
+			<Button w='7rem' variant='base' onClick={() => setShowSignout(true)}>
 				<HStack>
 					<Image src={signout} className='mutedIconColor' />{' '}
 					<Text as='p' color='brand.mutedText'>
@@ -99,6 +110,26 @@ const Profile = () => {
 			</Button>
 		);
 	};
+	const showSignoutOption = () => {
+		return (
+			<Box zIndex={99}>
+				<DeleteAndSignoutPopover
+					toOpen={showSignout}
+					toClose={setShowSignout}
+					deleteHandler={SignoutHandler}
+					postId={postData?.data._id}
+					header={'Are you sure you want to signout ?'}
+				/>
+			</Box>
+		);
+	};
+
+	const userSignedoutSuccessfully = () => {
+		setTimeout(() => {
+			window.location.href = `/signin`;
+		}, 2000);
+	};
+
 	const displayUserInfoShareAndSignout = () => {
 		return (
 			<HStack w='100%' alignItems='flex-end' justifyContent='space-between'>
@@ -130,6 +161,14 @@ const Profile = () => {
 		);
 	};
 
+	const showOverlay = () => {
+		return (
+			<Box zIndex={1000}>
+				<Overlay />
+			</Box>
+		);
+	};
+
 	const profilePageContent = () => {
 		return (
 			<VStack w='100%' h='fit-content'>
@@ -139,6 +178,8 @@ const Profile = () => {
 				/>
 				{aboutSection()}
 				{displayUserInfoShareAndSignout()}
+				{showSignoutOption()}
+				{signoutProcess.isSuccess && showOverlay()}
 				<Grid
 					templateColumns={[
 						'repeat(auto-fit, minmax(300px, 1fr))',
@@ -152,6 +193,7 @@ const Profile = () => {
 							cardWidth='90%'
 							title={post.title}
 							author={post.postedBy.name}
+							authorId={post.postedBy._id}
 							category={post.postCategory.title}
 							body={post.body}
 							postId={post._id}
@@ -175,6 +217,7 @@ const Profile = () => {
 	) : (
 		<VStack w='100%' my='56px' py='5'>
 			{profilePageContent()}
+			{signoutProcess.isSuccess && userSignedoutSuccessfully()}
 		</VStack>
 	);
 };
