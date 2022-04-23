@@ -1,6 +1,10 @@
 import React from 'react';
 import { VStack, Text, Button, Image } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 import { AccountActivationInfo } from '../types/AccountActivation';
+import { pageDisplayAnimation } from './Animations';
+
+const MotionVStack = motion(VStack);
 const AccountActivationCard = ({
 	heading,
 	body,
@@ -11,7 +15,7 @@ const AccountActivationCard = ({
 	onClick,
 }: AccountActivationInfo) => {
 	return (
-		<VStack w='100%' my='56px' py='5'>
+		<MotionVStack {...pageDisplayAnimation} w='100%' my='56px' py='5'>
 			<VStack
 				textAlign='center'
 				flexWrap='wrap'
@@ -37,7 +41,7 @@ const AccountActivationCard = ({
 					{buttonText}
 				</Button>
 			</VStack>
-		</VStack>
+		</MotionVStack>
 	);
 };
 

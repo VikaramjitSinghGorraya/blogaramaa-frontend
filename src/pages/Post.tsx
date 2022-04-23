@@ -12,6 +12,7 @@ import {
 	Button,
 	Center,
 } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 import { useParams, useNavigate } from 'react-router-dom';
 import parser from 'html-react-parser';
 import Moment from 'moment';
@@ -33,6 +34,9 @@ import edit from '../icons/edit.svg';
 import deletePost from '../icons/deletePost.svg';
 import calendar from '../icons/calendar.svg';
 import Overlay from '../components/Overlay';
+import { pageDisplayAnimation } from '../components/Animations';
+
+const MotionVStack = motion(VStack);
 const Post = () => {
 	let { slug } = useParams();
 	const [isLargerThan768] = useMediaQuery('(min-width: 769px)');
@@ -233,11 +237,11 @@ const Post = () => {
 			<Loader />
 		</Center>
 	) : (
-		<VStack w='100%' py='4.5'>
+		<MotionVStack {...pageDisplayAnimation} w='100%' py='4.5'>
 			{postContent()}
 			{postDeletionProcess.isError && displayErrorMessage()}
 			{postDeletionProcess.isSuccess && blogDeletedSuccessfully()}
-		</VStack>
+		</MotionVStack>
 	);
 };
 

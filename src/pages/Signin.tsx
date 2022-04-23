@@ -10,12 +10,15 @@ import {
 	Checkbox,
 	Tooltip,
 } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 import { Navigate } from 'react-router-dom';
 import MessageBox from '../components/MessageBox';
 import { useSignin, useIsLoggedIn } from '../queries/Queries';
 import go from '../icons/go.svg';
 import InputField from '../components/InputField';
+import { pageDisplayAnimation } from '../components/Animations';
 
+const MotionVStack = motion(VStack);
 const Signin = () => {
 	const [userData, setUserData] = useState({
 		email: '',
@@ -58,7 +61,12 @@ const Signin = () => {
 	return loggedInStatus === 'success' ? (
 		<Navigate to='/' />
 	) : (
-		<VStack my='auto' w='100%' justifyContent='center'>
+		<MotionVStack
+			{...pageDisplayAnimation}
+			my='auto'
+			w='100%'
+			justifyContent='center'
+		>
 			<VStack w={['100%', '50%']} h='fit-content'>
 				<Heading as='h2' color='brand.primaryBlue'>
 					Welcome Back!
@@ -148,7 +156,7 @@ const Signin = () => {
 					!signinProcess.isLoading &&
 					displayErrorMessage()}
 			</VStack>
-		</VStack>
+		</MotionVStack>
 	);
 };
 

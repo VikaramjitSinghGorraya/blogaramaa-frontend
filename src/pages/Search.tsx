@@ -8,12 +8,16 @@ import {
 	Box,
 	Text,
 } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 import BlogCard from '../components/BlogCard';
 import { useGetPostBySearchTerm } from '../queries/Queries';
 import Banner from '../components/Banner';
 import search from '../icons/search.svg';
 import searchPage from '../icons/searchPage.svg';
 import nothingFound from '../icons/nothingFound.svg';
+import { pageDisplayAnimation } from '../components/Animations';
+
+const MotionVStack = motion(VStack);
 const Search = () => {
 	const [searchWord, setSearchWord] = useState('');
 	const getPotBySearchTermProcess = useGetPostBySearchTerm(searchWord);
@@ -49,7 +53,7 @@ const Search = () => {
 		);
 	};
 	return (
-		<VStack w='100%' my='57px'>
+		<MotionVStack {...pageDisplayAnimation} w='100%' my='57px'>
 			<Banner heading='Search' icon={searchPage} />
 			<form style={{ width: '100%' }} onSubmit={submitHandler}>
 				<HStack w='100%'>
@@ -89,7 +93,7 @@ const Search = () => {
 			{getPotBySearchTermProcess.isSuccess &&
 				getPotBySearchTermProcess.data.length === 0 &&
 				nothingToDisplay()}
-		</VStack>
+		</MotionVStack>
 	);
 };
 

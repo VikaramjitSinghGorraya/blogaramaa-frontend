@@ -12,6 +12,7 @@ import {
 	Button,
 	Box,
 } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 import { useParams, Navigate } from 'react-router-dom';
 import Moment from 'moment';
 import {
@@ -33,7 +34,9 @@ import key from '../icons/key.svg';
 import placeholderCircle from '../images/placeholderCircle.png';
 import removeImage from '../icons/remove.svg';
 import Overlay from '../components/Overlay';
+import { pageDisplayAnimation } from '../components/Animations';
 
+const MotionVStack = motion(VStack);
 const EditProfile = () => {
 	const { status: loggedInStatus, isLoading: checkingIfUserIsLoggedIn } =
 		useIsLoggedIn();
@@ -260,11 +263,11 @@ const EditProfile = () => {
 	) : userLoading || photoLoading ? (
 		<Loader />
 	) : (
-		<VStack w='100%' my='56px' py='5'>
+		<MotionVStack {...pageDisplayAnimation} w='100%' my='56px' py='5'>
 			{editProfilePageContent()}
 			{updateUser.isError && displayErrorMessage()}
 			{updateUser.isSuccess && profileUpdatedSuccessfully()}
-		</VStack>
+		</MotionVStack>
 	);
 };
 

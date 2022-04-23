@@ -9,8 +9,10 @@ import {
 	Box,
 	Heading,
 } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 import parser from 'html-react-parser';
 import Moment from 'moment';
+import { pageDisplayAnimation } from './Animations';
 import Share from './Share';
 import PopoverItem from './PopoverItem';
 import { useGetPostPhoto } from '../queries/Queries';
@@ -19,6 +21,7 @@ import bannerImage from '../icons/bannerImage.png';
 import box from '../icons/box.svg';
 import placeholderCircle from '../images/placeholderCircle.png';
 
+const MotionVStack = motion(VStack);
 const BlogCard = ({
 	cardWidth,
 	title,
@@ -31,8 +34,9 @@ const BlogCard = ({
 	slug,
 }: PostInfo) => {
 	const getPhotoProcess = useGetPostPhoto(postId);
-	return (
-		<VStack
+	return !getPhotoProcess.isSuccess ? null : (
+		<MotionVStack
+			{...pageDisplayAnimation}
 			minW={['100%', cardWidth]}
 			maxW={['100%', cardWidth]}
 			overflow='hidden'
@@ -107,7 +111,7 @@ const BlogCard = ({
 					<PopoverItem passedInput={<Share showText={true} />} />
 				</HStack>
 			</VStack>
-		</VStack>
+		</MotionVStack>
 	);
 };
 

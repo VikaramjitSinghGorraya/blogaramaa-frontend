@@ -8,6 +8,7 @@ import {
 	Textarea,
 	Divider,
 } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 import Banner from '../components/Banner';
 import Loader from '../components/Loader';
 import {
@@ -21,7 +22,9 @@ import send from '../icons/send.svg';
 import contact from '../icons/contact.svg';
 import user from '../icons/user.svg';
 import signin from '../icons/signin.svg';
+import { pageDisplayAnimation } from '../components/Animations';
 
+const MotionVStack = motion(VStack);
 const Contact = () => {
 	const {
 		isLoading: checkingIfUserIsLoggedIn,
@@ -152,14 +155,14 @@ const Contact = () => {
 			</VStack>
 		);
 	};
-	return loadingUserProfile || checkingIfUserIsLoggedIn ? (
+	return checkingIfUserIsLoggedIn ? (
 		<Loader />
 	) : (
-		<VStack w='100%' h='100%' my='56px' py='5'>
+		<MotionVStack {...pageDisplayAnimation} w='100%' h='100%' my='56px' py='5'>
 			{contactPageContent()}
 			{sendMessage.isError && displayErrorMessage()}
 			{sendMessage.isSuccess && displaySuccessMessage()}
-		</VStack>
+		</MotionVStack>
 	);
 };
 

@@ -15,6 +15,7 @@ import {
 	HStack,
 	Link,
 } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 import Moment from 'moment';
 import { useParams } from 'react-router-dom';
 import Loader from '../components/Loader';
@@ -35,6 +36,9 @@ import contact from '../icons/contact.svg';
 import setting from '../icons/settings.svg';
 import PopoverItem from '../components/PopoverItem';
 import { Navigate } from 'react-router-dom';
+import { pageDisplayAnimation } from '../components/Animations';
+
+const MotionVStack = motion(VStack);
 const OtherUserProfile = () => {
 	const { authorId } = useParams();
 	const {
@@ -151,9 +155,9 @@ const OtherUserProfile = () => {
 			<Loader />
 		</Center>
 	) : (
-		<VStack w='100%' my='56px' py='5'>
+		<MotionVStack {...pageDisplayAnimation} w='100%' my='56px' py='5'>
 			{profilePageContent()}
-		</VStack>
+		</MotionVStack>
 	);
 };
 

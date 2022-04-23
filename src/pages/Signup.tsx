@@ -8,12 +8,15 @@ import {
 	Image,
 	Heading,
 } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 import { Navigate } from 'react-router-dom';
 import InputField from '../components/InputField';
 import { usePreSignup, useIsLoggedIn } from '../queries/Queries';
 import MessageBox from '../components/MessageBox';
 import go from '../icons/go.svg';
+import { pageDisplayAnimation } from '../components/Animations';
 
+const MotionVStack = motion(VStack);
 const Signup = () => {
 	const { status: loggedInStatus } = useIsLoggedIn();
 
@@ -71,7 +74,12 @@ const Signup = () => {
 	return loggedInStatus === 'success' ? (
 		<Navigate to='/' />
 	) : (
-		<VStack w={['100%', '50%']} spacing={25} m='auto'>
+		<MotionVStack
+			{...pageDisplayAnimation}
+			w={['100%', '50%']}
+			spacing={25}
+			m='auto'
+		>
 			<Heading as='h2' color='brand.primaryBlue'>
 				Welcome Aboard!
 			</Heading>
@@ -131,7 +139,7 @@ const Signup = () => {
 			{preSignupProcess.isError &&
 				!preSignupProcess.isLoading &&
 				displayErrorMessage()}
-		</VStack>
+		</MotionVStack>
 	);
 };
 

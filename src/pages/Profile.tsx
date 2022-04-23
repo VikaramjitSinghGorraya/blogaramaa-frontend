@@ -15,6 +15,7 @@ import {
 	HStack,
 	Link,
 } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 import Moment from 'moment';
 import Loader from '../components/Loader';
 import Banner from '../components/Banner';
@@ -37,7 +38,9 @@ import signout from '../icons/signout.svg';
 import calendar from '../icons/calendar.svg';
 import contact from '../icons/contact.svg';
 import setting from '../icons/settings.svg';
+import { pageDisplayAnimation } from '../components/Animations';
 
+const MotionVStack = motion(VStack);
 const Profile = () => {
 	const [showSignout, setShowSignout] = useState(false);
 	const { status: loggedInStatus, isLoading: checkingIfUserIsLoggedIn } =
@@ -215,10 +218,10 @@ const Profile = () => {
 	) : loggedInStatus === 'error' ? (
 		<Navigate to='/signin' />
 	) : (
-		<VStack w='100%' my='56px' py='5'>
+		<MotionVStack {...pageDisplayAnimation} w='100%' my='56px' py='5'>
 			{profilePageContent()}
 			{signoutProcess.isSuccess && userSignedoutSuccessfully()}
-		</VStack>
+		</MotionVStack>
 	);
 };
 

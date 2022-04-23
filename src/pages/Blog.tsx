@@ -16,6 +16,8 @@ import {
 	useIsLoggedIn,
 	useCreatePost,
 } from '../queries/Queries';
+import { motion } from 'framer-motion';
+import { pageDisplayAnimation } from '../components/Animations';
 import Banner from '../components/Banner';
 import MessageBox from '../components/MessageBox';
 import Overlay from '../components/Overlay';
@@ -27,6 +29,7 @@ import removeImage from '../icons/remove.svg';
 import writeBlog from '../icons/writeBlog.svg';
 import bannerImage from '../icons/bannerImage.png';
 
+const MotionVStack = motion(VStack);
 const Blog = () => {
 	const { status: loggedInStatus } = useIsLoggedIn();
 	const postCreation = useCreatePost();
@@ -237,11 +240,11 @@ const Blog = () => {
 	return loggedInStatus === 'error' ? (
 		<Navigate to='/' />
 	) : (
-		<HStack w='100%' my='56px' py='5'>
+		<MotionVStack {...pageDisplayAnimation} w='100%' my='56px' py='5'>
 			{blogPageContent()}
 			{postCreation.error && displayErrorMessage()}
 			{postCreation.isSuccess && blogPostedSuccessfully()}
-		</HStack>
+		</MotionVStack>
 	);
 };
 
