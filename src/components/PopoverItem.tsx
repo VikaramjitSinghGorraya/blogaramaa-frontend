@@ -19,11 +19,11 @@ const PopoverItem = ({
 	top = '-3rem',
 }: PopoverInfo) => {
 	return (
-		<HStack w='40%' justifyContent='flex-end'>
+		<HStack w='3rem' h='2rem' justifyContent='flex-end'>
 			<Popover isLazy>
 				<PopoverTrigger>
-					<Button variant='base'>
-						<Image src={more} />
+					<Button variant='base' w='100%'>
+						<Image src={more} minW='1.5rem' />
 					</Button>
 				</PopoverTrigger>
 				<PopoverContent
