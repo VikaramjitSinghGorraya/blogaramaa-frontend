@@ -103,8 +103,6 @@ const ForgotPassword = () => {
 	};
 	return checkingIfUserIsLoggedIn ? (
 		<Loader />
-	) : loggedInStatus === 'error' ? (
-		<Navigate to='/signin' />
 	) : (
 		<VStack
 			w='100%'

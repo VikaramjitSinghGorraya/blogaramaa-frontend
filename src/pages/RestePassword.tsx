@@ -96,7 +96,7 @@ const ForgotPassword = () => {
 			</VStack>
 		);
 	};
-	return loggedInStatus === 'success' ? (
+	return (
 		<VStack
 			w='100%'
 			h='100%'
@@ -110,8 +110,6 @@ const ForgotPassword = () => {
 			{resetPasswordProcess.error && ErrorMessage()}
 			{resetPasswordProcess.isSuccess && SuccessMessage()}
 		</VStack>
-	) : (
-		<>{(window.location.href = '/signin')}</>
 	);
 };
 
