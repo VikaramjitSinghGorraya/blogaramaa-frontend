@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { useParams, useNavigate } from 'react-router-dom';
+import Disqus from 'disqus-react';
 import parser from 'html-react-parser';
 import Moment from 'moment';
 import Loader from '../components/Loader';
@@ -27,6 +28,7 @@ import {
 } from '../queries/Queries';
 import DeleteAndSignoutPopover from '../components/DeleteAndSignoutPopover';
 import MessageBox from '../components/MessageBox';
+import CommentSection from '../components/CommentSection';
 import bannerImage from '../icons/bannerImage.png';
 import box from '../icons/box.svg';
 import placeholderCircle from '../images/placeholderCircle.png';
@@ -195,7 +197,7 @@ const Post = () => {
 
 	const postBody = () => {
 		return (
-			<Box w='100%' pb='150px' textAlign='justify'>
+			<Box w='100%' textAlign='justify'>
 				{parser(postData?.data.body)}
 			</Box>
 		);
@@ -222,11 +224,20 @@ const Post = () => {
 			</Box>
 		);
 	};
+
 	const postContent = () => {
 		return (
 			<VStack alignItems='flex-end' w='100%' h='100%' spacing={0}>
 				{postInfo()}
 				{postBody()}
+				<CommentSection
+					name={process.env.REACT_APP_SHORTNAME ?? ''}
+					config={{
+						url: window.location.href,
+						identifier: postData?.data._id,
+						title: postData?.data.title,
+					}}
+				/>
 				{showDeleteOption()}
 				{postDeletionProcess.isSuccess && showOverlay()}
 			</VStack>
