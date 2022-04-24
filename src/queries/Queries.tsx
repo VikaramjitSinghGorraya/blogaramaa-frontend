@@ -5,45 +5,39 @@ import { UserInfo } from '../types/User';
 import { SignupInfo } from '../types/Signup';
 import { ResetPasswordInfo } from '../types/ResetPassword';
 
+const BACKENDURL = process.env.REACR_APP_BACKEND_URL;
 //------------------------POST RELATED QUERIES------------------------------------
 
 export const getPhotoOfPost = async (postId: string) => {
-	const photo = await axios.get(
-		`http://localhost:4000/post/getPhoto/${postId}`
-	);
+	const photo = await axios.get(`${BACKENDURL}/post/getPhoto/${postId}`);
 	return photo.config.url;
 };
 
 export const getAllPosts = async () => {
-	const postsRetrieved = await axios.get('http://localhost:4000/post/allPosts');
+	const postsRetrieved = await axios.get(`${BACKENDURL}/post/allPosts`);
 	return postsRetrieved;
 };
 
 export const getPostBySlug = async (slug: string) => {
-	const postRetrieved = await axios.get(
-		`http://localhost:4000/post/read/${slug}`
-	);
+	const postRetrieved = await axios.get(`${BACKENDURL}/post/read/${slug}`);
 	return postRetrieved;
 };
 
 export const getPostBySearchTerm = async (term) => {
-	const postRetrieved = await axios.get(
-		`http://localhost:4000/post/find/${term}`
-	);
+	const postRetrieved = await axios.get(`${BACKENDURL}/post/find/${term}`);
 	return postRetrieved.data;
 };
 
 export const getPostsByUserId = async () => {
-	const postRetrieved = await axios.get(
-		`http://localhost:4000/post/postsByUser`,
-		{ withCredentials: true }
-	);
+	const postRetrieved = await axios.get(`${BACKENDURL}/post/postsByUser`, {
+		withCredentials: true,
+	});
 	return postRetrieved;
 };
 
 export const getPostsByOtherUserId = async (authorId) => {
 	const postRetrieved = await axios.get(
-		`http://localhost:4000/post/postsByOtherUser/${authorId}`,
+		`${BACKENDURL}/post/postsByOtherUser/${authorId}`,
 		{ withCredentials: true }
 	);
 	return postRetrieved;
@@ -51,7 +45,7 @@ export const getPostsByOtherUserId = async (authorId) => {
 
 export const createNewPost = async (postBody) => {
 	const postRetrieved = await axios.post(
-		`http://localhost:4000/post/createPost`,
+		`${BACKENDURL}/post/createPost`,
 		postBody,
 		{ withCredentials: true }
 	);
@@ -60,7 +54,7 @@ export const createNewPost = async (postBody) => {
 
 export const updatePost = async (postBody, slug) => {
 	const postRetrieved = await axios.post(
-		`http://localhost:4000/post/updatePost/${slug}`,
+		`${BACKENDURL}/post/updatePost/${slug}`,
 		postBody,
 		{ withCredentials: true }
 	);
@@ -69,7 +63,7 @@ export const updatePost = async (postBody, slug) => {
 
 export const deletePost = async (postId) => {
 	const postDeleted = await axios.delete(
-		`http://localhost:4000/post/deletePost/${postId}`,
+		`${BACKENDURL}/post/deletePost/${postId}`,
 		{ withCredentials: true }
 	);
 	return postDeleted;
@@ -131,7 +125,7 @@ export const useDeletePost = () => {
 
 export const getCategories = async () => {
 	const categoriesRetrieved = await axios.get(
-		`http://localhost:4000/category/getCategories`
+		`${BACKENDURL}/category/getCategories`
 	);
 	return categoriesRetrieved;
 };
@@ -143,7 +137,7 @@ export const useGetCategories = () => {
 //--------------------------AUTH QUERIES------------------------------------
 export const preSignup = async (userData) => {
 	const preRegisterUser = await axios.post(
-		`http://localhost:4000/auth/verification`,
+		`${BACKENDURL}/auth/verification`,
 		userData
 	);
 
@@ -152,7 +146,7 @@ export const preSignup = async (userData) => {
 
 export const signup = async (tokenInfo) => {
 	const userRegistered = await axios.post(
-		`http://localhost:4000/auth/signup`,
+		`${BACKENDURL}/auth/signup`,
 		tokenInfo
 	);
 	return userRegistered.data;
@@ -160,7 +154,7 @@ export const signup = async (tokenInfo) => {
 
 export const signin = async (userData) => {
 	const userSignedInd = await axios.post(
-		`http://localhost:4000/auth/signin`,
+		`${BACKENDURL}/auth/signin`,
 		userData,
 		{ withCredentials: true }
 	);
@@ -168,24 +162,23 @@ export const signin = async (userData) => {
 };
 
 export const signout = async () => {
-	const userSignedOut = await axios.get(`http://localhost:4000/auth/signout`, {
+	const userSignedOut = await axios.get(`${BACKENDURL}/auth/signout`, {
 		withCredentials: true,
 	});
 	return userSignedOut;
 };
 
 export const isLoggedIn = async () => {
-	const userSignedInd = await axios.get(
-		`http://localhost:4000/auth/isLoggedIn`,
-		{ withCredentials: true }
-	);
+	const userSignedInd = await axios.get(`${BACKENDURL}/auth/isLoggedIn`, {
+		withCredentials: true,
+	});
 	return userSignedInd;
 };
 
 export const forgotPassword = async (email) => {
 	console.log(email);
 	const userSignedInd = await axios.post(
-		`http://localhost:4000/auth/forgotPassword/${email}`,
+		`${BACKENDURL}/auth/forgotPassword/${email}`,
 		email,
 		{ withCredentials: true }
 	);
@@ -194,7 +187,7 @@ export const forgotPassword = async (email) => {
 
 export const resetPassword = async (resetPasswordInfo) => {
 	const passwordRested = await axios.post(
-		`http://localhost:4000/auth/resetPassword`,
+		`${BACKENDURL}/auth/resetPassword`,
 		resetPasswordInfo
 	);
 	return passwordRested.data;
@@ -240,16 +233,15 @@ export const useResetPassword = () => {
 //----------------------------------USER QUERIES-------------------------------
 
 export const getUserProfile = async () => {
-	const userRegistered = await axios.get(
-		`http://localhost:4000/user/getUserProfile`,
-		{ withCredentials: true }
-	);
+	const userRegistered = await axios.get(`${BACKENDURL}/user/getUserProfile`, {
+		withCredentials: true,
+	});
 	return userRegistered.data;
 };
 
 export const getOtherUserProfile = async (authorId) => {
 	const userRegistered = await axios.get(
-		`http://localhost:4000/user/getOthersProfile/${authorId}`,
+		`${BACKENDURL}/user/getOthersProfile/${authorId}`,
 		{ withCredentials: true }
 	);
 	return userRegistered.data;
@@ -257,16 +249,15 @@ export const getOtherUserProfile = async (authorId) => {
 
 export const getUserPhoto = async (userId) => {
 	console.log('Getting photo', userId);
-	const photo = await axios.get(
-		`http://localhost:4000/user/getPhoto/${userId}`,
-		{ withCredentials: true }
-	);
+	const photo = await axios.get(`${BACKENDURL}/user/getPhoto/${userId}`, {
+		withCredentials: true,
+	});
 	return photo.config.url;
 };
 
 export const updateUser = async (userData) => {
 	const userUpdated = await axios.post(
-		`http://localhost:4000/user/updateUser`,
+		`${BACKENDURL}/user/updateUser`,
 		userData,
 		{ withCredentials: true }
 	);
@@ -275,7 +266,7 @@ export const updateUser = async (userData) => {
 
 export const contactUser = async (message) => {
 	const contactUser = await axios.post(
-		`http://localhost:4000/user/userContact`,
+		`${BACKENDURL}/user/userContact`,
 		message,
 		{ withCredentials: true }
 	);
