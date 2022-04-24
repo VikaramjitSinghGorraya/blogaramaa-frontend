@@ -1,19 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
 	Accordion,
 	AccordionItem,
 	AccordionButton,
 	AccordionPanel,
-	Box,
 	AccordionIcon,
 	Text,
 	Center,
 	VStack,
 	Image,
-	Button,
 	Grid,
 	HStack,
-	Link,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import Moment from 'moment';
@@ -30,22 +27,13 @@ import {
 } from '../queries/Queries';
 import placeholderCircle from '../images/placeholderCircle.png';
 import user from '../icons/user.svg';
-import signout from '../icons/signout.svg';
 import calendar from '../icons/calendar.svg';
 import contact from '../icons/contact.svg';
-import setting from '../icons/settings.svg';
-import PopoverItem from '../components/PopoverItem';
-import { Navigate } from 'react-router-dom';
 import { pageDisplayAnimation } from '../components/Animations';
 
 const MotionVStack = motion(VStack);
 const OtherUserProfile = () => {
 	const { authorId } = useParams();
-	const {
-		status: loggedInStatus,
-		isLoading: checkingIfUserIsLoggedIn,
-		data: loggedInData,
-	} = useIsLoggedIn();
 	const {
 		isLoading: userLoading,
 		isError: userError,

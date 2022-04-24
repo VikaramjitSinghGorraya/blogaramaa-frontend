@@ -14,7 +14,6 @@ import {
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { useParams, useNavigate } from 'react-router-dom';
-import Disqus from 'disqus-react';
 import parser from 'html-react-parser';
 import Moment from 'moment';
 import Loader from '../components/Loader';
@@ -53,11 +52,8 @@ const Post = () => {
 	);
 	const postDeletionProcess = useDeletePost();
 	const { status: loggedInStatus, data: loggedInData } = useIsLoggedIn();
-	const navigate = useNavigate();
 	const [showDelete, setShowDelete] = useState(false);
-	useEffect(() => {
-		console.log(photoData);
-	}, [photoData]);
+
 	const displayErrorMessage = () => {
 		return (
 			<MessageBox
@@ -70,7 +66,6 @@ const Post = () => {
 	};
 
 	const deleteHandler = (postId) => {
-		console.log('Post deleted');
 		postDeletionProcess.mutate(postId);
 	};
 

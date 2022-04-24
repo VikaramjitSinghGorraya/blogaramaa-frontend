@@ -34,7 +34,7 @@ const BlogCard = ({
 	slug,
 }: PostInfo) => {
 	const getPhotoProcess = useGetPostPhoto(postId);
-	return !getPhotoProcess.isSuccess ? null : (
+	return getPhotoProcess.isLoading ? null : (
 		<MotionVStack
 			{...pageDisplayAnimation}
 			minW={['100%', cardWidth]}

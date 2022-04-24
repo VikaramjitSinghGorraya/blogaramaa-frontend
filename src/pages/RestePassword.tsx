@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, Navigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { HStack, VStack, Button, Image } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import Banner from '../components/Banner';

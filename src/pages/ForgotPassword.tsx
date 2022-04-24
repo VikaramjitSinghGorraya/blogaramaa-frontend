@@ -1,12 +1,7 @@
 import React, { useState } from 'react';
 import { HStack, VStack, Text, Link, Button, Image } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { Navigate } from 'react-router-dom';
-import {
-	useGetUserProfile,
-	useIsLoggedIn,
-	useForgotPassword,
-} from '../queries/Queries';
+import { useIsLoggedIn, useForgotPassword } from '../queries/Queries';
 import {
 	buttonAnimation,
 	pageDisplayAnimation,
@@ -35,7 +30,6 @@ const ForgotPassword = () => {
 			...forgotPasswordData,
 			[e.target.name]: e.target.value,
 		});
-		console.log(forgotPasswordData);
 	};
 
 	const submitHandler = (e) => {

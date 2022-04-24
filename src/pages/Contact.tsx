@@ -62,7 +62,6 @@ const Contact = () => {
 
 	const displaySuccessMessage = () => {
 		if (!message.inputCleared) {
-			console.log('Here');
 			setMessageData({
 				...message,
 				userEmail: '',

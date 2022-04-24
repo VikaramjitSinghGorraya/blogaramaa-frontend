@@ -11,7 +11,6 @@ const MessageBox = ({
 	const id = toastId;
 
 	useEffect(() => {
-		console.log(successStatus);
 		if (!toast.isActive(id)) {
 			toast({
 				id,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { VStack } from '@chakra-ui/react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Banner from '../components/Banner';

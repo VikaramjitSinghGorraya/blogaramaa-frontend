@@ -13,7 +13,7 @@ import {
 	Box,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { useParams, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import Moment from 'moment';
 import {
 	useIsLoggedIn,
@@ -81,11 +81,10 @@ const EditProfile = () => {
 		if (e.target.name === 'photo') {
 			setUserData({ ...userInfo, [e.target.name]: e.target.files[0] });
 			setBannerBackground(URL.createObjectURL(e.target.files[0]));
-			console.log(userInfo);
+
 			return;
 		}
 		setUserData({ ...userInfo, [e.target.name]: e.target.value });
-		console.log(userInfo);
 	};
 
 	const removeSelectedBannerImage = (e) => {
@@ -98,8 +97,6 @@ const EditProfile = () => {
 
 	const submitHandler = (e) => {
 		e.preventDefault();
-		console.log('Submitting form');
-		console.log(userInfo);
 		let formData = new FormData();
 		formData.set('fullName', userInfo.fullName);
 		formData.set('about', userInfo.about);

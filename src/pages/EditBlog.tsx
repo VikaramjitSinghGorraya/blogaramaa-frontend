@@ -76,7 +76,6 @@ const Blog = () => {
 
 	const bodyChangeHandler = (e) => {
 		setBlogText(e);
-		console.log(blogPost);
 	};
 
 	const removeSelectedBannerImage = (e) => {

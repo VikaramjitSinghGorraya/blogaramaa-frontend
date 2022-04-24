@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Grid, Box } from '@chakra-ui/react';
 import BlogCard from '../components/BlogCard';
 import Banner from '../components/Banner';
