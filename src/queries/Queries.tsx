@@ -5,7 +5,7 @@ import { UserInfo } from '../types/User';
 import { SignupInfo } from '../types/Signup';
 import { ResetPasswordInfo } from '../types/ResetPassword';
 
-const BACKENDURL = process.env.REACR_APP_BACKEND_URL;
+const BACKENDURL = process.env.REACT_APP_BACKEND_URL;
 //------------------------POST RELATED QUERIES------------------------------------
 
 export const getPhotoOfPost = async (postId: string) => {
