@@ -178,6 +178,7 @@ const Profile = () => {
 				<Banner
 					heading={userData?.user.name}
 					icon={photoData ? photoData : placeholderCircle}
+					isProfilePic={true}
 				/>
 				{aboutSection()}
 				{displayUserInfoShareAndSignout()}
