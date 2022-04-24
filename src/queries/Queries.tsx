@@ -156,7 +156,14 @@ export const signin = async (userData) => {
 	const userSignedInd = await axios.post(
 		`${BACKENDURL}/auth/signin`,
 		userData,
-		{ withCredentials: true }
+
+		{
+			withCredentials: true,
+			headers: {
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Credentials': true,
+			},
+		}
 	);
 	return userSignedInd;
 };
