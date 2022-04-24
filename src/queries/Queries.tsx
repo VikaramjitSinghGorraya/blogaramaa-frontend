@@ -178,6 +178,10 @@ export const signout = async () => {
 export const isLoggedIn = async () => {
 	const userSignedInd = await axios.get(`${BACKENDURL}/auth/isLoggedIn`, {
 		withCredentials: true,
+		headers: {
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Credentials': true,
+		},
 	});
 	return userSignedInd;
 };
