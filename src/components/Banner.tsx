@@ -2,7 +2,7 @@ import React from 'react';
 import { HStack, Heading, Image } from '@chakra-ui/react';
 import { BannerInfo } from '../types/Banner';
 
-const Banner = ({ heading, icon }: BannerInfo) => {
+const Banner = ({ heading, icon, isProfilePic }: BannerInfo) => {
 	return (
 		<HStack w='100%' justifyContent='space-between' px={['0', '5']} wrap='wrap'>
 			<HStack w='70%'>
@@ -10,7 +10,13 @@ const Banner = ({ heading, icon }: BannerInfo) => {
 					{heading}
 				</Heading>
 			</HStack>
-			<Image src={icon} h={['5rem', '12rem']} w={['5rem', '12rem']} />
+
+			<Image
+				src={icon}
+				h={['5rem', '12rem']}
+				w={['5rem', '12rem']}
+				borderRadius={isProfilePic ? '50%' : '0'}
+			/>
 		</HStack>
 	);
 };

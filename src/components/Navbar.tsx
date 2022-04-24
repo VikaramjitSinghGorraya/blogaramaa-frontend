@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
 	Drawer,
@@ -17,6 +17,7 @@ import {
 	Link,
 } from '@chakra-ui/react';
 import { useIsLoggedIn } from '../queries/Queries';
+import { useGetUserPhoto, useGetUserProfile } from '../queries/Queries';
 import placeholderCircle from '../images/placeholderCircle.png';
 import home from '../icons/home.svg';
 import edit from '../icons/edit.svg';
@@ -31,7 +32,12 @@ import Logo from './Logo';
 
 const Navbar = () => {
 	const location = useLocation();
-	const { status: isLoggedinStatus } = useIsLoggedIn();
+	const { status: isLoggedinStatus, data: loggedinData } = useIsLoggedIn();
+	const { isLoading: photoLoading, data: photoData } = useGetUserPhoto(
+		loggedinData?.data.userId
+	);
+	const { isLoading: userLoading, data: userData } = useGetUserProfile();
+
 	const navigate = useNavigate();
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const btnRef = React.useRef<HTMLButtonElement>(null);
@@ -39,15 +45,27 @@ const Navbar = () => {
 	const drawerHeader = () => {
 		return (
 			<HStack w='100%'>
-				<Image src={placeholderCircle} objectFit='cover' h='5rem' w='5rem' />
+				<Image
+					src={photoData ? photoData : placeholderCircle}
+					objectFit='cover'
+					h='5rem'
+					w='5rem'
+					borderRadius='50%'
+				/>
 				<VStack>
-					<Text as='small'>
-						Hi there, <br />
-						Aren't on borad yet? <br />
-						<Link href='/signup' variant='blueLink'>
-							Get Started
-						</Link>
-					</Text>
+					{isLoggedinStatus === 'success' ? (
+						<Text as='small' wordBreak='break-all'>
+							{userData?.user.name}
+						</Text>
+					) : (
+						<Text as='small'>
+							Hi there, <br />
+							Aren't on borad yet? <br />
+							<Link href='/signup' variant='blueLink'>
+								Get Started
+							</Link>
+						</Text>
+					)}
 				</VStack>
 			</HStack>
 		);
