@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
 	Input,
 	Button,
 	HStack,
 	VStack,
 	Image,
-	Box,
 	Text,
+	Grid,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import BlogCard from '../components/BlogCard';
@@ -29,9 +29,6 @@ const Search = () => {
 	const inputChangeHandler = (e) => {
 		setSearchWord(e.target.value);
 	};
-	useEffect(() => {
-		console.log(getPotBySearchTermProcess);
-	}, [getPotBySearchTermProcess.status]);
 
 	const submitHandler = (e) => {
 		e.preventDefault();
@@ -43,7 +40,12 @@ const Search = () => {
 
 	const nothingToDisplay = () => {
 		return (
-			<VStack h='40' w='100%' justifyContent='center'>
+			<MotionVStack
+				{...pageDisplayAnimation}
+				h='40'
+				w='100%'
+				justifyContent='center'
+			>
 				<Image src={nothingFound} h='100%' />
 				<Text
 					as='p'
@@ -54,11 +56,11 @@ const Search = () => {
 				>
 					Uh oh! Seems like there are no matching results
 				</Text>
-			</VStack>
+			</MotionVStack>
 		);
 	};
 	return (
-		<MotionVStack {...pageDisplayAnimation} w='100%' my='57px'>
+		<MotionVStack w='100%' h='100%' my='57px'>
 			<Banner heading='Search' icon={searchPage} />
 			<form style={{ width: '100%' }} onSubmit={submitHandler}>
 				<HStack w='100%'>
@@ -80,24 +82,32 @@ const Search = () => {
 					</MotionButton>
 				</HStack>
 			</form>
+			<Grid
+				templateColumns={[
+					'repeat(auto-fit, minmax(auto, 1fr))',
+					'repeat(auto-fit, minmax(600px, auto))',
+					'repeat(2, minmax(600px, 1fr))',
+				]}
+			>
+				{getPotBySearchTermProcess?.isSuccess &&
+					getPotBySearchTermProcess?.data.length > 0 &&
+					getPotBySearchTermProcess?.data.map((post, index) => (
+						<BlogCard
+							key={index}
+							cardWidth='90%'
+							title={post.title}
+							author={post.postedBy.name}
+							authorId={post.postedBy._id}
+							category={post.postCategory.title}
+							body={post.body}
+							postId={post._id}
+							posted={post.createdAt}
+							slug={post.slug}
+						/>
+					))}
+			</Grid>
 			{getPotBySearchTermProcess.isSuccess &&
-				getPotBySearchTermProcess.data.length !== 0 &&
-				getPotBySearchTermProcess?.data.map((post, index) => (
-					<BlogCard
-						key={index}
-						cardWidth='90%'
-						title={post.title}
-						author={post.postedBy.name}
-						authorId={post.postedBy._id}
-						category={post.postCategory.title}
-						body={post.body}
-						postId={post._id}
-						posted={post.createdAt}
-						slug={post.slug}
-					/>
-				))}
-			{getPotBySearchTermProcess.isSuccess &&
-				getPotBySearchTermProcess.data.length === 0 &&
+				getPotBySearchTermProcess?.data.length === 0 &&
 				nothingToDisplay()}
 		</MotionVStack>
 	);
