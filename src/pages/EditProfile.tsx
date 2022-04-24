@@ -34,9 +34,14 @@ import key from '../icons/key.svg';
 import placeholderCircle from '../images/placeholderCircle.png';
 import removeImage from '../icons/remove.svg';
 import Overlay from '../components/Overlay';
-import { pageDisplayAnimation } from '../components/Animations';
+import {
+	buttonAnimation,
+	pageDisplayAnimation,
+} from '../components/Animations';
 
 const MotionVStack = motion(VStack);
+const MotionButton = motion(Button);
+
 const EditProfile = () => {
 	const { status: loggedInStatus, isLoading: checkingIfUserIsLoggedIn } =
 		useIsLoggedIn();
@@ -246,14 +251,15 @@ const EditProfile = () => {
 				{emailAndDateJoinedInfo()}
 				{photoAndUserInfo()}
 				{aboutSection()}
-				<Button
+				<MotionButton
+					{...buttonAnimation}
 					variant='long'
 					onClick={submitHandler}
 					isLoading={updateUser.isLoading ? true : false}
 				>
 					<Image className='iconColor' src={send} />
 					UPDATE
-				</Button>
+				</MotionButton>
 				{updateUser.isSuccess && <Overlay />}
 			</VStack>
 		);

@@ -14,9 +14,14 @@ import InputField from '../components/InputField';
 import { usePreSignup, useIsLoggedIn } from '../queries/Queries';
 import MessageBox from '../components/MessageBox';
 import go from '../icons/go.svg';
-import { pageDisplayAnimation } from '../components/Animations';
+import {
+	buttonAnimation,
+	pageDisplayAnimation,
+} from '../components/Animations';
 
 const MotionVStack = motion(VStack);
+const MotionButton = motion(Button);
+
 const Signup = () => {
 	const { status: loggedInStatus } = useIsLoggedIn();
 
@@ -123,13 +128,14 @@ const Signup = () => {
 							SIGN IN
 						</Link>
 					</VStack>
-					<Button
+					<MotionButton
+						{...buttonAnimation}
 						variant='round'
 						type='submit'
 						isLoading={preSignupProcess.isLoading ? true : false}
 					>
 						<Image src={go} />
-					</Button>
+					</MotionButton>
 				</HStack>
 			</form>
 

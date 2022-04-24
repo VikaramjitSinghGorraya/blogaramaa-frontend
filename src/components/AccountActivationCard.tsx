@@ -2,9 +2,11 @@ import React from 'react';
 import { VStack, Text, Button, Image } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { AccountActivationInfo } from '../types/AccountActivation';
-import { pageDisplayAnimation } from './Animations';
+import { buttonAnimation, pageDisplayAnimation } from './Animations';
 
 const MotionVStack = motion(VStack);
+const MotionButton = motion(Button);
+
 const AccountActivationCard = ({
 	heading,
 	body,
@@ -36,10 +38,15 @@ const AccountActivationCard = ({
 						? body?.message
 						: body}
 				</Text>
-				<Button variant='long' isLoading={isLoading} onClick={onClick}>
+				<MotionButton
+					{...buttonAnimation}
+					variant='long'
+					isLoading={isLoading}
+					onClick={onClick}
+				>
 					{error ? '' : <Image className='iconColor' src={imageSrc} />}
 					{buttonText}
-				</Button>
+				</MotionButton>
 			</VStack>
 		</MotionVStack>
 	);

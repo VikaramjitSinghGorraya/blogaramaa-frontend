@@ -12,7 +12,12 @@ import {
 	Image,
 	Box,
 } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 import PopoverImage from '../icons/deletePostModal.svg';
+import { buttonAnimation } from './Animations';
+
+const MotionButton = motion(Button);
+
 const DeleteAndSignoutPopover = ({
 	toOpen,
 	toClose,
@@ -34,12 +39,21 @@ const DeleteAndSignoutPopover = ({
 					</ModalBody>
 
 					<ModalFooter>
-						<Button colorScheme='blue' mr={3} onClick={() => toClose(false)}>
+						<MotionButton
+							{...buttonAnimation}
+							colorScheme='blue'
+							mr={3}
+							onClick={() => toClose(false)}
+						>
 							CANCEL
-						</Button>
-						<Button variant='ghost' onClick={() => deleteHandler(postId)}>
+						</MotionButton>
+						<MotionButton
+							{...buttonAnimation}
+							variant='ghost'
+							onClick={() => deleteHandler(postId)}
+						>
 							CONFIRM
-						</Button>
+						</MotionButton>
 					</ModalFooter>
 				</ModalContent>
 			</Modal>

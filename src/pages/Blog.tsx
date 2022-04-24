@@ -17,7 +17,10 @@ import {
 	useCreatePost,
 } from '../queries/Queries';
 import { motion } from 'framer-motion';
-import { pageDisplayAnimation } from '../components/Animations';
+import {
+	buttonAnimation,
+	pageDisplayAnimation,
+} from '../components/Animations';
 import Banner from '../components/Banner';
 import MessageBox from '../components/MessageBox';
 import Overlay from '../components/Overlay';
@@ -30,6 +33,7 @@ import writeBlog from '../icons/writeBlog.svg';
 import bannerImage from '../icons/bannerImage.png';
 
 const MotionVStack = motion(VStack);
+const MotionButton = motion(Button);
 const Blog = () => {
 	const { status: loggedInStatus } = useIsLoggedIn();
 	const postCreation = useCreatePost();
@@ -219,14 +223,15 @@ const Blog = () => {
 				{titleAndCategory()}
 				{textEditor()}
 				{!postCreation.isSuccess && (
-					<Button
+					<MotionButton
+						{...buttonAnimation}
 						variant='long'
 						onClick={submitHandler}
 						isLoading={postCreation.isLoading ? true : false}
 					>
 						<Image className='iconColor' src={send} />
 						PUBLISH
-					</Button>
+					</MotionButton>
 				)}
 				{postCreation.isSuccess && (
 					<HStack>

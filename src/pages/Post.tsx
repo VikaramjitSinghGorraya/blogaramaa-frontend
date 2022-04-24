@@ -36,9 +36,14 @@ import edit from '../icons/edit.svg';
 import deletePost from '../icons/deletePost.svg';
 import calendar from '../icons/calendar.svg';
 import Overlay from '../components/Overlay';
-import { pageDisplayAnimation } from '../components/Animations';
+import {
+	buttonAnimation,
+	pageDisplayAnimation,
+} from '../components/Animations';
 
 const MotionVStack = motion(VStack);
+const MotionButton = motion(Button);
+
 const Post = () => {
 	let { slug } = useParams();
 	const [isLargerThan768] = useMediaQuery('(min-width: 769px)');
@@ -88,22 +93,24 @@ const Post = () => {
 				{loggedInStatus === 'success' &&
 					loggedInData?.data.userId === postData?.data.postedBy._id && (
 						<>
-							<Button
+							<MotionButton
+								{...buttonAnimation}
 								variant='base'
 								color='brand.mutedText'
 								onClick={() => (window.location.href = `/EditBlog/${slug}`)}
 							>
 								<Image src={edit} className='mutedIconColor' />
 								Edit
-							</Button>
-							<Button
+							</MotionButton>
+							<MotionButton
+								{...buttonAnimation}
 								variant='base'
 								color='brand.mutedText'
 								onClick={() => setShowDelete(true)}
 							>
 								<Image src={deletePost} className='mutedIconColor' />
 								Delete
-							</Button>
+							</MotionButton>
 						</>
 					)}
 			</Stack>

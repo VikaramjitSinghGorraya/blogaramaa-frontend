@@ -10,9 +10,14 @@ import resetPassword from '../icons/resetPassword.svg';
 import go from '../icons/go.svg';
 import AlertIcon from '../icons/alert.svg';
 import Thumbsup from '../icons/thumbs-up.svg';
-import { pageDisplayAnimation } from '../components/Animations';
+import {
+	buttonAnimation,
+	pageDisplayAnimation,
+} from '../components/Animations';
 
 const MotionVStack = motion(VStack);
+const MotionButton = motion(Button);
+
 const ForgotPassword = () => {
 	const { token } = useParams();
 	const resetPasswordProcess = useResetPassword();
@@ -88,13 +93,14 @@ const ForgotPassword = () => {
 					placeholder='Confrim Password'
 				/>
 				<HStack w='100%' justifyContent='flex-end'>
-					<Button
+					<MotionButton
+						{...buttonAnimation}
 						variant='round'
 						isLoading={resetPasswordProcess.isLoading ? true : false}
 						onClick={handlePasswordReset}
 					>
 						<Image src={go} />
-					</Button>
+					</MotionButton>
 				</HStack>
 			</VStack>
 		);

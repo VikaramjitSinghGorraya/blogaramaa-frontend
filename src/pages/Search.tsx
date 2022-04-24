@@ -15,9 +15,14 @@ import Banner from '../components/Banner';
 import search from '../icons/search.svg';
 import searchPage from '../icons/searchPage.svg';
 import nothingFound from '../icons/nothingFound.svg';
-import { pageDisplayAnimation } from '../components/Animations';
+import {
+	buttonAnimation,
+	pageDisplayAnimation,
+} from '../components/Animations';
 
 const MotionVStack = motion(VStack);
+const MotionButton = motion(Button);
+
 const Search = () => {
 	const [searchWord, setSearchWord] = useState('');
 	const getPotBySearchTermProcess = useGetPostBySearchTerm(searchWord);
@@ -65,13 +70,14 @@ const Search = () => {
 						maxW={['75%', '100%']}
 						onChange={inputChangeHandler}
 					/>
-					<Button
+					<MotionButton
+						{...buttonAnimation}
 						variant='round'
 						type='submit'
 						isLoading={getPotBySearchTermProcess.isLoading ? true : false}
 					>
 						<Image className='whiteIconColor' src={search} />
-					</Button>
+					</MotionButton>
 				</HStack>
 			</form>
 			{getPotBySearchTermProcess.isSuccess &&

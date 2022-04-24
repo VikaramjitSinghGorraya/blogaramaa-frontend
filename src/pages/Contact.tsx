@@ -22,9 +22,14 @@ import send from '../icons/send.svg';
 import contact from '../icons/contact.svg';
 import user from '../icons/user.svg';
 import signin from '../icons/signin.svg';
-import { pageDisplayAnimation } from '../components/Animations';
+import {
+	buttonAnimation,
+	pageDisplayAnimation,
+} from '../components/Animations';
 
 const MotionVStack = motion(VStack);
+const MotionButton = motion(Button);
+
 const Contact = () => {
 	const {
 		isLoading: checkingIfUserIsLoggedIn,
@@ -114,14 +119,15 @@ const Contact = () => {
 					value={message.text}
 					onChange={inputChangehandler}
 				/>
-				<Button
+				<MotionButton
+					{...buttonAnimation}
 					variant='long'
 					onClick={submitHandler}
 					isLoading={sendMessage.isLoading ? true : false}
 				>
 					<Image src={send} className='iconColor' />
 					SEND
-				</Button>
+				</MotionButton>
 			</VStack>
 		);
 	};
@@ -129,13 +135,14 @@ const Contact = () => {
 	const userNotLggedIn = () => {
 		return (
 			<VStack w='100%' h='100%' justifyContent='center'>
-				<Button
+				<MotionButton
+					{...buttonAnimation}
 					variant='long'
 					onClick={() => (window.location.href = '/signin')}
 				>
 					<Image className='iconColor' src={signin} />
 					SIGNIN TO SEND MAIL
-				</Button>
+				</MotionButton>
 				<Divider w='100%' />
 				<Text as='p' color='brand.mutedText' textAlign='center'>
 					OR <br />

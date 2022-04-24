@@ -16,9 +16,14 @@ import MessageBox from '../components/MessageBox';
 import { useSignin, useIsLoggedIn } from '../queries/Queries';
 import go from '../icons/go.svg';
 import InputField from '../components/InputField';
-import { pageDisplayAnimation } from '../components/Animations';
+import {
+	buttonAnimation,
+	pageDisplayAnimation,
+} from '../components/Animations';
 
 const MotionVStack = motion(VStack);
+const MotionButton = motion(Button);
+
 const Signin = () => {
 	const [userData, setUserData] = useState({
 		email: '',
@@ -141,14 +146,15 @@ const Signin = () => {
 								SIGN UP
 							</Link>
 						</VStack>
-						<Button
+						<MotionButton
+							{...buttonAnimation}
 							variant='round'
 							type='submit'
 							isLoading={signinProcess.isLoading ? true : false}
 							isDisabled={!agreedToTerms}
 						>
 							<Image src={go} />
-						</Button>
+						</MotionButton>
 					</HStack>
 				</form>
 				{signinProcess.isSuccess && window.location.reload()}

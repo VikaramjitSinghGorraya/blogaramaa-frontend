@@ -8,8 +8,12 @@ import {
 	Image,
 	HStack,
 } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 import { PopoverInfo } from '../types/PopoverItem';
 import more from '../icons/more.svg';
+import { buttonAnimation } from './Animations';
+
+const MotionButton = motion(Button);
 
 const PopoverItem = ({
 	passedInput,
@@ -22,9 +26,9 @@ const PopoverItem = ({
 		<HStack w='3rem' h='2rem' justifyContent='flex-end'>
 			<Popover isLazy>
 				<PopoverTrigger>
-					<Button variant='base' w='100%'>
+					<MotionButton {...buttonAnimation} variant='base' w='100%'>
 						<Image src={more} minW='1.5rem' />
-					</Button>
+					</MotionButton>
 				</PopoverTrigger>
 				<PopoverContent
 					position='absolute'

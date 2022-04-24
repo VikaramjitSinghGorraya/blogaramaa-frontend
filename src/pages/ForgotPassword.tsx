@@ -7,7 +7,10 @@ import {
 	useIsLoggedIn,
 	useForgotPassword,
 } from '../queries/Queries';
-import { pageDisplayAnimation } from '../components/Animations';
+import {
+	buttonAnimation,
+	pageDisplayAnimation,
+} from '../components/Animations';
 import Loader from '../components/Loader';
 import Banner from '../components/Banner';
 import InputField from '../components/InputField';
@@ -16,6 +19,7 @@ import forgotPassword from '../icons/forgotPassword.svg';
 import go from '../icons/go.svg';
 
 const MotionVStack = motion(VStack);
+const MotionButton = motion(Button);
 const ForgotPassword = () => {
 	const { isLoading: checkingIfUserIsLoggedIn, status: loggedInStatus } =
 		useIsLoggedIn();
@@ -91,13 +95,14 @@ const ForgotPassword = () => {
 									SIGN IN
 								</Link>
 							</VStack>
-							<Button
+							<MotionButton
+								{...buttonAnimation}
 								variant='round'
 								type='submit'
 								isLoading={forgotPasswordProcess.isLoading ? true : false}
 							>
 								<Image src={go} />
-							</Button>
+							</MotionButton>
 						</HStack>
 					</VStack>
 				</form>

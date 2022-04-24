@@ -38,9 +38,14 @@ import signout from '../icons/signout.svg';
 import calendar from '../icons/calendar.svg';
 import contact from '../icons/contact.svg';
 import setting from '../icons/settings.svg';
-import { pageDisplayAnimation } from '../components/Animations';
+import {
+	buttonAnimation,
+	pageDisplayAnimation,
+} from '../components/Animations';
 
 const MotionVStack = motion(VStack);
+const MotionButton = motion(Button);
+
 const Profile = () => {
 	const [showSignout, setShowSignout] = useState(false);
 	const { status: loggedInStatus, isLoading: checkingIfUserIsLoggedIn } =
@@ -103,14 +108,19 @@ const Profile = () => {
 
 	const signoutPopover = () => {
 		return (
-			<Button w='7rem' variant='base' onClick={() => setShowSignout(true)}>
+			<MotionButton
+				{...buttonAnimation}
+				w='7rem'
+				variant='base'
+				onClick={() => setShowSignout(true)}
+			>
 				<HStack>
 					<Image src={signout} className='mutedIconColor' />{' '}
 					<Text as='p' color='brand.mutedText'>
 						Signout
 					</Text>
 				</HStack>
-			</Button>
+			</MotionButton>
 		);
 	};
 	const showSignoutOption = () => {
@@ -212,7 +222,7 @@ const Profile = () => {
 	return userLoading ||
 		checkingIfUserIsLoggedIn ||
 		postsLoading ||
-		photoLoading ? (
+		!photoData ? (
 		<Center minH='100%' w='100%'>
 			<Loader />
 		</Center>

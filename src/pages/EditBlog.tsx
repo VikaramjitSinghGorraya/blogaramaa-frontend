@@ -10,6 +10,7 @@ import {
 	Image,
 	Button,
 } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 import { Navigate, useParams } from 'react-router-dom';
 import {
 	useGetCategories,
@@ -29,6 +30,9 @@ import addImage from '../icons/addImage.svg';
 import removeImage from '../icons/remove.svg';
 import writeBlog from '../icons/writeBlog.svg';
 import bannerImage from '../icons/bannerImage.png';
+import { buttonAnimation } from '../components/Animations';
+
+const MotionButton = motion(Button);
 
 const Blog = () => {
 	const { slug } = useParams();
@@ -233,14 +237,15 @@ const Blog = () => {
 				{titleAndCategory()}
 				{textEditor()}
 				{!updatePost.isSuccess && (
-					<Button
+					<MotionButton
+						{...buttonAnimation}
 						variant='long'
 						onClick={submitHandler}
 						isLoading={updatePost.isLoading ? true : false}
 					>
 						<Image className='iconColor' src={send} />
 						UPDATE
-					</Button>
+					</MotionButton>
 				)}
 				{updatePost.isSuccess && (
 					<HStack>

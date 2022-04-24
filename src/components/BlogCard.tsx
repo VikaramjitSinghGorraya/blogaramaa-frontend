@@ -46,7 +46,7 @@ const BlogCard = ({
 			border='1px solid rgba(0, 0, 0, 0.1)'
 			borderRadius='15px'
 			spacing={2}
-			bg='linear-gradient(0deg, #fafafa 0%, rgba(250, 250, 250, 0.96) 25%, rgba(250, 250, 250, 0.92) 37%, rgba(250, 250, 250, 0.86) 54%, rgba(250, 250, 250, 0.53) 100%);'
+			bg='linear-gradient(0deg, #fafafa 0%, rgba(250, 250, 250, 0.802959) 39%, rgba(250, 250, 250, 0.450018) 75%, rgba(250, 250, 250, 0) 100%)'
 		>
 			<Image
 				h='110px'
@@ -55,7 +55,7 @@ const BlogCard = ({
 				objectFit='cover'
 			/>
 			<Box
-				bg='linear-gradient(0deg, #fafafa 0%, rgba(250, 250, 250, 0.96) 25%, rgba(250, 250, 250, 0.92) 37%, rgba(250, 250, 250, 0.86) 54%, rgba(250, 250, 250, 0.53) 100%);'
+				bg='linear-gradient(0deg, #fafafa 0%, rgba(250, 250, 250, 0.802959) 39%, rgba(250, 250, 250, 0.450018) 75%, rgba(250, 250, 250, 0) 100%)'
 				h='150px'
 				top='-9px'
 				position='absolute'
