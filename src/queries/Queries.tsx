@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { userInfo } from 'os';
 import { useQuery, useMutation } from 'react-query';
 import { UserInfo } from '../types/User';
 import { SignupInfo } from '../types/Signup';
@@ -70,30 +69,42 @@ export const deletePost = async (postId) => {
 };
 
 export const useGetPosts = () => {
-	return useQuery(['allPosts'], () => getAllPosts());
+	return useQuery(['allPosts'], () => getAllPosts(), {
+		refetchOnWindowFocus: false,
+		retry: false,
+	});
 };
 
 export const useGetPostBySlug = (slug) => {
 	return useQuery([`post-${slug}`], () => getPostBySlug(slug), {
 		enabled: !!slug,
+		refetchOnWindowFocus: false,
+		retry: false,
 	});
 };
 
 export const useGetPostsByUserId = () => {
-	return useQuery([`postByUser`], () => getPostsByUserId());
+	return useQuery([`postByUser`], () => getPostsByUserId(), {
+		refetchOnWindowFocus: false,
+		retry: false,
+	});
 };
 
 export const useGetPostsByOtherUserId = (authorId) => {
 	return useQuery(
 		[`postByUser-${authorId}`],
 		() => getPostsByOtherUserId(authorId),
-		{ enabled: !!authorId }
+		{ enabled: !!authorId, refetchOnWindowFocus: false, retry: false }
 	);
 };
 
 export const useGetPostBySearchTerm = (term) => {
-	return useMutation([`search-${term}`], (term: string) =>
-		getPostBySearchTerm(term)
+	return useMutation(
+		[`search-${term}`],
+		(term: string) => getPostBySearchTerm(term),
+		{
+			retry: false,
+		}
 	);
 };
 
@@ -106,19 +117,29 @@ export const useGetPostPhoto = (postId) => {
 };
 
 export const useCreatePost = () => {
-	return useMutation(['createPost'], (postBody: FormData) =>
-		createNewPost(postBody)
+	return useMutation(
+		['createPost'],
+		(postBody: FormData) => createNewPost(postBody),
+		{
+			retry: false,
+		}
 	);
 };
 
 export const useUpdatePost = (slug) => {
-	return useMutation(['updatePost'], (postBody: FormData) =>
-		updatePost(postBody, slug)
+	return useMutation(
+		['updatePost'],
+		(postBody: FormData) => updatePost(postBody, slug),
+		{
+			retry: false,
+		}
 	);
 };
 
 export const useDeletePost = () => {
-	return useMutation(['deletePost'], (postId) => deletePost(postId));
+	return useMutation(['deletePost'], (postId) => deletePost(postId), {
+		retry: false,
+	});
 };
 
 //--------------------------CATEGORY QUERIES--------------------------------
@@ -131,7 +152,10 @@ export const getCategories = async () => {
 };
 
 export const useGetCategories = () => {
-	return useQuery([`categories`], () => getCategories());
+	return useQuery([`categories`], () => getCategories(), {
+		retry: false,
+		refetchOnWindowFocus: false,
+	});
 };
 
 //--------------------------AUTH QUERIES------------------------------------
@@ -153,18 +177,7 @@ export const signup = async (tokenInfo) => {
 };
 
 export const signin = async (userData) => {
-	const userSignedInd = await axios.post(
-		`${BACKENDURL}/auth/signin`,
-		userData,
-
-		{
-			withCredentials: true,
-			headers: {
-				'Content-Type': 'application/json',
-				'Access-Control-Allow-Credentials': true,
-			},
-		}
-	);
+	const userSignedInd = await axios.post(`${BACKENDURL}/auth/signin`, userData);
 	return userSignedInd;
 };
 
@@ -178,10 +191,6 @@ export const signout = async () => {
 export const isLoggedIn = async () => {
 	const userSignedInd = await axios.get(`${BACKENDURL}/auth/isLoggedIn`, {
 		withCredentials: true,
-		headers: {
-			'Content-Type': 'application/json',
-			'Access-Control-Allow-Credentials': true,
-		},
 	});
 	return userSignedInd;
 };
@@ -205,39 +214,53 @@ export const resetPassword = async (resetPasswordInfo) => {
 };
 
 export const usePreSignup = () => {
-	return useMutation(['preSignup'], (userData: UserInfo) =>
-		preSignup(userData)
+	return useMutation(
+		['preSignup'],
+		(userData: UserInfo) => preSignup(userData),
+		{
+			retry: false,
+		}
 	);
 };
 
 export const useSignup = () => {
-	return useMutation(['signup'], (tokenInfo: SignupInfo) => signup(tokenInfo));
+	return useMutation(['signup'], (tokenInfo: SignupInfo) => signup(tokenInfo), {
+		retry: false,
+	});
 };
 
 export const useSignin = () => {
-	return useMutation(['signin'], (userData: UserInfo) => signin(userData));
+	return useMutation(['signin'], (userData: UserInfo) => signin(userData), {
+		retry: false,
+	});
 };
 
 export const useSigninout = () => {
-	return useMutation(['signinout'], () => signout());
+	return useMutation(['signinout'], () => signout(), {
+		retry: false,
+	});
 };
 
 export const useIsLoggedIn = () => {
 	return useQuery(['isLoggedIn'], () => isLoggedIn(), {
 		retry: 0,
-		refetchOnMount: true,
-		cacheTime: 0,
+		refetchOnWindowFocus: false,
 	});
 };
 
 export const useForgotPassword = () => {
-	return useMutation(['isLoggedIn'], (email: string) => forgotPassword(email));
+	return useMutation(['isLoggedIn'], (email: string) => forgotPassword(email), {
+		retry: false,
+	});
 };
 
 export const useResetPassword = () => {
 	return useMutation(
 		['resetPassword'],
-		(resetPasswordInfo: ResetPasswordInfo) => resetPassword(resetPasswordInfo)
+		(resetPasswordInfo: ResetPasswordInfo) => resetPassword(resetPasswordInfo),
+		{
+			retry: false,
+		}
 	);
 };
 
@@ -285,12 +308,17 @@ export const contactUser = async (message) => {
 };
 
 export const useGetUserProfile = () => {
-	return useQuery([`user`], () => getUserProfile());
+	return useQuery([`user`], () => getUserProfile(), {
+		retry: false,
+		refetchOnWindowFocus: false,
+	});
 };
 
 export const useGetOtherUserProfile = (authorId) => {
 	return useQuery([`user-${authorId}`], () => getOtherUserProfile(authorId), {
 		enabled: !!authorId,
+		retry: false,
+		refetchOnWindowFocus: false,
 	});
 };
 
@@ -303,12 +331,17 @@ export const useGetUserPhoto = (userId) => {
 };
 
 export const useUpdateUser = () => {
-	return useMutation([`user`], (userData: FormData) => updateUser(userData));
+	return useMutation([`user`], (userData: FormData) => updateUser(userData), {
+		retry: false,
+	});
 };
 
 export const useContactUser = () => {
 	return useMutation(
 		[`contactUser`],
-		(message: { text: string; userEmail: string }) => contactUser(message)
+		(message: { text: string; userEmail: string }) => contactUser(message),
+		{
+			retry: false,
+		}
 	);
 };
