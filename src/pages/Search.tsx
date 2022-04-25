@@ -60,7 +60,7 @@ const Search = () => {
 		);
 	};
 	return (
-		<MotionVStack w='100%' h='100%' my='57px'>
+		<MotionVStack {...pageDisplayAnimation} w='100%' h='100%' my='57px'>
 			<Banner heading='Search' icon={searchPage} />
 			<form style={{ width: '100%' }} onSubmit={submitHandler}>
 				<HStack w='100%'>
