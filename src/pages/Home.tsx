@@ -22,20 +22,21 @@ const Home = () => {
 						'repeat(2, minmax(600px, 1fr))',
 					]}
 				>
-					{getPostsProcess.data?.data.posts.map((post, index) => (
-						<BlogCard
-							key={index}
-							cardWidth='90%'
-							title={post.title}
-							author={post.postedBy.name}
-							authorId={post.postedBy._id}
-							category={post.postCategory.title}
-							body={post.body}
-							postId={post._id}
-							posted={post.createdAt}
-							slug={post.slug}
-						/>
-					))}
+					{getPostsProcess.isSuccess &&
+						getPostsProcess.data?.data.posts.map((post, index) => (
+							<BlogCard
+								key={index}
+								cardWidth='90%'
+								title={post.title}
+								author={post.postedBy.name}
+								authorId={post.postedBy._id}
+								category={post.postCategory.title}
+								body={post.body}
+								postId={post._id}
+								posted={post.createdAt}
+								slug={post.slug}
+							/>
+						))}
 				</Grid>
 			)}
 		</Box>
