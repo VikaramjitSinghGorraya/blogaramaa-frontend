@@ -139,7 +139,7 @@ const Profile = () => {
 
 	const userSignedoutSuccessfully = () => {
 		setTimeout(() => {
-			window.location.href = `/signin`;
+			window.location.href = '/';
 		}, 2000);
 	};
 
