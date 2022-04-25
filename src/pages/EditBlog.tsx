@@ -24,15 +24,19 @@ import MessageBox from '../components/MessageBox';
 import Overlay from '../components/Overlay';
 import Loader from '../components/Loader';
 import BlogEditor from '../components/BlogEditor';
+import {
+	buttonAnimation,
+	pageDisplayAnimation,
+} from '../components/Animations';
 import send from '../icons/send.svg';
 import check from '../icons/check.svg';
 import addImage from '../icons/addImage.svg';
 import removeImage from '../icons/remove.svg';
 import writeBlog from '../icons/writeBlog.svg';
 import bannerImage from '../icons/bannerImage.png';
-import { buttonAnimation } from '../components/Animations';
 
 const MotionButton = motion(Button);
+const MotionVStack = motion(VStack);
 
 const Blog = () => {
 	const { slug } = useParams();
@@ -260,11 +264,11 @@ const Blog = () => {
 	) : postToBeUpdatedLoading || photoLoading ? (
 		<Loader />
 	) : (
-		<HStack w='100%' my='56px' py='5'>
+		<MotionVStack {...pageDisplayAnimation} w='100%' my='56px' py='5'>
 			{blogPageContent()}
 			{updatePost.error && displayErrorMessage()}
 			{updatePost.isSuccess && blogPostedSuccessfully()}
-		</HStack>
+		</MotionVStack>
 	);
 };
 
