@@ -177,7 +177,13 @@ export const signup = async (tokenInfo) => {
 };
 
 export const signin = async (userData) => {
-	const userSignedInd = await axios.post(`${BACKENDURL}/auth/signin`, userData);
+	const userSignedInd = await axios.post(
+		`${BACKENDURL}/auth/signin`,
+		userData,
+		{
+			withCredentials: true,
+		}
+	);
 	return userSignedInd;
 };
 
