@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Grid, Box } from '@chakra-ui/react';
 import BlogCard from '../components/BlogCard';
 import Banner from '../components/Banner';
@@ -7,12 +7,17 @@ import { useGetPosts } from '../queries/Queries';
 import homePage from '../icons/homePage.svg';
 
 const Home = () => {
-	const getPostsProcess = useGetPosts();
+	const {
+		isLoading: postsLoading,
+		isError: postsError,
+		isSuccess: potsSuccess,
+		data: postsData,
+	} = useGetPosts();
 
 	return (
 		<Box h='fit-content' w='100%' my='56px' py='5' mx='auto'>
 			<Banner heading={`Today's List`} icon={homePage} />
-			{getPostsProcess.isLoading ? (
+			{postsLoading ? (
 				<Loader />
 			) : (
 				<Grid
@@ -22,21 +27,20 @@ const Home = () => {
 						'repeat(2, minmax(600px, 1fr))',
 					]}
 				>
-					{getPostsProcess.isSuccess &&
-						getPostsProcess.data?.data.posts.map((post, index) => (
-							<BlogCard
-								key={index}
-								cardWidth='90%'
-								title={post.title}
-								author={post.postedBy.name}
-								authorId={post.postedBy._id}
-								category={post.postCategory.title}
-								body={post.body}
-								postId={post._id}
-								posted={post.createdAt}
-								slug={post.slug}
-							/>
-						))}
+					{postsData?.data.posts.map((post, index) => (
+						<BlogCard
+							key={index}
+							cardWidth='90%'
+							title={post.title}
+							author={post.postedBy.name}
+							authorId={post.postedBy._id}
+							category={post.postCategory.title}
+							body={post.body}
+							postId={post._id}
+							posted={post.createdAt}
+							slug={post.slug}
+						/>
+					))}
 				</Grid>
 			)}
 		</Box>
