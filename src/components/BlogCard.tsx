@@ -89,7 +89,7 @@ const BlogCard = ({
 				</HStack>
 				<Divider color='black' />
 				<Box minH='100px' maxH='150px'>
-					<Text as='p'>{parser(body.substring(0, 120))}</Text>
+					<Text as='p'>{parser(body.substring(0, 820))}</Text>
 				</Box>
 				<Box
 					bg='linear-gradient(0deg, #fafafa 0%, rgba(250, 250, 250, 0.96) 25%, rgba(250, 250, 250, 0.92) 37%, rgba(250, 250, 250, 0.86) 54%, rgba(250, 250, 250, 0.53) 100%);'
