@@ -222,7 +222,7 @@ const Profile = () => {
 	return userLoading ||
 		checkingIfUserIsLoggedIn ||
 		postsLoading ||
-		!photoData ? (
+		photoLoading ? (
 		<Center minH='100%' w='100%'>
 			<Loader />
 		</Center>
