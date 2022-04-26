@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import { VStack } from '@chakra-ui/react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import { displayTabTitle } from './helpers/Functions';
 import Navbar from './components/Navbar';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
@@ -17,6 +19,11 @@ import EditBlog from './pages/EditBlog';
 import OtherUserProfile from './pages/OtherUserProfile';
 
 function App() {
+	const location = useLocation();
+
+	useEffect(() => {
+		displayTabTitle(location.pathname);
+	}, [location.pathname]);
 	return (
 		<>
 			<Navbar />
