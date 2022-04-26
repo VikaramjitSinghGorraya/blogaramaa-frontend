@@ -17,6 +17,7 @@ const AccountActivation = lazy(() => import('./pages/AccountActivation'));
 const EditBlog = lazy(() => import('./pages/EditBlog'));
 const OtherUserProfile = lazy(() => import('./pages/OtherUserProfile'));
 const Profile = lazy(() => import('./pages/Profile'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 function App() {
 	const location = useLocation();
 
@@ -43,6 +44,7 @@ function App() {
 						<Route path='/Profile/:authorId' element={<OtherUserProfile />} />
 						<Route path='/Post/:slug' element={<Post />} />
 						<Route path='/Contact' element={<Contact />} />
+						<Route path='/*' element={<NotFound />} />
 						<Route
 							path='/AccountActivation/:token'
 							element={<AccountActivation />}
