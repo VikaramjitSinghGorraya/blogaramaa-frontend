@@ -137,12 +137,13 @@ const Post = () => {
 				<HStack w='100%'>
 					<VStack
 						p='2'
-						w='100%'
+						minW='70%'
+						maxW='70%'
 						alignItems='flex-start'
 						position='relative'
 						top='-30px'
 					>
-						<Heading as='h2' color='brand.mutedText'>
+						<Heading as='h2' w='100%' color='brand.mutedText'>
 							{postData?.data.title}
 						</Heading>
 						<HStack w='100%'>
@@ -199,7 +200,7 @@ const Post = () => {
 
 	const postBody = () => {
 		return (
-			<Box w='100%' textAlign='justify'>
+			<Box w='100%' textAlign='justify' pb='150px'>
 				{parser(postData?.data.body)}
 			</Box>
 		);
