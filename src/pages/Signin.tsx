@@ -115,9 +115,15 @@ const Signin = () => {
 								disabled={agreedToTerms ? false : true}
 							/>
 						</Tooltip>
-						<HStack w='100%' justifyContent='center'>
+						<HStack
+							w='100%'
+							px='5'
+							justifyContent='center'
+							spacing={2}
+							alignItems='baseline'
+						>
 							<Checkbox onChange={termsAndConditionHandler} />
-							<Text as='p'>
+							<Text as='p' textAlign='center'>
 								I have read & agree with the{' '}
 								<Link
 									href='/post/terms-and-conditions'
