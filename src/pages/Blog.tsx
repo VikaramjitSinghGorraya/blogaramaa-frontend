@@ -243,7 +243,7 @@ const Blog = () => {
 		);
 	};
 	return loggedInStatus === 'error' ? (
-		<Navigate to='/' />
+		<Navigate to='/signin' />
 	) : (
 		<MotionVStack {...pageDisplayAnimation} w='100%' my='56px' py='5'>
 			{blogPageContent()}
