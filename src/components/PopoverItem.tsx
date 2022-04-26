@@ -19,7 +19,7 @@ const PopoverItem = ({
 	passedInput,
 	height = 'auto',
 	width = 'auto',
-	left = '-4.9rem',
+	left = '-3.9rem',
 	top = '-3rem',
 }: PopoverInfo) => {
 	return (
