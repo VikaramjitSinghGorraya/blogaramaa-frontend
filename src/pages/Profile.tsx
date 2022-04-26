@@ -166,6 +166,7 @@ const Profile = () => {
 					maxH='1.5rem'
 					maxW='6.5rem'
 					justifyContent='center'
+					position='relative'
 				>
 					<Share showText={false} />
 					<PopoverItem passedInput={signoutPopover()} />
