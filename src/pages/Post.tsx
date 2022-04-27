@@ -141,9 +141,8 @@ const Post = () => {
 				></Box>
 				<HStack w='100%'>
 					<VStack
-						p='2'
-						minW='70%'
-						maxW='70%'
+						minW='88%'
+						maxW='88%'
 						alignItems='flex-start'
 						position='relative'
 						top='-30px'
