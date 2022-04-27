@@ -24,6 +24,7 @@ import {
 	useGetPostPhoto,
 	useIsLoggedIn,
 	useDeletePost,
+	useGetUserPhoto,
 } from '../queries/Queries';
 import DeleteAndSignoutPopover from '../components/DeleteAndSignoutPopover';
 import MessageBox from '../components/MessageBox';
@@ -52,6 +53,10 @@ const Post = () => {
 	);
 	const postDeletionProcess = useDeletePost();
 	const { status: loggedInStatus, data: loggedInData } = useIsLoggedIn();
+	const { isLoading: userPhotoLoading, data: userPhotoData } = useGetUserPhoto(
+		loggedInData?.data.userId
+	);
+
 	const [showDelete, setShowDelete] = useState(false);
 
 	const displayErrorMessage = () => {
@@ -147,7 +152,12 @@ const Post = () => {
 							{postData?.data.title}
 						</Heading>
 						<HStack w='100%'>
-							<Image h='2rem' w='2rem' src={placeholderCircle} />
+							<Image
+								h='2rem'
+								w='2rem'
+								borderRadius='50%'
+								src={userPhotoData ? userPhotoData : placeholderCircle}
+							/>
 							<Link
 								href={
 									loggedInStatus === 'success' &&
@@ -200,7 +210,7 @@ const Post = () => {
 
 	const postBody = () => {
 		return (
-			<Box w='100%' textAlign='justify' pb='150px'>
+			<Box w='100%' textAlign='justify' pb='150px' px='10px'>
 				{parser(postData?.data.body)}
 			</Box>
 		);
@@ -246,7 +256,7 @@ const Post = () => {
 			</VStack>
 		);
 	};
-	return postLoading || photoLoading ? (
+	return postLoading || photoLoading || userPhotoLoading ? (
 		<Center minH='100%' w='100%'>
 			<Loader />
 		</Center>

@@ -15,7 +15,7 @@ import Moment from 'moment';
 import { pageDisplayAnimation } from './Animations';
 import Share from './Share';
 import PopoverItem from './PopoverItem';
-import { useGetPostPhoto } from '../queries/Queries';
+import { useGetPostPhoto, useGetUserPhoto } from '../queries/Queries';
 import { PostInfo } from '../types/Post';
 import bannerImage from '../icons/bannerImage.png';
 import box from '../icons/box.svg';
@@ -34,6 +34,7 @@ const BlogCard = ({
 	slug,
 }: PostInfo) => {
 	const getPhotoProcess = useGetPostPhoto(postId);
+	const getUserPhotoProcess = useGetUserPhoto(authorId);
 	return getPhotoProcess.isLoading ? null : (
 		<MotionVStack
 			{...pageDisplayAnimation}
@@ -73,7 +74,16 @@ const BlogCard = ({
 					{title}
 				</Heading>
 				<HStack w='100%' flexWrap='wrap'>
-					<Image h='2rem' w='2rem' src={placeholderCircle} />
+					<Image
+						h='2rem'
+						w='2rem'
+						borderRadius='50%'
+						src={
+							getUserPhotoProcess.data
+								? getUserPhotoProcess.data
+								: placeholderCircle
+						}
+					/>
 					<Link href={`/profile/${authorId}`} variant='grayLink'>
 						{author}
 					</Link>
