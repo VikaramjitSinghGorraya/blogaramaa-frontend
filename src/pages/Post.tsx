@@ -54,7 +54,7 @@ const Post = () => {
 	const postDeletionProcess = useDeletePost();
 	const { status: loggedInStatus, data: loggedInData } = useIsLoggedIn();
 	const { isLoading: userPhotoLoading, data: userPhotoData } = useGetUserPhoto(
-		loggedInData?.data.userId
+		postData?.data.postedBy._id
 	);
 
 	const [showDelete, setShowDelete] = useState(false);
