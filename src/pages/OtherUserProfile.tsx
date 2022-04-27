@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
 	Accordion,
 	AccordionItem,
@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import Moment from 'moment';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import Loader from '../components/Loader';
 import Banner from '../components/Banner';
 import Share from '../components/Share';
@@ -34,6 +34,10 @@ import { pageDisplayAnimation } from '../components/Animations';
 const MotionVStack = motion(VStack);
 const OtherUserProfile = () => {
 	const { authorId } = useParams();
+	const { data: loggedInData } = useIsLoggedIn();
+	useEffect(() => {
+		console.log(loggedInData);
+	}, [loggedInData]);
 	const {
 		isLoading: userLoading,
 		isError: userError,
@@ -138,10 +142,12 @@ const OtherUserProfile = () => {
 			</VStack>
 		);
 	};
-	return userLoading || postsLoading || photoLoading ? (
+	return userLoading || postsLoading ? (
 		<Center minH='100%' w='100%'>
 			<Loader />
 		</Center>
+	) : loggedInData?.data.userId === authorId ? (
+		<Navigate to='/profile' />
 	) : (
 		<MotionVStack {...pageDisplayAnimation} w='100%' my='56px' py='5'>
 			{profilePageContent()}

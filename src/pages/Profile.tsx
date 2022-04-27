@@ -220,10 +220,7 @@ const Profile = () => {
 			</VStack>
 		);
 	};
-	return userLoading ||
-		checkingIfUserIsLoggedIn ||
-		postsLoading ||
-		photoLoading ? (
+	return userLoading || checkingIfUserIsLoggedIn || postsLoading ? (
 		<Center minH='100%' w='100%'>
 			<Loader />
 		</Center>
