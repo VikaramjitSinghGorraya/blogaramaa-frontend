@@ -71,6 +71,7 @@ const Post = () => {
 	};
 
 	const deleteHandler = (postId) => {
+		setShowDelete(false);
 		postDeletionProcess.mutate(postId);
 	};
 
@@ -141,8 +142,8 @@ const Post = () => {
 				></Box>
 				<HStack w='100%'>
 					<VStack
-						minW='80%'
-						maxW='80%'
+						minW='75%'
+						maxW='75%'
 						alignItems='flex-start'
 						position='relative'
 						top='-30px'
@@ -209,7 +210,13 @@ const Post = () => {
 
 	const postBody = () => {
 		return (
-			<Box w='100%' textAlign='justify' pb='150px' px='10px'>
+			<Box
+				className='bodyStyle'
+				w='100%'
+				textAlign='justify'
+				pb='150px'
+				px='10px'
+			>
 				{parser(postData?.data.body)}
 			</Box>
 		);
