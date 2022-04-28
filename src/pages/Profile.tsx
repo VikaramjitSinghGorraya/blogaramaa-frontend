@@ -38,6 +38,7 @@ import signout from '../icons/signout.svg';
 import calendar from '../icons/calendar.svg';
 import contact from '../icons/contact.svg';
 import setting from '../icons/settings.svg';
+import nothingFound from '../icons/nothingFound.svg';
 import {
 	buttonAnimation,
 	pageDisplayAnimation,
@@ -139,7 +140,7 @@ const Profile = () => {
 
 	const userSignedoutSuccessfully = () => {
 		setTimeout(() => {
-			window.location.href = '/';
+			window.location.reload();
 		}, 2000);
 	};
 
@@ -183,6 +184,28 @@ const Profile = () => {
 		);
 	};
 
+	const nothingToDisplay = () => {
+		return (
+			<MotionVStack
+				{...pageDisplayAnimation}
+				h='40'
+				w='100%'
+				justifyContent='center'
+			>
+				<Image src={nothingFound} h='100%' />
+				<Text
+					as='p'
+					color='brand.mutedTextLight'
+					wordBreak='break-word'
+					w='30%'
+					textAlign='center'
+				>
+					Uh oh! Seems like there are no matching results
+				</Text>
+			</MotionVStack>
+		);
+	};
+
 	const profilePageContent = () => {
 		return (
 			<VStack w='100%' h='fit-content'>
@@ -217,6 +240,7 @@ const Profile = () => {
 						/>
 					))}
 				</Grid>
+				{postData?.data.postsFound.length === 0 && nothingToDisplay()}
 			</VStack>
 		);
 	};
