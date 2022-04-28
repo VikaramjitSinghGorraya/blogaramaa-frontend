@@ -51,8 +51,12 @@ blockquote {
 	color: black !important;
 }
 
-.bodyStyle a {
-	color: blue !important;
+.bodyStyle a span {
+	color: rgb(52, 116, 253) !important;
+}
+
+.bodyStyle span a {
+	color: rgb(52, 116, 253) !important;
 }
 
 /* width */
