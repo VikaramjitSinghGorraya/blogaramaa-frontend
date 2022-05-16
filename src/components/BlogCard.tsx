@@ -50,7 +50,7 @@ const BlogCard = ({
 			bg='linear-gradient(0deg, #fafafa 0%, rgba(250, 250, 250, 0.802959) 39%, rgba(250, 250, 250, 0.450018) 75%, rgba(250, 250, 250, 0) 100%)'
 		>
 			<Image
-				h='110px'
+				h='70px'
 				w='100%'
 				src={getPhotoProcess.data ? getPhotoProcess.data : bannerImage}
 				objectFit='cover'
@@ -58,7 +58,7 @@ const BlogCard = ({
 			<Box
 				bg='linear-gradient(0deg, #fafafa 0%, rgba(250, 250, 250, 0.802959) 39%, rgba(250, 250, 250, 0.450018) 75%, rgba(250, 250, 250, 0) 100%)'
 				h='150px'
-				top='-9px'
+				top='-30px'
 				position='absolute'
 				left='0'
 				right='0'
@@ -98,7 +98,7 @@ const BlogCard = ({
 					</Text>
 				</HStack>
 				<Divider color='black' />
-				<Box className='bodyStyle' minH='100px' maxH='100px'>
+				<Box className='bodyStyle' minH='100px' maxH='100px' overflow='hidden'>
 					<Text as='p'>{parser(body.substring(0, 145))}</Text>
 				</Box>
 				<Box
