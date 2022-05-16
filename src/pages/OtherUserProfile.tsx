@@ -35,9 +35,7 @@ const MotionVStack = motion(VStack);
 const OtherUserProfile = () => {
 	const { authorId } = useParams();
 	const { data: loggedInData } = useIsLoggedIn();
-	useEffect(() => {
-		console.log(loggedInData);
-	}, [loggedInData]);
+
 	const {
 		isLoading: userLoading,
 		isError: userError,
@@ -114,6 +112,7 @@ const OtherUserProfile = () => {
 				<Banner
 					heading={userData?.user.name}
 					icon={photoData ? photoData : placeholderCircle}
+					isProfilePic={true}
 				/>
 				{aboutSection()}
 				{displayUserInfoShareAndSignout()}
