@@ -15,6 +15,7 @@ const BlogEditor = ({ contents, onChange }: BlogEditorInfo) => {
 				plugins: plugins,
 				buttonList: [
 					['font', 'fontSize', 'formatBlock'],
+					['fontColor'],
 					['paragraphStyle', 'blockquote'],
 					['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
 					['outdent', 'indent'],

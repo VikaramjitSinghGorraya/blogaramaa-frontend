@@ -15,7 +15,7 @@ const Home = () => {
 	} = useGetPosts();
 
 	return (
-		<Box h='fit-content' w='100%' my='56px' py='5' mx='auto'>
+		<Box h='fit-content' w='100%' my='56px' py='5'>
 			<Banner heading={`Today's List`} icon={homePage} />
 			{postsLoading ? (
 				<Loader />
@@ -24,7 +24,9 @@ const Home = () => {
 					templateColumns={[
 						'repeat(auto-fit, minmax(auto, 1fr))',
 						'repeat(auto-fit, minmax(600px, auto))',
-						'repeat(2, minmax(600px, 1fr))',
+						'repeat(auto-fit, minmax(600px, auto))',
+						'repeat(auto-fit, minmax(400px, auto))',
+						'repeat(2, minmax(auto, 1fr))',
 					]}
 				>
 					{postsData?.data.posts.map((post, index) => (

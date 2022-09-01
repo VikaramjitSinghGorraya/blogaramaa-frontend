@@ -70,7 +70,12 @@ const BlogCard = ({
 				position='relative'
 				top='-30px'
 			>
-				<Heading as='h3' color='brand.mutedText'>
+				<Heading
+					as='h3'
+					h={['fit-content', '', '', '', 'auto']}
+					color='brand.mutedText'
+					overflow='none'
+				>
 					{title}
 				</Heading>
 				<HStack w='100%' flexWrap='wrap'>
