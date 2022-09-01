@@ -29,8 +29,7 @@ blockquote {
 	box-shadow: none !important;
 }
 .iconColor {
-	filter: invert(36%) sepia(97%) saturate(2783%) hue-rotate(213deg)
-		brightness(103%) contrast(106%);
+	stroke: rgb(52, 116, 253) !important;
 }
 
 .whiteIconColor {
