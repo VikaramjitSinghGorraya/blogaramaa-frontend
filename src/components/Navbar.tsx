@@ -19,15 +19,15 @@ import {
 import { useIsLoggedIn } from '../queries/Queries';
 import { useGetUserPhoto, useGetUserProfile } from '../queries/Queries';
 import placeholderCircle from '../images/placeholderCircle.png';
-import home from '../icons/home.svg';
-import edit from '../icons/edit.svg';
-import addUser from '../icons/addUser.svg';
-import signin from '../icons/signin.svg';
-import contact from '../icons/contact.svg';
-import about from '../icons/about.svg';
-import menu from '../icons/menu.svg';
-import search from '../icons/search.svg';
-import dashboard from '../icons/dashboard.svg';
+import { ReactComponent as Home } from '../icons/home.svg';
+import { ReactComponent as Edit } from '../icons/edit.svg';
+import { ReactComponent as AddUser } from '../icons/addUser.svg';
+import { ReactComponent as Signin } from '../icons/signin.svg';
+import { ReactComponent as Contact } from '../icons/contact.svg';
+import { ReactComponent as About } from '../icons/about.svg';
+import { ReactComponent as Menu } from '../icons/menu.svg';
+import { ReactComponent as Search } from '../icons/search.svg';
+import { ReactComponent as Dashboard } from '../icons/dashboard.svg';
 import Logo from './Logo';
 
 const Navbar = () => {
@@ -87,10 +87,7 @@ const Navbar = () => {
 					borderRadius='10'
 					px='5'
 				>
-					<Image
-						src={home}
-						className={location.pathname === '/' ? 'iconColor' : ''}
-					/>{' '}
+					<Home className={location.pathname === '/' ? 'iconColor' : ''} />{' '}
 					<Link href='/'>Home</Link>
 				</HStack>
 				<HStack
@@ -103,8 +100,7 @@ const Navbar = () => {
 					borderRadius='10'
 					px='5'
 				>
-					<Image
-						src={edit}
+					<Edit
 						className={location.pathname === '/writeblog' ? 'iconColor' : ''}
 					/>
 					<Link href='/writeblog'>Write Blog</Link>
@@ -118,9 +114,7 @@ const Navbar = () => {
 						borderRadius='10'
 						px='5'
 					>
-						<Image
-							src={signin}
-							color='red'
+						<Signin
 							className={location.pathname === '/signin' ? 'iconColor' : ''}
 						/>
 						<Link href='/signin'>Signin</Link>
@@ -135,8 +129,7 @@ const Navbar = () => {
 						borderRadius='10'
 						px='5'
 					>
-						<Image
-							src={addUser}
+						<AddUser
 							className={location.pathname === '/signup' ? 'iconColor' : ''}
 						/>
 						<Link href='/signup'>Signup</Link>
@@ -153,8 +146,7 @@ const Navbar = () => {
 						borderRadius='10'
 						px='5'
 					>
-						<Image
-							src={dashboard}
+						<Dashboard
 							className={location.pathname === '/profile' ? 'iconColor' : ''}
 						/>
 						<Link href='/profile'>Dashboard</Link>
@@ -180,8 +172,7 @@ const Navbar = () => {
 					borderRadius='10'
 					px='5'
 				>
-					<Image
-						src={contact}
+					<Contact
 						className={location.pathname === '/contact' ? 'iconColor' : ''}
 					/>
 					<Link href='/contact'>Contact</Link>
@@ -194,8 +185,7 @@ const Navbar = () => {
 					borderRadius='10'
 					px='5'
 				>
-					<Image
-						src={about}
+					<About
 						className={location.pathname === '/about' ? 'iconColor' : ''}
 					/>
 					<Link href='/post/about-blogaramaa'>About</Link>
@@ -212,7 +202,7 @@ const Navbar = () => {
 					bg='transparent'
 					_hover={{ bg: 'transparent' }}
 				>
-					<Image src={menu} />
+					<Menu />
 				</Button>
 				<Drawer
 					isOpen={isOpen}
@@ -248,7 +238,7 @@ const Navbar = () => {
 				{navbarDrawer()}
 				{Logo()}
 				<Button onClick={() => navigate('/search')}>
-					<Image src={search} />
+					<Search />
 				</Button>
 			</HStack>
 		);
