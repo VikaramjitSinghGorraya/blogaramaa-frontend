@@ -22,6 +22,7 @@ import send from '../icons/send.svg';
 import contact from '../icons/contact.svg';
 import user from '../icons/user.svg';
 import signin from '../icons/signin.svg';
+import { checkforUserIdInLocalStorage } from '../helpers/Functions';
 import {
 	buttonAnimation,
 	pageDisplayAnimation,
@@ -31,11 +32,8 @@ const MotionVStack = motion(VStack);
 const MotionButton = motion(Button);
 
 const Contact = () => {
-	const {
-		isLoading: checkingIfUserIsLoggedIn,
-		status: loggedInStatus,
-		data: loggedInUserData,
-	} = useIsLoggedIn();
+	const { isLoading: checkingIfUserIsLoggedIn, status: loggedInStatus } =
+		useIsLoggedIn();
 
 	const { isLoading: loadingUserProfile, data: userData } = useGetUserProfile();
 
@@ -47,6 +45,9 @@ const Contact = () => {
 		inputCleared: false,
 	});
 
+	useEffect(() => {
+		console.log(checkforUserIdInLocalStorage());
+	}, []);
 	const inputChangehandler = (e) => {
 		setMessageData({ ...message, [e.target.name]: e.target.value });
 	};
@@ -155,15 +156,13 @@ const Contact = () => {
 		return (
 			<VStack w='100%' h='100%'>
 				<Banner heading='Contact Us' icon={contactPage} />
-				{loggedInStatus == 'success' && emailAndDateJoinedInfo()}
-				{loggedInStatus == 'success' && messageInput()}
-				{loggedInStatus === 'error' && userNotLggedIn()}
+				{checkforUserIdInLocalStorage() && emailAndDateJoinedInfo()}
+				{checkforUserIdInLocalStorage() && messageInput()}
+				{!checkforUserIdInLocalStorage() && userNotLggedIn()}
 			</VStack>
 		);
 	};
-	return checkingIfUserIsLoggedIn ? (
-		<Loader />
-	) : (
+	return (
 		<MotionVStack {...pageDisplayAnimation} w='100%' h='100%' my='56px' py='5'>
 			{contactPageContent()}
 			{sendMessage.isError && displayErrorMessage()}

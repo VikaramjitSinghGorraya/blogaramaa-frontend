@@ -15,3 +15,8 @@ export const displayTabTitle = (locationPath) => {
 		locationPath.length
 	)} | Blogaramaa`;
 };
+
+export const checkforUserIdInLocalStorage = () => {
+	if (localStorage.getItem('infoId')) return localStorage.getItem('infoId');
+	else return false;
+};

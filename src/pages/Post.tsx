@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
 	VStack,
 	Image,
@@ -36,6 +36,7 @@ import edit from '../icons/edit.svg';
 import deletePost from '../icons/deletePost.svg';
 import calendar from '../icons/calendar.svg';
 import Overlay from '../components/Overlay';
+import { checkforUserIdInLocalStorage } from '../helpers/Functions';
 import {
 	buttonAnimation,
 	pageDisplayAnimation,
@@ -46,6 +47,7 @@ const MotionButton = motion(Button);
 
 const Post = () => {
 	let { slug } = useParams();
+
 	const [isLargerThan768] = useMediaQuery('(min-width: 769px)');
 	const { isLoading: postLoading, data: postData } = useGetPostBySlug(slug);
 	const { isLoading: photoLoading, data: photoData } = useGetPostPhoto(
@@ -92,7 +94,7 @@ const Post = () => {
 				<Share showText={true} />
 
 				{loggedInStatus === 'success' &&
-					loggedInData?.data.userId === postData?.data.postedBy._id && (
+					checkforUserIdInLocalStorage === postData?.data.postedBy._id && (
 						<>
 							<MotionButton
 								{...buttonAnimation}
@@ -140,70 +142,72 @@ const Post = () => {
 					left='0'
 					right='0'
 				></Box>
-				<HStack w='100%'>
-					<VStack
-						minW='75%'
-						maxW='75%'
-						alignItems='flex-start'
-						position='relative'
-						top='-30px'
-					>
-						<Heading as='h2' w='100%' color='brand.mutedText'>
-							{postData?.data.title}
-						</Heading>
-						<HStack w='100%'>
-							<Image
-								h='2rem'
-								w='2rem'
-								borderRadius='50%'
-								src={userPhotoData ? userPhotoData : placeholderCircle}
-							/>
-							<Link
-								href={
-									loggedInStatus === 'success' &&
-									loggedInData?.data.userId === postData?.data.postedBy._id
-										? '/profile'
-										: `/profile/${postData?.data.postedBy._id}`
-								}
-								variant='grayLink'
-							>
-								{postData?.data.postedBy.name}
-							</Link>
-						</HStack>
-						<Stack
-							direction={['column', 'column', 'column', 'row']}
-							justifyContent='flex-start'
-							w={['100%', '50%']}
+				<VStack w='100%' spacing={10}>
+					<Heading as='h2' w='100%' color='brand.mutedText'>
+						{postData?.data.title}
+					</Heading>
+					<HStack w='100%'>
+						<VStack
+							minW='75%'
+							maxW='75%'
+							alignItems='flex-start'
+							position='relative'
+							top='-30px'
 						>
-							<HStack w='fit-content'>
-								<Image h='1.2rem' w='1.2rem' src={box} />
-								<Text as='p' color='brand.mutedText'>
-									{postData?.data.postCategory.title}
-								</Text>
+							<HStack w='100%'>
+								<Image
+									h='2rem'
+									w='2rem'
+									borderRadius='50%'
+									src={userPhotoData ? userPhotoData : placeholderCircle}
+								/>
+								<Link
+									href={
+										loggedInStatus === 'success' &&
+										checkforUserIdInLocalStorage === postData?.data.postedBy._id
+											? '/profile'
+											: `/profile/${postData?.data.postedBy._id}`
+									}
+									variant='grayLink'
+								>
+									{postData?.data.postedBy.name}
+								</Link>
 							</HStack>
-							<HStack w='fit-content'>
-								<Image h='1.2rem' w='1.2rem' src={calendar} />
-								<Text as='p' color='brand.mutedText'>
-									{Moment(postData?.data.createdAt).from(Date.now())}
-								</Text>
-							</HStack>
-						</Stack>
-					</VStack>
-					{isLargerThan768 ? (
-						authorInfoAndOptions()
-					) : (
-						<PopoverItem
-							passedInput={authorInfoAndOptions()}
-							left='-5.3rem'
-							top={
-								loggedInData?.data.userId !== postData?.data.postedBy._id
-									? '-3rem'
-									: '-7rem'
-							}
-							width='7rem'
-						/>
-					)}
-				</HStack>
+							<Stack
+								direction={['column', 'column', 'column', 'row']}
+								justifyContent='flex-start'
+								w={['100%', '50%']}
+							>
+								<HStack w='fit-content'>
+									<Image h='1.2rem' w='1.2rem' src={box} />
+									<Text as='p' color='brand.mutedText'>
+										{postData?.data.postCategory.title}
+									</Text>
+								</HStack>
+								<HStack w='fit-content'>
+									<Image h='1.2rem' w='1.2rem' src={calendar} />
+									<Text as='p' color='brand.mutedText'>
+										{Moment(postData?.data.createdAt).from(Date.now())}
+									</Text>
+								</HStack>
+							</Stack>
+						</VStack>
+						{isLargerThan768 ? (
+							authorInfoAndOptions()
+						) : (
+							<PopoverItem
+								passedInput={authorInfoAndOptions()}
+								left='-5.3rem'
+								top={
+									checkforUserIdInLocalStorage !== postData?.data.postedBy._id
+										? '-3rem'
+										: '-7rem'
+								}
+								width='7rem'
+							/>
+						)}
+					</HStack>
+				</VStack>
 			</VStack>
 		);
 	};

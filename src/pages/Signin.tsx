@@ -20,6 +20,7 @@ import {
 	buttonAnimation,
 	pageDisplayAnimation,
 } from '../components/Animations';
+import { checkforUserIdInLocalStorage } from '../helpers/Functions';
 
 const MotionVStack = motion(VStack);
 const MotionButton = motion(Button);
@@ -63,7 +64,7 @@ const Signin = () => {
 		);
 	};
 
-	return loggedInStatus === 'success' ? (
+	return !checkforUserIdInLocalStorage() ? (
 		<Navigate to='/' />
 	) : (
 		<MotionVStack
@@ -72,7 +73,7 @@ const Signin = () => {
 			w='100%'
 			justifyContent='center'
 		>
-			<VStack w={['100%', '50%']} h='fit-content'>
+			<VStack w={['100%', '', '', '', '50%']} h='fit-content'>
 				<Heading as='h2' color='brand.primaryBlue'>
 					Welcome Back!
 				</Heading>

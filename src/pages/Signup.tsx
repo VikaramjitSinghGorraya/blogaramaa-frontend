@@ -18,6 +18,7 @@ import {
 	buttonAnimation,
 	pageDisplayAnimation,
 } from '../components/Animations';
+import { checkforUserIdInLocalStorage } from '../helpers/Functions';
 
 const MotionVStack = motion(VStack);
 const MotionButton = motion(Button);
@@ -76,12 +77,12 @@ const Signup = () => {
 		);
 	};
 
-	return loggedInStatus === 'success' ? (
+	return !checkforUserIdInLocalStorage() ? (
 		<Navigate to='/' />
 	) : (
 		<MotionVStack
 			{...pageDisplayAnimation}
-			w={['100%', '50%']}
+			w={['100%', '', '', '', '50%']}
 			spacing={25}
 			m='auto'
 		>
