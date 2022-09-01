@@ -16,9 +16,6 @@ import go from '../icons/go.svg';
 const MotionVStack = motion(VStack);
 const MotionButton = motion(Button);
 const ForgotPassword = () => {
-	const { isLoading: checkingIfUserIsLoggedIn, status: loggedInStatus } =
-		useIsLoggedIn();
-
 	const [forgotPasswordData, setForgotPasswordData] = useState({
 		email: '',
 		inputCleared: false,
@@ -103,9 +100,7 @@ const ForgotPassword = () => {
 			</VStack>
 		);
 	};
-	return checkingIfUserIsLoggedIn ? (
-		<Loader />
-	) : (
+	return (
 		<MotionVStack
 			{...pageDisplayAnimation}
 			w='100%'

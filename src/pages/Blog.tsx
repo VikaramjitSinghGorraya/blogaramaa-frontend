@@ -11,11 +11,7 @@ import {
 	Button,
 } from '@chakra-ui/react';
 import { useNavigate, Navigate } from 'react-router-dom';
-import {
-	useGetCategories,
-	useIsLoggedIn,
-	useCreatePost,
-} from '../queries/Queries';
+import { useGetCategories, useCreatePost } from '../queries/Queries';
 import { motion } from 'framer-motion';
 import {
 	buttonAnimation,
@@ -35,7 +31,6 @@ import bannerImage from '../icons/bannerImage.png';
 const MotionVStack = motion(VStack);
 const MotionButton = motion(Button);
 const Blog = () => {
-	const { status: loggedInStatus } = useIsLoggedIn();
 	const postCreation = useCreatePost();
 	const navigate = useNavigate();
 	const { data } = useGetCategories();
@@ -242,9 +237,7 @@ const Blog = () => {
 			</VStack>
 		);
 	};
-	return loggedInStatus === 'error' ? (
-		<Navigate to='/signin' />
-	) : (
+	return (
 		<MotionVStack {...pageDisplayAnimation} w='100%' my='56px' py='5'>
 			{blogPageContent()}
 			{postCreation.error && displayErrorMessage()}

@@ -40,7 +40,6 @@ const MotionVStack = motion(VStack);
 
 const Blog = () => {
 	const { slug } = useParams();
-	const { status: loggedInStatus } = useIsLoggedIn();
 	const { isLoading: postToBeUpdatedLoading, data: postToBeUpdatedData } =
 		useGetPostBySlug(slug);
 	const updatePost = useUpdatePost(slug);
@@ -259,9 +258,7 @@ const Blog = () => {
 			</VStack>
 		);
 	};
-	return loggedInStatus === 'error' ? (
-		<Navigate to='/' />
-	) : postToBeUpdatedLoading || photoLoading ? (
+	return postToBeUpdatedLoading || photoLoading ? (
 		<Loader />
 	) : (
 		<MotionVStack {...pageDisplayAnimation} w='100%' my='56px' py='5'>

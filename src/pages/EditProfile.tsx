@@ -43,9 +43,6 @@ const MotionVStack = motion(VStack);
 const MotionButton = motion(Button);
 
 const EditProfile = () => {
-	const { status: loggedInStatus, isLoading: checkingIfUserIsLoggedIn } =
-		useIsLoggedIn();
-
 	const {
 		isLoading: userLoading,
 		isError: userError,
@@ -261,9 +258,7 @@ const EditProfile = () => {
 			</VStack>
 		);
 	};
-	return loggedInStatus === 'error' ? (
-		<Navigate to='/signin' />
-	) : userLoading || photoLoading ? (
+	return userLoading || photoLoading ? (
 		<Loader />
 	) : (
 		<MotionVStack {...pageDisplayAnimation} w='100%' my='56px' py='5'>

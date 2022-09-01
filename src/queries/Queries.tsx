@@ -8,7 +8,9 @@ const BACKENDURL = process.env.REACT_APP_BACKEND_URL;
 //------------------------POST RELATED QUERIES------------------------------------
 
 export const getPhotoOfPost = async (postId: string) => {
-	const photo = await axios.get(`${BACKENDURL}/post/getPhoto/${postId}`);
+	const photo = await axios.get(`${BACKENDURL}/post/getPhoto/${postId}`, {
+		withCredentials: true,
+	});
 	return photo.config.url;
 };
 
@@ -18,12 +20,16 @@ export const getAllPosts = async () => {
 };
 
 export const getPostBySlug = async (slug: string) => {
-	const postRetrieved = await axios.get(`${BACKENDURL}/post/read/${slug}`);
+	const postRetrieved = await axios.get(`${BACKENDURL}/post/read/${slug}`, {
+		withCredentials: true,
+	});
 	return postRetrieved;
 };
 
 export const getPostBySearchTerm = async (term) => {
-	const postRetrieved = await axios.get(`${BACKENDURL}/post/find/${term}`);
+	const postRetrieved = await axios.get(`${BACKENDURL}/post/find/${term}`, {
+		withCredentials: true,
+	});
 	return postRetrieved.data;
 };
 
@@ -321,11 +327,15 @@ export const useGetUserProfile = () => {
 };
 
 export const useGetOtherUserProfile = (authorId) => {
-	return useQuery([`user-${authorId}`], () => getOtherUserProfile(authorId), {
-		enabled: !!authorId,
-		retry: false,
-		refetchOnWindowFocus: false,
-	});
+	return useQuery(
+		[`OtherUser-${authorId}`],
+		() => getOtherUserProfile(authorId),
+		{
+			enabled: !!authorId,
+			retry: false,
+			refetchOnWindowFocus: false,
+		}
+	);
 };
 
 export const useGetUserPhoto = (userId) => {
