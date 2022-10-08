@@ -22,6 +22,7 @@ import send from '../icons/send.svg';
 import contact from '../icons/contact.svg';
 import user from '../icons/user.svg';
 import signin from '../icons/signin.svg';
+import { ReactComponent as Signin } from '../icons/signin.svg';
 import { checkforUserIdInLocalStorage } from '../helpers/Functions';
 import {
 	buttonAnimation,
@@ -140,7 +141,7 @@ const Contact = () => {
 					variant='long'
 					onClick={() => (window.location.href = '/signin')}
 				>
-					<Image className='iconColor' src={signin} />
+					<Signin className='iconColor' />
 					SIGNIN TO SEND MAIL
 				</MotionButton>
 				<Divider w='100%' />
