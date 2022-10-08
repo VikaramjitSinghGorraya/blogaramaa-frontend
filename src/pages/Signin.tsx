@@ -64,7 +64,7 @@ const Signin = () => {
 		);
 	};
 
-	return !checkforUserIdInLocalStorage() ? (
+	return checkforUserIdInLocalStorage() ? (
 		<Navigate to='/' />
 	) : (
 		<MotionVStack
