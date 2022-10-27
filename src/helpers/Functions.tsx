@@ -18,5 +18,8 @@ export const displayTabTitle = (locationPath) => {
 
 export const checkforUserIdInLocalStorage = () => {
 	if (localStorage.getItem('infoId')) return localStorage.getItem('infoId');
-	else return false;
+	else {
+		localStorage.removeItem('infoId');
+		return false;
+	}
 };
