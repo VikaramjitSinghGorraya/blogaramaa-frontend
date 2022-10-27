@@ -13,13 +13,11 @@ import {
 	Box,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { Navigate } from 'react-router-dom';
+
 import Moment from 'moment';
 import {
-	useIsLoggedIn,
 	useGetUserProfile,
 	useGetUserPhoto,
-	useUpdatePost,
 	useUpdateUser,
 } from '../queries/Queries';
 import Banner from '../components/Banner';
@@ -45,8 +43,7 @@ const MotionButton = motion(Button);
 const EditProfile = () => {
 	const {
 		isLoading: userLoading,
-		isError: userError,
-		isSuccess: userSuccess,
+
 		data: userData,
 	} = useGetUserProfile();
 
@@ -72,7 +69,7 @@ const EditProfile = () => {
 			photo: photoData ? photoData : '',
 		});
 		setBannerBackground(photoData ? photoData : '');
-	}, [userData, photoData]);
+	}, [userData, photoData, userInfo]);
 
 	const inputChangeHandler = (e) => {
 		if (e.target.name === 'photo') {

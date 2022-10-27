@@ -25,7 +25,7 @@ const DeleteAndSignoutPopover = ({
 	postId,
 	header,
 }) => {
-	const { isOpen, onOpen, onClose } = useDisclosure();
+	const { onClose } = useDisclosure();
 
 	return (
 		<Box zIndex={1}>

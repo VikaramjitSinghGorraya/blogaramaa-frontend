@@ -33,10 +33,8 @@ import Logo from './Logo';
 const Navbar = () => {
 	const location = useLocation();
 	const { status: isLoggedinStatus, data: loggedinData } = useIsLoggedIn();
-	const { isLoading: photoLoading, data: photoData } = useGetUserPhoto(
-		loggedinData?.data.userId
-	);
-	const { isLoading: userLoading, data: userData } = useGetUserProfile();
+	const { data: photoData } = useGetUserPhoto(loggedinData?.data.userId);
+	const { data: userData } = useGetUserProfile();
 
 	const navigate = useNavigate();
 	const { isOpen, onOpen, onClose } = useDisclosure();

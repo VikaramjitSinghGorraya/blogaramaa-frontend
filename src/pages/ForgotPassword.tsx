@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { HStack, VStack, Text, Link, Button, Image } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { useIsLoggedIn, useForgotPassword } from '../queries/Queries';
+import { useForgotPassword } from '../queries/Queries';
 import {
 	buttonAnimation,
 	pageDisplayAnimation,
 } from '../components/Animations';
-import Loader from '../components/Loader';
 import Banner from '../components/Banner';
 import InputField from '../components/InputField';
 import MessageBox from '../components/MessageBox';

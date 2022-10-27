@@ -51,21 +51,9 @@ const Profile = () => {
 	const [showSignout, setShowSignout] = useState(false);
 	const { status: loggedInStatus, isLoading: checkingIfUserIsLoggedIn } =
 		useIsLoggedIn();
-	const {
-		isLoading: userLoading,
-		isError: userError,
-		isSuccess: userSuccess,
-		data: userData,
-	} = useGetUserProfile();
-	const { isLoading: photoLoading, data: photoData } = useGetUserPhoto(
-		userData?.user._id
-	);
-	const {
-		isLoading: postsLoading,
-		isError: postsError,
-		isSuccess: potsSuccess,
-		data: postData,
-	} = useGetPostsByUserId();
+	const { isLoading: userLoading, data: userData } = useGetUserProfile();
+	const { data: photoData } = useGetUserPhoto(userData?.user._id);
+	const { isLoading: postsLoading, data: postData } = useGetPostsByUserId();
 	const signoutProcess = useSigninout();
 
 	const SignoutHandler = () => {

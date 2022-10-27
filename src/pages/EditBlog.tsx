@@ -11,10 +11,9 @@ import {
 	Button,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { Navigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
 	useGetCategories,
-	useIsLoggedIn,
 	useUpdatePost,
 	useGetPostBySlug,
 	useGetPostPhoto,
@@ -64,7 +63,7 @@ const Blog = () => {
 		});
 		setBlogText(postToBeUpdatedData?.data.body);
 		setBannerBackground(photoData ? photoData : '');
-	}, [postToBeUpdatedData?.data, photoData]);
+	}, [postToBeUpdatedData?.data, photoData, blogPost]);
 
 	const titleChangeHandler = (e) => {
 		setBlogPost({ ...blogPost, title: e.target.value });

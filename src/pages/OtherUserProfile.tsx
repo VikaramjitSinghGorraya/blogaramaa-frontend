@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
 	Accordion,
 	AccordionItem,
@@ -36,20 +36,14 @@ const OtherUserProfile = () => {
 	const { authorId } = useParams();
 	const { data: loggedInData } = useIsLoggedIn();
 
-	const {
-		isLoading: userLoading,
-		isError: userError,
-		isSuccess: userSuccess,
-		data: userData,
-	} = useGetOtherUserProfile(authorId);
+	const { isLoading: userLoading, data: userData } =
+		useGetOtherUserProfile(authorId);
 
-	const { isLoading: photoLoading, data: photoData } =
-		useGetUserPhoto(authorId);
+	const { data: photoData } = useGetUserPhoto(authorId);
 
 	const {
 		isLoading: postsLoading,
-		isError: postsError,
-		isSuccess: potsSuccess,
+
 		data: postData,
 	} = useGetPostsByOtherUserId(authorId);
 

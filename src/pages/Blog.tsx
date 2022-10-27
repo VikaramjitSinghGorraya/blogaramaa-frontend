@@ -10,7 +10,7 @@ import {
 	Image,
 	Button,
 } from '@chakra-ui/react';
-import { useNavigate, Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useGetCategories, useCreatePost } from '../queries/Queries';
 import { motion } from 'framer-motion';
 import {

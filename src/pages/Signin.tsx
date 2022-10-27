@@ -13,7 +13,7 @@ import {
 import { motion } from 'framer-motion';
 import { Navigate } from 'react-router-dom';
 import MessageBox from '../components/MessageBox';
-import { useSignin, useIsLoggedIn } from '../queries/Queries';
+import { useSignin } from '../queries/Queries';
 import go from '../icons/go.svg';
 import InputField from '../components/InputField';
 import {
@@ -35,7 +35,6 @@ const Signin = () => {
 	const [agreedToTerms, setAgreedToTerms] = useState(false);
 
 	const signinProcess = useSignin();
-	const { status: loggedInStatus } = useIsLoggedIn();
 
 	const inputChangeHandler = (e) => {
 		setUserData({ ...userData, [e.target.name]: e.target.value });

@@ -30,6 +30,7 @@ blockquote {
 }
 .iconColor {
 	stroke: rgb(52, 116, 253) !important;
+	margin-right: 5px;
 }
 
 .whiteIconColor {

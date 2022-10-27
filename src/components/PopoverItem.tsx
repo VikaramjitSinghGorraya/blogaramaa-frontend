@@ -4,7 +4,6 @@ import {
 	PopoverTrigger,
 	PopoverContent,
 	Button,
-	Box,
 	Image,
 	HStack,
 } from '@chakra-ui/react';

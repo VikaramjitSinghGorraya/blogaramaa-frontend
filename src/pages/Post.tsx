@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState } from 'react';
 import {
 	VStack,
 	Image,
@@ -13,7 +13,7 @@ import {
 	Center,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import parser from 'html-react-parser';
 import Moment from 'moment';
 import Loader from '../components/Loader';
@@ -54,7 +54,7 @@ const Post = () => {
 		postData?.data._id
 	);
 	const postDeletionProcess = useDeletePost();
-	const { status: loggedInStatus, data: loggedInData } = useIsLoggedIn();
+	const { status: loggedInStatus } = useIsLoggedIn();
 	const { isLoading: userPhotoLoading, data: userPhotoData } = useGetUserPhoto(
 		postData?.data.postedBy._id
 	);

@@ -15,7 +15,9 @@ export const getPhotoOfPost = async (postId: string) => {
 };
 
 export const getAllPosts = async () => {
-	const postsRetrieved = await axios.get(`${BACKENDURL}/post/allPosts`);
+	const postsRetrieved = await axios.get(`${BACKENDURL}/post/allPosts`, {
+		withCredentials: true,
+	});
 	return postsRetrieved;
 };
 

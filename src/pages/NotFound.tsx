@@ -1,5 +1,5 @@
 import React from 'react';
-import { HStack, Heading, Text } from '@chakra-ui/react';
+import { HStack, Text } from '@chakra-ui/react';
 
 const NotFound = () => {
 	return (

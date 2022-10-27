@@ -11,7 +11,7 @@ import {
 import { motion } from 'framer-motion';
 import { Navigate } from 'react-router-dom';
 import InputField from '../components/InputField';
-import { usePreSignup, useIsLoggedIn } from '../queries/Queries';
+import { usePreSignup } from '../queries/Queries';
 import MessageBox from '../components/MessageBox';
 import go from '../icons/go.svg';
 import {
@@ -24,8 +24,6 @@ const MotionVStack = motion(VStack);
 const MotionButton = motion(Button);
 
 const Signup = () => {
-	const { status: loggedInStatus } = useIsLoggedIn();
-
 	const [userData, setUserData] = useState({
 		name: '',
 		email: '',

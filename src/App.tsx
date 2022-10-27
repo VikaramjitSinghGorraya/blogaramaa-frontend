@@ -1,4 +1,4 @@
-import { useEffect, lazy, Suspense, useState } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import { VStack } from '@chakra-ui/react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { displayTabTitle } from './helpers/Functions';
@@ -11,7 +11,7 @@ const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
 const ResetPassword = lazy(() => import('./pages/RestePassword'));
 const Blog = lazy(() => import('./pages/Blog'));
 const Search = lazy(() => import('./pages/Search'));
-const EditProfile = lazy(() => import('./pages/EditProfile'));
+// const EditProfile = lazy(() => import('./pages/EditProfile'));
 const Post = lazy(() => import('./pages/Post'));
 const Contact = lazy(() => import('./pages/Contact'));
 const AccountActivation = lazy(() => import('./pages/AccountActivation'));
@@ -22,7 +22,7 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 function App() {
 	const location = useLocation();
 
-	const [userId, setUserId] = useState('');
+	// const [userId, setUserId] = useState('');
 
 	useEffect(() => {
 		displayTabTitle(location.pathname);

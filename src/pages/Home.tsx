@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Grid, Box } from '@chakra-ui/react';
 import BlogCard from '../components/BlogCard';
 import Banner from '../components/Banner';
@@ -7,12 +7,7 @@ import { useGetPosts } from '../queries/Queries';
 import homePage from '../icons/homePage.svg';
 
 const Home = () => {
-	const {
-		isLoading: postsLoading,
-		isError: postsError,
-		isSuccess: potsSuccess,
-		data: postsData,
-	} = useGetPosts();
+	const { isLoading: postsLoading, data: postsData } = useGetPosts();
 
 	return (
 		<Box h='fit-content' w='100%' my='56px' py='5'>

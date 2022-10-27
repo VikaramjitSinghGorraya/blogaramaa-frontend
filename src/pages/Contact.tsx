@@ -10,18 +10,12 @@ import {
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import Banner from '../components/Banner';
-import Loader from '../components/Loader';
-import {
-	useIsLoggedIn,
-	useGetUserProfile,
-	useContactUser,
-} from '../queries/Queries';
+import { useGetUserProfile, useContactUser } from '../queries/Queries';
 import MessageBox from '../components/MessageBox';
 import contactPage from '../icons/contactPage.svg';
 import send from '../icons/send.svg';
 import contact from '../icons/contact.svg';
 import user from '../icons/user.svg';
-import signin from '../icons/signin.svg';
 import { ReactComponent as Signin } from '../icons/signin.svg';
 import { checkforUserIdInLocalStorage } from '../helpers/Functions';
 import {
@@ -33,10 +27,7 @@ const MotionVStack = motion(VStack);
 const MotionButton = motion(Button);
 
 const Contact = () => {
-	const { isLoading: checkingIfUserIsLoggedIn, status: loggedInStatus } =
-		useIsLoggedIn();
-
-	const { isLoading: loadingUserProfile, data: userData } = useGetUserProfile();
+	const { data: userData } = useGetUserProfile();
 
 	const sendMessage = useContactUser();
 
@@ -55,7 +46,7 @@ const Contact = () => {
 
 	useEffect(() => {
 		setMessageData({ ...message, userEmail: userData?.user.email });
-	}, [sendMessage.data]);
+	}, [message, sendMessage.data, userData?.user.email]);
 
 	const submitHandler = () => {
 		setMessageData({ ...message, inputCleared: false });

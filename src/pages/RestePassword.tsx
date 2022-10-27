@@ -21,8 +21,7 @@ const MotionButton = motion(Button);
 const ForgotPassword = () => {
 	const { token } = useParams();
 	const resetPasswordProcess = useResetPassword();
-	const { status: loggedInStatus, isLoading: checkingIfUserIsLoggedIn } =
-		useIsLoggedIn();
+	const { status: loggedInStatus } = useIsLoggedIn();
 	const [resetPasswordData, setPasswordData] = useState({
 		newPassword: '',
 		confirmPassword: '',
