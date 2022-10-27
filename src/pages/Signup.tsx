@@ -75,9 +75,7 @@ const Signup = () => {
 		);
 	};
 
-	return checkforUserIdInLocalStorage() ? (
-		<Navigate to='/' />
-	) : (
+	return (
 		<MotionVStack
 			{...pageDisplayAnimation}
 			w={['100%', '', '', '', '50%']}
