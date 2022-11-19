@@ -11,7 +11,7 @@ const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
 const ResetPassword = lazy(() => import('./pages/RestePassword'));
 const Blog = lazy(() => import('./pages/Blog'));
 const Search = lazy(() => import('./pages/Search'));
-// const EditProfile = lazy(() => import('./pages/EditProfile'));
+const EditProfile = lazy(() => import('./pages/EditProfile'));
 const Post = lazy(() => import('./pages/Post'));
 const Contact = lazy(() => import('./pages/Contact'));
 const AccountActivation = lazy(() => import('./pages/AccountActivation'));
@@ -21,8 +21,6 @@ const Profile = lazy(() => import('./pages/Profile'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 function App() {
 	const location = useLocation();
-
-	// const [userId, setUserId] = useState('');
 
 	useEffect(() => {
 		displayTabTitle(location.pathname);
@@ -61,7 +59,7 @@ function App() {
 							path='/EditProfile'
 							element={
 								<ProtectedRoute>
-									<EditBlog />
+									<EditProfile />
 								</ProtectedRoute>
 							}
 						/>
@@ -75,8 +73,14 @@ function App() {
 						/>
 						<Route path='/Profile/:authorId' element={<OtherUserProfile />} />
 						<Route path='/Post/:slug' element={<Post />} />
-						<Route path='/Contact' element={<Contact />} />
-						<Route path='/*' element={<NotFound />} />
+						<Route
+							path='/Contact'
+							element={
+								<ProtectedRoute>
+									<Contact />
+								</ProtectedRoute>
+							}
+						/>
 						<Route
 							path='/AccountActivation/:token'
 							element={<AccountActivation />}
