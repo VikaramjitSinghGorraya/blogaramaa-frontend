@@ -34,8 +34,24 @@ function App() {
 				<Suspense fallback={null}>
 					<Routes>
 						<Route path='/' element={<Home />} />
-						<Route path='/Signup' element={<Signup />} />
-						<Route path='/Signin' element={<Signin />} />
+						{/* <Route path='/Signup' element={<Signup />} /> */}
+						<Route
+							path='/Signup'
+							element={
+								<ProtectedRoute>
+									<Signup />
+								</ProtectedRoute>
+							}
+						/>
+						<Route
+							path='/Signin'
+							element={
+								<ProtectedRoute>
+									<Signin />
+								</ProtectedRoute>
+							}
+						/>
+						{/* <Route path='/Signin' element={<Signin />} /> */}
 						<Route path='/ForgotPassword' element={<ForgotPassword />} />
 						<Route path='/ResetPassword/:token' element={<ResetPassword />} />
 						<Route
