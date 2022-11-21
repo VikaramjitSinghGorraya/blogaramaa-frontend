@@ -12,12 +12,17 @@ const ProtectedRoute = ({ children }: ProtectedRouteInfo) => {
 		localStorage.setItem('infoId', loggedInData?.data.userId);
 	}, [loggedInData]);
 
-	return (location.pathname === '/Signin' || location.pathname === '/Signup') &&
-		loggedInStatus === 'success' ? (
-		<Navigate to='/' />
-	) : loggedInStatus === 'loading' ? (
+	return loggedInStatus === 'loading' ? (
 		<Loader />
 	) : loggedInStatus === 'success' ? (
+		location.pathname.includes('Signin') ||
+		location.pathname.includes('Signup') ? (
+			<Navigate to='/' />
+		) : (
+			children
+		)
+	) : location.pathname.includes('Signin') ||
+	  location.pathname.includes('Signup') ? (
 		children
 	) : (
 		<Navigate to='/Signin' />
