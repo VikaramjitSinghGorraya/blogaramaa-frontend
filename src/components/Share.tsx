@@ -12,7 +12,7 @@ const Share = ({ showText = false }: ShareInof) => {
 				title: 'title',
 			}}
 		>
-			<Button variant='base' w='7rem'>
+			<Button variant='base' w='6rem'>
 				<Image className='mutedIconColor' src={share} />
 				{showText ? (
 					<Text as='p' color='brand.mutedText'>
