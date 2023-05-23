@@ -19,6 +19,7 @@ const EditBlog = lazy(() => import('./pages/EditBlog'));
 const OtherUserProfile = lazy(() => import('./pages/OtherUserProfile'));
 const Profile = lazy(() => import('./pages/Profile'));
 const NotFound = lazy(() => import('./pages/NotFound'));
+const Chat = lazy(() => import('./components/ChatWidget'));
 function App() {
 	const location = useLocation();
 
@@ -29,7 +30,7 @@ function App() {
 	return (
 		<>
 			<Navbar />
-
+			<Chat />
 			<VStack h='100vh' w='90%' m='auto'>
 				<Suspense fallback={null}>
 					<Routes>
