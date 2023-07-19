@@ -19,7 +19,6 @@ const EditBlog = lazy(() => import('./pages/EditBlog'));
 const OtherUserProfile = lazy(() => import('./pages/OtherUserProfile'));
 const Profile = lazy(() => import('./pages/Profile'));
 const NotFound = lazy(() => import('./pages/NotFound'));
-const Chat = lazy(() => import('./components/ChatWidget'));
 function App() {
 	const location = useLocation();
 
@@ -30,12 +29,11 @@ function App() {
 	return (
 		<>
 			<Navbar />
-			<Chat />
 			<VStack h='100vh' w='90%' m='auto'>
 				<Suspense fallback={null}>
 					<Routes>
 						<Route path='/' element={<Home />} />
-						{/* <Route path='/Signup' element={<Signup />} /> */}
+
 						<Route
 							path='/Signup'
 							element={
@@ -52,7 +50,7 @@ function App() {
 								</ProtectedRoute>
 							}
 						/>
-						{/* <Route path='/Signin' element={<Signin />} /> */}
+
 						<Route path='/ForgotPassword' element={<ForgotPassword />} />
 						<Route path='/ResetPassword/:token' element={<ResetPassword />} />
 						<Route
