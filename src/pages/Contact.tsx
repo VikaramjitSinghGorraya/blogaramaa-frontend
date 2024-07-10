@@ -13,7 +13,7 @@ import Banner from '../components/Banner';
 import { useGetUserProfile, useContactUser } from '../queries/Queries';
 import MessageBox from '../components/MessageBox';
 import contactPage from '../icons/contactPage.svg';
-import send from '../icons/send.svg';
+import { ReactComponent as Send } from '../icons/send.svg';
 import contact from '../icons/contact.svg';
 import user from '../icons/user.svg';
 import { ReactComponent as Signin } from '../icons/signin.svg';
@@ -117,7 +117,7 @@ const Contact = () => {
 					onClick={submitHandler}
 					isLoading={sendMessage.isLoading ? true : false}
 				>
-					<Image src={send} className='iconColor' />
+					<Send className='iconColor' />
 					SEND
 				</MotionButton>
 			</VStack>

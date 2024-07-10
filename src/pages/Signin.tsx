@@ -11,7 +11,6 @@ import {
 	Tooltip,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { Navigate } from 'react-router-dom';
 import MessageBox from '../components/MessageBox';
 import { useSignin } from '../queries/Queries';
 import go from '../icons/go.svg';
@@ -20,7 +19,6 @@ import {
 	buttonAnimation,
 	pageDisplayAnimation,
 } from '../components/Animations';
-import { checkforUserIdInLocalStorage } from '../helpers/Functions';
 
 const MotionVStack = motion(VStack);
 const MotionButton = motion(Button);
@@ -33,7 +31,6 @@ const Signin = () => {
 	});
 
 	const [agreedToTerms, setAgreedToTerms] = useState(false);
-
 	const signinProcess = useSignin();
 
 	const inputChangeHandler = (e) => {
@@ -146,7 +143,7 @@ const Signin = () => {
 							<Text as='small' color='brand.mutedText'>
 								Yet to join?
 							</Text>
-							<Link href='/signup' variant='blueLink'>
+							<Link href='/Signup' variant='blueLink'>
 								SIGN UP
 							</Link>
 						</VStack>

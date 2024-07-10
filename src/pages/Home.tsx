@@ -8,7 +8,7 @@ import homePage from '../icons/homePage.svg';
 
 const Home = () => {
 	const { isLoading: postsLoading, data: postsData } = useGetPosts();
-
+	console.log(postsData);
 	return (
 		<Box h='fit-content' w='100%' my='56px' py='5'>
 			<Banner heading={`Today's List`} icon={homePage} />
@@ -31,7 +31,7 @@ const Home = () => {
 							title={post.title}
 							author={post.postedBy.name}
 							authorId={post.postedBy._id}
-							category={post.postCategory.title}
+							category={post.postCategory?.title}
 							body={post.body}
 							postId={post._id}
 							posted={post.createdAt}

@@ -21,7 +21,7 @@ import Banner from '../components/Banner';
 import MessageBox from '../components/MessageBox';
 import Overlay from '../components/Overlay';
 import BlogEditor from '../components/BlogEditor';
-import send from '../icons/send.svg';
+import { ReactComponent as Send } from '../icons/send.svg';
 import check from '../icons/check.svg';
 import addImage from '../icons/addImage.svg';
 import removeImage from '../icons/remove.svg';
@@ -224,7 +224,7 @@ const Blog = () => {
 						onClick={submitHandler}
 						isLoading={postCreation.isLoading ? true : false}
 					>
-						<Image className='iconColor' src={send} />
+						<Send className='iconColor' />
 						PUBLISH
 					</MotionButton>
 				)}

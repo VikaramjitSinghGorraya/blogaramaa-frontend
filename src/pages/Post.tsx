@@ -181,7 +181,7 @@ const Post = () => {
 								<HStack w='fit-content'>
 									<Image h='1.2rem' w='1.2rem' src={box} />
 									<Text as='p' color='brand.mutedText'>
-										{postData?.data.postCategory.title}
+										{postData?.data.postCategory?.title}
 									</Text>
 								</HStack>
 								<HStack w='fit-content'>

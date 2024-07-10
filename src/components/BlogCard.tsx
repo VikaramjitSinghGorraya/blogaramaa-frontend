@@ -35,6 +35,7 @@ const BlogCard = ({
 }: PostInfo) => {
 	const getPhotoProcess = useGetPostPhoto(postId);
 	const getUserPhotoProcess = useGetUserPhoto(authorId);
+	console.log('category', category);
 	return getPhotoProcess.isLoading ? null : (
 		<MotionVStack
 			{...pageDisplayAnimation}

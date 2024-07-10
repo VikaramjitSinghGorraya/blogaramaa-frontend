@@ -121,7 +121,7 @@ const Signup = () => {
 						<Text as='small' color='brand.mutedText'>
 							Already joined?
 						</Text>
-						<Link href='/signin' variant='blueLink'>
+						<Link href='/Signin' variant='blueLink'>
 							SIGN IN
 						</Link>
 					</VStack>
