@@ -24,7 +24,7 @@ const Home = () => {
 						'repeat(2, minmax(auto, 1fr))',
 					]}
 				>
-					{postsData?.data.posts.map((post, index) => (
+					{postsData?.data.posts.reverse().map((post, index) => (
 						<BlogCard
 							key={index}
 							cardWidth='90%'
